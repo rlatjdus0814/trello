@@ -22,15 +22,15 @@ body{
 .top-left-home, .top-left-boards, .top-right-create, .top-right-info, .top-right-alarm{
   background-color:  rgba(255,255,255,0.25);
   width: 25px;
-  line-height: 25px;
-  margin: 0 2px;
+  line-height: 20px;
+  margin: 3px 2px 0;
   text-align: center;
   border-radius: 3px;
 }
 .top-left-search{
   background-color:rgba(255,255,255,0.25);
   width: 100px;
-  line-height: 25px;
+  line-height: 20px;
   margin: 0 2px;
   padding-right: 5px;
   text-align: right;
@@ -59,6 +59,7 @@ body{
 }
 .top img{
   height: 14px;
+  margin-top: 5px;
 }
 
 /*container-header*/
@@ -184,6 +185,7 @@ body{
 .card-top-menu img{
   color: #333;
   width: 10px; 
+  margin-top: 7px;
 }
 .card-compose-textarea{
   margin: 0 auto;
@@ -207,6 +209,10 @@ textarea::placeholder{
 }
 textarea:focus{
   border: none;
+}
+.plus-btn{
+  padding: 6px 2px 0 6px;
+  cursor: pointer;
 }
 .create{
   display: flex;
@@ -233,10 +239,11 @@ textarea:focus{
 .cancel-btn img{
   margin-left: 10px;
   cursor: pointer;
+  padding-top: 8px;
 }
 .card-more{
-  padding: 0 7px;
-  height: 30px;
+  padding: 7px 7px 0 0;
+  height: 20px;
   cursor: pointer;
 }
 .card-compose-card{
@@ -281,6 +288,7 @@ textarea:focus{
 .plus-btnadd img{
   width: 14px;
   cursor: pointer;
+  margin-top: 10px;
 }
 .content-wrap-card2{
   height: 35px;
