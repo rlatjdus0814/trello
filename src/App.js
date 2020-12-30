@@ -15,6 +15,7 @@ import lock from './img/lock.png';
 import downarrow from './img/down-arrow.png';
 import cancel from './img/cancel.png';
 import card from './img/template.png';
+import write from './img/draw.png';
 
 function App() {
   return (
@@ -107,7 +108,12 @@ function App() {
                 </div>
                 <div className="card-compose">
                   <div className="card-compose-card">
-                    Doing Card
+                    <span>Doing Card</span>
+                    <div className="write-btn"><img src={write} alt="menu" /></div>
+                  </div>
+                  <div className="card-compose-card">
+                  <span>Doing Card</span>
+                    <div className="write-btn"><img src={write} alt="menu" /></div>
                   </div>
                   <div className="card-compose-create">
                     <div className="create">
