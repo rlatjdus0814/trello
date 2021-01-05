@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../App.css';
 import Cards from './Card/Cards.js';
+import Textarea from './Card/Textarea.js';
 import cancel from '../img/cancel.png';
 import moredark from '../img/menu-dark.png';
 import plus from '../img/plus.png';
@@ -28,7 +29,7 @@ class List extends React.Component {
               <div className="card-top-menu"><img src={moredark} alt="menu" /></div>
             </div>
             <div className="card-compose">
-              {data.map((dataitem, index) => <Cards data={<span key={index}>{dataitem}</span>} /> )}
+              {data.map((dataitem) => <Cards key={dataitem.id} data={<span >{dataitem}</span>} /> )}
               <div className="card-compose-create">
                 <div className="create">
                   <div className="create-left">
@@ -41,16 +42,18 @@ class List extends React.Component {
             </div>
           </div>
         </div>
-        {/* <div className="content-wrap">
+        <div className="content-wrap">
           <div className="content-wrap-card">
             <div className="card-top">
               <div className="card-top-title">{title}</div>
               <div className="card-top-menu"><img src={moredark} alt="menu" /></div>
             </div>
             <div className="card-compose">
-              <div className="card-compose-textarea">
-                <textarea placeholder="Enter a title for this card..."></textarea>
-              </div>
+              <Textarea />
+              <Textarea />
+              <Textarea />
+              <Textarea />
+              <Textarea />
               <div className="card-compose-create">
                 <div className="create">
                   <div className="create-left">
@@ -62,7 +65,7 @@ class List extends React.Component {
               </div>
             </div>
           </div>
-        </div> */}
+        </div> 
         
         {/* <div className="content-wrap">
           <div className="content-wrap-card">

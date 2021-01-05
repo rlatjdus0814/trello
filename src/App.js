@@ -22,7 +22,7 @@ class App extends React.Component {
           <div className="wrap">
             <Header />
             <div className="content">
-              {items.map((item) => <List title={item.title} data={item.data} />)}
+              {items.map((item) => <List key={item.id} title={item.title} data={item.data} />)}
             </div>
           </div>
         </div>

@@ -6,8 +6,8 @@ class Textarea extends React.Component {
     return (
       <div className="textarea">
         <div className="card-compose-textarea">
-            <textarea placeholder="Enter a title for this card..."></textarea>
-          </div>
+          <textarea placeholder="Enter a title for this card..."></textarea>
+        </div>
       </div>
     );
   }
