@@ -246,7 +246,6 @@ textarea:focus{
   cursor: pointer;
 }
 .card-compose-card{
-  display: flex;
   width: 190px;
   border: none;
   border-radius: 3px;
@@ -262,6 +261,9 @@ textarea:focus{
   cursor: pointer;
   margin-bottom: 8px;
   justify-content: space-between;
+}
+.write-btn{
+  text-align: right;
 }
 .card-compose-card img{
   width: 12px;
