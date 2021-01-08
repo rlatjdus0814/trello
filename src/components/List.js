@@ -21,8 +21,8 @@ class List extends React.Component {
     }
   }
   render() {
-    const {id, title, data} = this.state;
-    const {onUpdate} = this.props;
+    const {title, data} = this.state;
+    const {onModify} = this.props;
       return(
         <div className="list">
           <div className="content-wrap">
@@ -32,7 +32,7 @@ class List extends React.Component {
                 <div className="card-top-menu"><img src={moredark} alt="menu" /></div>
               </div>
               <div className="card-compose">
-                {data.map((dataitem) => <Cards key={dataitem.id} data={dataitem} onUpdate={onUpdate}  /> )}
+                {data.map((dataitem) => <Cards id={dataitem.id} data={dataitem} onModify={onModify} /> )}
                 <div className="card-compose-create">
                   <div className="create">
                     <div className="create-left">

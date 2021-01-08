@@ -5,7 +5,6 @@ import Header from './components/Header.js';
 import List from './components/List.js';
 class App extends React.Component {
   state={
-    input: '',
     items: [{
       id: 1,
       title: 'weekend',
@@ -20,10 +19,14 @@ class App extends React.Component {
       data: ['comedy', 'darama', 'horror', 'romance']
     }],
   }
-  
-  handleUpdate = (id, data) => {};
+  onModify = (data) => {
+    // this.setState({
+    //   data: this.props.data
+    // });
+    console.log(data);
+  }
   render(){
-    const {input, items} = this.state;
+    const {items} = this.state;
     return (
       <div className="root">
         <Top />
@@ -31,7 +34,7 @@ class App extends React.Component {
           <div className="wrap">
             <Header />
             <div className="content">
-              {items.map((item) => <List key={item.id} title={item.title} data={item.data} onUpdate={this.handleUpdate} />)}
+              {items.map((item) => <List key={item.id} title={item.title} data={item.data} onModify={this.onModify} />)}
             </div>
           </div>
         </div>

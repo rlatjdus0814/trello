@@ -1,26 +1,48 @@
-import React, {useState} from 'react';
+import React from 'react';
 import '../../App.css';
 import write from '../../img/draw.png';
-import Textarea from './Textarea';
 
 class Cards extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      //isEdit: false,
+      isEdit: false,
       id: props.id,
       data: props.data,
       style:{
         border: 'none'
-      },
-      input: ''
-    }  
+      }
+    };
+
   }
-  onModify = (e) => {
+  onChange = (e) => {
     this.setState({
       data: e.target.value
     });
   }
+
+  handleModify = () => {
+    this.setState({
+      data: this.state.data,
+    });
+    this.props.onModify(this.state.data);
+  }
+
+  // handleToggle = () => {
+  //   if(this.state.isEdit){
+  //     this.handleModify();
+  //   }
+  //   this.setState({
+  //     isEdit: !this.state.isEdit
+  //   });
+  //   console.log(this.state.isEdit);
+  // }
+
+  // handleModify = () => {
+  //   , () => {
+  //     data: this.props.data.concat(this.state.data);
+  //   });
+  // }
   
   // handleModifyMode = () => {
   //   this.setState({
@@ -38,7 +60,6 @@ class Cards extends React.Component {
   //     onUpdate(items.id, {input: this.state.data})
   //   }
   // }
-
 
   // writeClick = () => {
   //   // if(this.state.style.display === 'none'){
@@ -78,14 +99,7 @@ class Cards extends React.Component {
   //   });
   // }
   render() {
-    const {data, style, input, isEdit} = this.state;
-    // if(isEdit){
-    //   const {name} = this.state;
-    //   return(
-
-    //   );
-    // }
-    //const dataitem = JSON.stringify(data);
+    const {data, style} = this.state;
     return (
       //수정
       <div>
@@ -93,11 +107,11 @@ class Cards extends React.Component {
           <form id="cardNum">
             <div className="card-card">
               <div style={style}>
-                <input className="card-textarea" style={style} value={data} name="cardTextarea" onChange={this.onModify}></input>
+                <input className="card-textarea" style={style} value={data} name="cardTextarea" onChange={this.onChange}></input>
               </div>
-                { /* <input style={style} value={this.state.value} onChange={this.handleChange}></input> */}
             </div>
-            <div className="write-btn" /*onClick={this.handleModifyMode}*/ type="submit"><img src={write} alt="menu" /></div>
+            <div className="write-btn" onClick={this.handleModify} type="submit"><img src={write} alt="menu" />
+            </div>
           </form>
         </div>
       </div>
