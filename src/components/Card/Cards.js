@@ -6,27 +6,37 @@ class Cards extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      isEdit: false,
-      id: props.id,
+      key: props.key,
+      item: props.item,
       data: props.data,
       style:{
         border: 'none'
       }
     };
-
-  }
+  };
+  
   onChange = (e) => {
+    this.props.setData(e.target.value);
     this.setState({
       data: e.target.value
     });
   }
-
+  
   handleModify = () => {
     this.setState({
       data: this.state.data,
     });
     this.props.onModify(this.state.data);
   }
+  
+  // handleCheck = (index) => {
+  //   const items = this.state.item;
+  //   items[index].check = !items[index].check;
+  //   this.setState({
+  //     item: items
+  //   });
+  //   console.log(items);
+  // }
 
   // handleToggle = () => {
   //   if(this.state.isEdit){
@@ -101,13 +111,13 @@ class Cards extends React.Component {
   render() {
     const {data, style} = this.state;
     return (
-      //수정
       <div>
         <div className="card-compose-card">
           <form id="cardNum">
             <div className="card-card">
-              <div style={style}>
-                <input className="card-textarea" style={style} value={data} name="cardTextarea" onChange={this.onChange}></input>
+              <div>
+                <input className="card-textarea" style={style} value={data} name="cardTextarea" onChange={this.onChange}> 
+                </input>
               </div>
             </div>
             <div className="write-btn" onClick={this.handleModify} type="submit"><img src={write} alt="menu" />

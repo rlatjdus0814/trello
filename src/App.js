@@ -6,15 +6,15 @@ import List from './components/List.js';
 class App extends React.Component {
   state={
     items: [{
-      id: 1,
+      id: 0,
       title: 'weekend',
       data: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     },{
-      id: 2,
+      id: 1,
       title: 'subject',
       data: ['Korean', 'Math', 'Engilsh']
     },{
-      id: 3,
+      id: 2,
       title: 'genre',
       data: ['comedy', 'darama', 'horror', 'romance']
     }],
@@ -23,8 +23,34 @@ class App extends React.Component {
     // this.setState({
     //   data: this.props.data
     // });
-    console.log(data);
+    this.state.items.map((item)=> {
+      if(item === data){
+        this.data.map((datas, index) => {
+          //console.log(datas[index]);
+          //console.log('ok');
+          
+        });
+      }
+    });
+
+    // console.log(this.data.indexof(data));
+    // const {newitem} = this.state;
+    // this.setState({
+    //   data: data.concat({newitem, ...data})
+    // });
+    // console.log(data);
   }
+
+  onCreate = () => {
+    const {data, text} = this.state;
+    const newCard = {
+      text: text
+    }
+    this.setState({
+      text: ''
+    })
+  };
+
   render(){
     const {items} = this.state;
     return (
@@ -34,7 +60,7 @@ class App extends React.Component {
           <div className="wrap">
             <Header />
             <div className="content">
-              {items.map((item) => <List key={item.id} title={item.title} data={item.data} onModify={this.onModify} />)}
+              {items.map((item) => <List id={item.id} item={item} title={item.title} data={item.data} onModify={this.onModify} onCreate={this.onCreate} />)}
             </div>
           </div>
         </div>

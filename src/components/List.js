@@ -9,35 +9,73 @@ import write from '../img/draw.png';
 import add from '../img/add.png';
 import card from '../img/template.png';
 
-
-
 class List extends React.Component {
   constructor(props){
     super(props);
     this.state = {
       id: props.id,
+      item: props.item,
       title: props.title,
       data: props.data,
+      text: '',
+      style:{
+        border: 'none',
+        background: '#ebecf0'
+      },
     }
   }
+  
+  onModify = (data, e) => {
+    // {data.map((datas, index) => {
+    //   //console.log(datas[index]);
+    // });}  
+  }
+
+  //handleCheck( )
+  setData = (data, index) => {
+    const temp = [].concat(this.state.data);
+    temp[index] = data;
+    console.log(temp);
+    this.setState({
+      data: temp
+    })
+  }
+
+  onKeyPress = (e) =>{
+    if(e.key == 'Enter'){
+      this.props.onCreate(this.state);
+      this.setState({
+        data: this.state.data.concat(e.target.value),
+        text: ''
+      });
+      
+    }
+  }
+
+  handleCardCreate = (e) => {
+    this.setState({
+      text: e.target.value
+    });
+    console.log(this.state.text);
+  }
+
   render() {
-    const {title, data} = this.state;
+    const {title, data, style, text} = this.state;
     const {onModify} = this.props;
       return(
         <div className="list">
           <div className="content-wrap">
             <div className="content-wrap-card">
               <div className="card-top">
-                <div className="card-top-title">{title}</div>
+                <div className="card-top-title"><input value={title} style={style}></input></div>
                 <div className="card-top-menu"><img src={moredark} alt="menu" /></div>
               </div>
               <div className="card-compose">
-                {data.map((dataitem) => <Cards id={dataitem.id} data={dataitem} onModify={onModify} /> )}
+                { data.map((dataitem, index) => <Cards key={index} setData={(data) => this.setData(data, index)} data={dataitem} onModify={onModify} /> )}
                 <div className="card-compose-create">
                   <div className="create">
                     <div className="create-left">
-                      <div className="plus-btn" href="#"><img src={add} alt="plus" /></div>
-                      <span>Add another card</span>
+                      <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.onKeyPress} onChange={this.handleCardCreate}></input>
                     </div>
                   </div>
                 </div>
