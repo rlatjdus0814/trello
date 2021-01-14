@@ -10,16 +10,17 @@ class Cards extends React.Component {
       item: props.item,
       data: props.data,
       style:{
-        border: 'none'
+        border: 'none',
+        height: '20px'
       }
     };
   };
   
   onChange = (e) => {
-    this.props.setData(e.target.value);
     this.setState({
       data: e.target.value
     });
+    this.props.setData(e.target.value);
   }
   
   handleModify = () => {
@@ -71,25 +72,21 @@ class Cards extends React.Component {
   //   }
   // }
 
-  // writeClick = () => {
-  //   // if(this.state.style.display === 'none'){
-  //   //   this.setState({
-  //   //     style:{
-  //   //       display: 'block',
-  //   //     }    
-
-  //   //   });
-  //   //   //this.state.style.display = 'block';      
-  //   // }if(this.state.style.display === 'block'){
-  //   //   this.setState({
-  //   //     display: 'none',
-  //   //   });
-  //   //   //this.state.style.display = 'none';      
-  //   // }
-  //   // this.setState({
-  //   //   data: this.state.data.concat(newData)
-  //   // });
-   
+  writeClick = (e) => {
+    if(this.state.style.height === '20px'){
+      this.setState({
+        style:{
+          height: '50px',
+        }
+      });
+    }if(this.state.style.height === '40px'){
+      this.setState({
+        style:{
+          height: '40px',
+        }  
+      });    
+    }
+  }
   //   //this.state.data = this.state.value;
 
   // }
@@ -117,12 +114,15 @@ class Cards extends React.Component {
           <form id="cardNum">
             <div className="card-card">
               <div>
-                <input className="card-input" style={style} value={data} name="cardIput" onChange={this.onChange}> 
+                <input className="card-input" style={style} value={data} name="cardIput" onClick={this.writeClick} onChange={this.onChange}> 
                 </input>
               </div>
               <button className="cancel-btn" onClick={this.handleModify} type="submit">
                 <img src={cancel} alt="cancel" />
               </button>
+              <div >
+                
+              </div>
             </div>
           </form>
         </div>

@@ -23,7 +23,16 @@ class List extends React.Component {
         background: '#ebecf0'
       },
     }
+    const data = localStorage.data;
+
+    if(data){
+      this.state={
+        ...this.state,
+        data: JSON.parse(data),
+      }
+    }
   }
+  
   
   onModify = (data, e) => {
     // {data.map((datas, index) => {
@@ -41,23 +50,36 @@ class List extends React.Component {
     })
   }
 
-  
+  // componentDidUpdate(prevData){
+  //   if(this.props.data !== prevData.value){
+  //     this.setState({
+  //       data: this.state.data
+  //     });
+  //   }
+  // }
+  componentDidUpdate(prevProps, prevState){
+    if(JSON.stringify(prevState.item)!==JSON.stringify(this.state.item)){
+      localStorage.item = JSON.stringify(this.state.item);
+    }
+  }
 
   handleCardCreate = (e) => {
     this.setState({
       text: e.target.value
     });
     console.log(this.state.text);
-    console.log(this.state.data);
+    
   }
 
   onKeyPress = (e) =>{
-    if(e.key == 'Enter'){
-      this.setState({
-        data: this.state.data.concat(e.target.value),
-        text: ''
-        
-      });
+    if(!(this.state.text == '')){
+      if(e.key == 'Enter'){
+        this.setState({
+          data: this.state.data.concat(e.target.value),
+          text: ''
+        });
+        console.log(this.state.data);
+    }
     }
   }
 
@@ -76,7 +98,7 @@ class List extends React.Component {
                 { data.map((dataitem, index) => <Cards key={index} setData={(data) => this.setData(data, index)} data={dataitem} onModify={onModify} /> )}
                 <div className="card-compose-create">
                   <div className="create">
-                    <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.onKeyPress} onChange={this.handleCardCreate}></input>
+                    <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.onKeyPress } onChange={this.handleCardCreate}></input>
                   </div>
                 </div>
               </div>

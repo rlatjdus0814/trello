@@ -19,6 +19,8 @@ class App extends React.Component {
       data: ['comedy', 'darama', 'horror', 'romance']
     }],
   }
+  
+
   onModify = (data) => {
     // this.setState({
     //   data: this.props.data
@@ -50,7 +52,7 @@ class App extends React.Component {
           <div className="wrap">
             <Header />
             <div className="content">
-              {items.map((item) => <List id={item.id} item={item} title={item.title} data={item.data} onModify={this.onModify} />)}
+              {items.map((item) => <List key={item.id} item={item} title={item.title} data={item.data} onModify={this.onModify} />)}
             </div>
           </div>
         </div>
