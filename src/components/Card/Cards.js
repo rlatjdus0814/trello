@@ -20,15 +20,16 @@ class Cards extends React.Component {
     this.setState({
       data: e.target.value
     });
+    console.log(this.state.data);
     this.props.setData(e.target.value);
   }
   
-  handleModify = () => {
-    this.setState({
-      data: this.state.data,
-    });
-    this.props.onModify(this.state.data);
-  }
+  // handleModify = () => {
+  //   this.setState({
+  //     data: this.state.data,
+  //   });
+  //   this.props.handleModify(this.state.data);
+  // }
   
   // handleCheck = (index) => {
   //   const items = this.state.item;
@@ -72,22 +73,37 @@ class Cards extends React.Component {
   //   }
   // }
 
-  writeClick = (e) => {
+  writeClick = () => {
     if(this.state.style.height === '20px'){
       this.setState({
         style:{
-          height: '50px',
+          height: '40px',
+          outline: 'none',
+          focus: 'none'
         }
       });
-    }if(this.state.style.height === '40px'){
+    } if(this.state.style.height === '40px'){
       this.setState({
         style:{
-          height: '40px',
+          height: '20px',
+          border: 'none',
+          outline: 'none',
+          focus: 'none'
         }  
       });    
     }
   }
-  //   //this.state.data = this.state.value;
+  
+  onEdit = (e) => {
+    if(!(this.state.data == '')){
+      if(e.key == 'Enter'){
+        this.setState({
+          data: e.target.value
+        });
+        this.writeClick();
+      }
+    }
+  }
 
   // }
   // handleModify = (index, e) => {
@@ -111,20 +127,15 @@ class Cards extends React.Component {
     return (
       <div>
         <div className="card-compose-card">
-          <form id="cardNum">
-            <div className="card-card">
-              <div>
-                <input className="card-input" style={style} value={data} name="cardIput" onClick={this.writeClick} onChange={this.onChange}> 
-                </input>
-              </div>
-              <button className="cancel-btn" onClick={this.handleModify} type="submit">
-                <img src={cancel} alt="cancel" />
-              </button>
-              <div >
-                
-              </div>
+          <div className="card-card">
+            <div>
+              <input className="card-input" style={style} value={data} name="cardIput" onClick={this.writeClick} onChange={this.onChange} onKeyPress={this.onEdit} > 
+              </input>
             </div>
-          </form>
+            <div className="cancel-btn" ononClick={this.props.onRemove} type="submit">
+              <img src={cancel} alt="cancel" />
+            </div>
+          </div>
         </div>
       </div>
     ); 

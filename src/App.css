@@ -195,6 +195,7 @@ body{
   height: 30px;
   border: none;
   margin: 5px 0;
+  padding-left: 10px;
 }
 .create{
   display: flex;
@@ -232,15 +233,22 @@ body{
   margin-bottom: 8px;
   justify-content: space-between;
 }
+.card-compose-card:hover{
+  background-color: #ccc;
+}
+/* .card-input:hover{
+  background-color: #ccc;
+} */
 .card-card{
   display: flex;
+  justify-content: space-between;
 }
 .cancel-btn{
   border: none;
   margin-left: 3px;
   background-color: #fff;
   cursor: pointer;
-  padding-top: 4px;
+  padding: 5px 4px 0 0;
 }
 .card-compose-card img{
   width: 12px;

@@ -21,7 +21,7 @@ class App extends React.Component {
   }
   
 
-  onModify = (data) => {
+  handleModify = (data) => {
     // this.setState({
     //   data: this.props.data
     // });
@@ -30,10 +30,10 @@ class App extends React.Component {
         this.data.map((datas, index) => {
           //console.log(datas[index]);
           //console.log('ok');
-          
         });
       }
     });
+    
 
     // console.log(this.data.indexof(data));
     // const {newitem} = this.state;
@@ -41,6 +41,10 @@ class App extends React.Component {
     //   data: data.concat({newitem, ...data})
     // });
     // console.log(data);
+  }
+
+  handleRemove = () => {
+    console.log('ok');
   }
 
   render(){
@@ -52,7 +56,7 @@ class App extends React.Component {
           <div className="wrap">
             <Header />
             <div className="content">
-              {items.map((item) => <List key={item.id} item={item} title={item.title} data={item.data} onModify={this.onModify} />)}
+              {items.map((item) => <List key={item.id} item={item} title={item.title} data={item.data} onModify={this.handleModify} onRemove={this.handleRemove} />)}
             </div>
           </div>
         </div>

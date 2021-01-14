@@ -13,6 +13,7 @@ class List extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      selectedKey: -1,
       id: props.id,
       item: props.item,
       title: props.title,
@@ -23,24 +24,14 @@ class List extends React.Component {
         background: '#ebecf0'
       },
     }
-    const data = localStorage.data;
-
-    if(data){
-      this.state={
-        ...this.state,
-        data: JSON.parse(data),
-      }
-    }
-  }
-  
-  
-  onModify = (data, e) => {
-    // {data.map((datas, index) => {
-    //   //console.log(datas[index]);
-    // });}  
   }
 
-  //handleCheck( )
+  handleClick(key){
+    this.setState({
+      selectedKey: key
+    })
+  }
+
   setData = (data, index) => {
     const temp = [].concat(this.state.data);
     temp[index] = data;
@@ -50,42 +41,46 @@ class List extends React.Component {
     })
   }
 
-  // componentDidUpdate(prevData){
-  //   if(this.props.data !== prevData.value){
-  //     this.setState({
-  //       data: this.state.data
-  //     });
-  //   }
-  // }
-  componentDidUpdate(prevProps, prevState){
-    if(JSON.stringify(prevState.item)!==JSON.stringify(this.state.item)){
-      localStorage.item = JSON.stringify(this.state.item);
-    }
-  }
-
   handleCardCreate = (e) => {
     this.setState({
       text: e.target.value
     });
-    console.log(this.state.text);
-    
   }
 
-  onKeyPress = (e) =>{
+  onAddCard = (e) =>{
     if(!(this.state.text == '')){
       if(e.key == 'Enter'){
         this.setState({
           data: this.state.data.concat(e.target.value),
           text: ''
         });
-        console.log(this.state.data);
+      }
     }
-    }
+    
+  }
+
+  handleRemove = (index) => {
+    const {data} = this.state;
+    this.setState({
+      data: data.filter(item => item.index !== index)
+    })
+    // if(this.state.selectedKey < 0) return;
+    // var newData = Array.from(this.state.data);
+    // newData.splice(this.state.selectedKey, 1);
+    // this.setState({
+    //   data: newData,
+    //   selectedKey: -1,
+    // });
+    console.log(data);
   }
 
   render() {
     const {title, data, style, text} = this.state;
-    const {onModify} = this.props;
+    const {handleModify, handleRemove} = this.props;
+    const mapComponents = data.map((i) => {
+      return (<Cards key={i} onClick={() => this.handleClick(i)} />);
+    });
+    
       return(
         <div className="list">
           <div className="content-wrap">
@@ -95,10 +90,10 @@ class List extends React.Component {
                 <div className="card-top-menu"><img src={moredark} alt="menu" /></div>
               </div>
               <div className="card-compose">
-                { data.map((dataitem, index) => <Cards key={index} setData={(data) => this.setData(data, index)} data={dataitem} onModify={onModify} /> )}
+                { data.map((dataitem, index) => <Cards key={index} setData={(data) => this.setData(data, index)} data={dataitem} onModify={handleModify} onRemove={handleRemove} /> )}
                 <div className="card-compose-create">
                   <div className="create">
-                    <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.onKeyPress } onChange={this.handleCardCreate}></input>
+                    <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.onAddCard} onChange={this.handleCardCreate}></input>
                   </div>
                 </div>
               </div>
