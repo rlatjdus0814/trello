@@ -41,22 +41,24 @@ class List extends React.Component {
     })
   }
 
-  onKeyPress = (e) =>{
-    if(e.key == 'Enter'){
-      this.props.onCreate(this.state);
-      this.setState({
-        data: this.state.data.concat(e.target.value),
-        text: ''
-      });
-      
-    }
-  }
+  
 
   handleCardCreate = (e) => {
     this.setState({
       text: e.target.value
     });
     console.log(this.state.text);
+    console.log(this.state.data);
+  }
+
+  onKeyPress = (e) =>{
+    if(e.key == 'Enter'){
+      this.setState({
+        data: this.state.data.concat(e.target.value),
+        text: ''
+        
+      });
+    }
   }
 
   render() {
@@ -74,9 +76,7 @@ class List extends React.Component {
                 { data.map((dataitem, index) => <Cards key={index} setData={(data) => this.setData(data, index)} data={dataitem} onModify={onModify} /> )}
                 <div className="card-compose-create">
                   <div className="create">
-                    <div className="create-left">
-                      <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.onKeyPress} onChange={this.handleCardCreate}></input>
-                    </div>
+                    <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.onKeyPress} onChange={this.handleCardCreate}></input>
                   </div>
                 </div>
               </div>

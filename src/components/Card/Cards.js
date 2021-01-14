@@ -1,6 +1,6 @@
 import React from 'react';
 import '../../App.css';
-import write from '../../img/draw.png';
+import cancel from '../../img/cancel.png';
 
 class Cards extends React.Component {
   constructor(props){
@@ -108,6 +108,7 @@ class Cards extends React.Component {
   //     [e.target.value]: e.target.value,
   //   });
   // }
+
   render() {
     const {data, style} = this.state;
     return (
@@ -116,11 +117,12 @@ class Cards extends React.Component {
           <form id="cardNum">
             <div className="card-card">
               <div>
-                <input className="card-textarea" style={style} value={data} name="cardTextarea" onChange={this.onChange}> 
+                <input className="card-input" style={style} value={data} name="cardIput" onChange={this.onChange}> 
                 </input>
               </div>
-            </div>
-            <div className="write-btn" onClick={this.handleModify} type="submit"><img src={write} alt="menu" />
+              <button className="cancel-btn" onClick={this.handleModify} type="submit">
+                <img src={cancel} alt="cancel" />
+              </button>
             </div>
           </form>
         </div>

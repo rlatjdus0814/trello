@@ -41,16 +41,6 @@ class App extends React.Component {
     // console.log(data);
   }
 
-  onCreate = () => {
-    const {data, text} = this.state;
-    const newCard = {
-      text: text
-    }
-    this.setState({
-      text: ''
-    })
-  };
-
   render(){
     const {items} = this.state;
     return (
@@ -60,7 +50,7 @@ class App extends React.Component {
           <div className="wrap">
             <Header />
             <div className="content">
-              {items.map((item) => <List id={item.id} item={item} title={item.title} data={item.data} onModify={this.onModify} onCreate={this.onCreate} />)}
+              {items.map((item) => <List id={item.id} item={item} title={item.title} data={item.data} onModify={this.onModify} />)}
             </div>
           </div>
         </div>
