@@ -23,55 +23,6 @@ class Cards extends React.Component {
     console.log(this.state.data);
     this.props.setData(e.target.value);
   }
-  
-  // handleModify = () => {
-  //   this.setState({
-  //     data: this.state.data,
-  //   });
-  //   this.props.handleModify(this.state.data);
-  // }
-  
-  // handleCheck = (index) => {
-  //   const items = this.state.item;
-  //   items[index].check = !items[index].check;
-  //   this.setState({
-  //     item: items
-  //   });
-  //   console.log(items);
-  // }
-
-  // handleToggle = () => {
-  //   if(this.state.isEdit){
-  //     this.handleModify();
-  //   }
-  //   this.setState({
-  //     isEdit: !this.state.isEdit
-  //   });
-  //   console.log(this.state.isEdit);
-  // }
-
-  // handleModify = () => {
-  //   , () => {
-  //     data: this.props.data.concat(this.state.data);
-  //   });
-  // }
-  
-  // handleModifyMode = () => {
-  //   this.setState({
-  //     isEdit: (this.state.isEdit) ? false : true
-  //   });
-  // }
-  // componentDidUpdate(prevProps, prevState){
-  //   const {items, onUpdate} = this.props;
-  //   if(this.state.isEdit){
-  //     this.setState({
-  //       data: items.data
-  //     });
-  //   }
-  //   if(!this.state.isEdit){
-  //     onUpdate(items.id, {input: this.state.data})
-  //   }
-  // }
 
   writeClick = () => {
     if(this.state.style.height === '20px'){
@@ -79,7 +30,9 @@ class Cards extends React.Component {
         style:{
           height: '40px',
           outline: 'none',
-          focus: 'none'
+          blur: 'none',
+          background: '#fff',
+          border: 'none',
         }
       });
     } if(this.state.style.height === '40px'){
@@ -90,7 +43,7 @@ class Cards extends React.Component {
           outline: 'none',
           focus: 'none'
         }  
-      });    
+      });   
     }
   }
   
@@ -104,23 +57,6 @@ class Cards extends React.Component {
       }
     }
   }
-
-  // }
-  // handleModify = (index, e) => {
-  //   const cards = this.state.data;
-  //   if(e){
-  //     this.state.data[index] = e.target.value;
-  //   } 
-  //   this.setState({
-  //     data: cards
-  //   })
-  //   console.log('ok');
-  // }
-  // onUpdate = (e) =>{
-  //   this.setState({
-  //     [e.target.value]: e.target.value,
-  //   });
-  // }
 
   render() {
     const {data, style} = this.state;

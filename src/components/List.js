@@ -56,7 +56,6 @@ class List extends React.Component {
         });
       }
     }
-    
   }
 
   handleRemove = (index) => {
@@ -64,13 +63,6 @@ class List extends React.Component {
     this.setState({
       data: data.filter(item => item.index !== index)
     })
-    // if(this.state.selectedKey < 0) return;
-    // var newData = Array.from(this.state.data);
-    // newData.splice(this.state.selectedKey, 1);
-    // this.setState({
-    //   data: newData,
-    //   selectedKey: -1,
-    // });
     console.log(data);
   }
 
@@ -81,77 +73,25 @@ class List extends React.Component {
       return (<Cards key={i} onClick={() => this.handleClick(i)} />);
     });
     
-      return(
-        <div className="list">
-          <div className="content-wrap">
-            <div className="content-wrap-card">
-              <div className="card-top">
-                <div className="card-top-title"><input value={title} style={style}></input></div>
-                <div className="card-top-menu"><img src={moredark} alt="menu" /></div>
-              </div>
-              <div className="card-compose">
-                { data.map((dataitem, index) => <Cards key={index} setData={(data) => this.setData(data, index)} data={dataitem} onModify={handleModify} onRemove={handleRemove} /> )}
-                <div className="card-compose-create">
-                  <div className="create">
-                    <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.onAddCard} onChange={this.handleCardCreate}></input>
-                  </div>
+    return(
+      <div className="list">
+        <div className="content-wrap">
+          <div className="content-wrap-card">
+            <div className="card-top">
+              <div className="card-top-title"><input value={title} style={style}></input></div>
+              <div className="card-top-menu"><img src={moredark} alt="menu" /></div>
+            </div>
+            <div className="card-compose">
+              { data.map((dataitem, index) => <Cards key={index} setData={(data) => this.setData(data, index)} data={dataitem} onModify={handleModify} onRemove={handleRemove} /> )}
+              <div className="card-compose-create">
+                <div className="create">
+                  <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.onAddCard} onChange={this.handleCardCreate}></input>
                 </div>
               </div>
             </div>
           </div>
-          {/* <div className="content-wrap">
-            <div className="content-wrap-card">
-              <div className="card-top">
-                <div className="card-top-title">{title}</div>
-                <div className="card-top-menu"><img src={moredark} alt="menu" /></div>
-              </div>
-              <div className="card-compose">
-                <Textarea />
-                <Textarea />
-                <Textarea />
-                <Textarea />
-                <Textarea />
-                <div className="card-compose-create">
-                  <div className="create">
-                    <div className="create-left">
-                      <input className="create-btn" type="submit" value="Add Card"></input>
-                      <div className="cancel-btn" href="#"><img src={cancel} alt="cancel" /></div>
-                    </div>
-                    <div className="card-more"><img src={moredark} alt="menu" /></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div> */}
-          
-          {/* <div className="content-wrap">
-            <div className="content-wrap-card">
-              <div className="card-top">
-                <div className="card-top-title">{title}</div>
-                <div className="card-top-menu"><img src={moredark} alt="menu" /></div>
-              </div>
-              <div className="card-compose">
-                <div className="card-compose-create">
-                  <div className="create">
-                    <div className="create-left">
-                      <div className="plus-btn" href="#"><img src={add} alt="plus" /></div>
-                      <span>Add another card</span>
-                    </div>
-                    <div className="card-more"><img src={card} alt="more" /></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="content-wrap">
-            <div className="content-wrap-card2">
-              <div className="card-new">
-                <div className="plus-btnadd" href="#"><img src={plus} alt="plus" /></div>
-                <span>Add another list</span>
-              </div>
-            </div>
-          </div> */}
-        </div>  
+        </div>
+      </div>  
       );
   }
 }

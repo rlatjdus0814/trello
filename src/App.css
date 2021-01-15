@@ -189,6 +189,7 @@ body{
 .card-input{
   width: 160px;
   height: 20px;
+  background-color:rgba(0, 0, 0, 0.0);
 }
 .create-input{
   width: 200px;
@@ -196,6 +197,10 @@ body{
   border: none;
   margin: 5px 0;
   padding-left: 10px;
+  
+}
+.create-input:hover{
+  box-shadow: 1px 1px 10px rgb(163, 163, 163);
 }
 .create{
   display: flex;
@@ -234,7 +239,7 @@ body{
   justify-content: space-between;
 }
 .card-compose-card:hover{
-  background-color: #ccc;
+  background-color: rgb(230, 230, 230);
 }
 /* .card-input:hover{
   background-color: #ccc;
@@ -249,6 +254,7 @@ body{
   background-color: #fff;
   cursor: pointer;
   padding: 5px 4px 0 0;
+  background-color:rgba(0, 0, 0, 0.0);
 }
 .card-compose-card img{
   width: 12px;

@@ -19,7 +19,6 @@ class App extends React.Component {
       data: ['comedy', 'darama', 'horror', 'romance']
     }],
   }
-  
 
   handleModify = (data) => {
     // this.setState({
@@ -33,8 +32,6 @@ class App extends React.Component {
         });
       }
     });
-    
-
     // console.log(this.data.indexof(data));
     // const {newitem} = this.state;
     // this.setState({
