@@ -1,13 +1,6 @@
 import React from 'react';
 import '../App.css';
 import Cards from './Card/Cards.js';
-import Textarea from './Card/Textarea.js';
-import cancel from '../img/cancel.png';
-import moredark from '../img/menu-dark.png';
-import plus from '../img/plus.png';
-import write from '../img/draw.png';
-import add from '../img/add.png';
-import card from '../img/template.png';
 
 class List extends React.Component {
   constructor(props){

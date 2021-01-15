@@ -72,14 +72,13 @@ class Cards extends React.Component {
 
   render() {
     const {data, style} = this.state;
-    console.log(data);
     return (
       <div>
         <div className="card-compose-card">
           <form>
             <div className="card-card">
               <div>
-                <input className="card-input" style={style} value={this.state.data} name="cardIput" onClick={this.writeClick} onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} > 
+                <input className="card-input" style={style} value={data} name="cardIput" onClick={this.writeClick} onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} > 
                 </input>
               </div>
               <div className="cancel-btn" onClick={this.handleRemove}>
