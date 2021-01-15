@@ -171,14 +171,18 @@ body{
   justify-content: space-between;
 }
 .card-top-title{
-  font-size: 13px;
-  font-weight: 700;
-  margin: 11px 13px;
+  width: 140px;
+  margin: 11px 0 11px 13px;
   color: #29170e;
 }
+.card-top-title input{
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+}
 .card-top-menu{
-  margin: 5px 7px;
-  padding: 0 8px;
+  margin: 8px 0;
+  padding: 0 15px;
   cursor: pointer;
 }
 .card-top-menu img{
@@ -241,9 +245,6 @@ body{
 .card-compose-card:hover{
   background-color: rgb(230, 230, 230);
 }
-/* .card-input:hover{
-  background-color: #ccc;
-} */
 .card-card{
   display: flex;
   justify-content: space-between;
@@ -255,8 +256,15 @@ body{
   cursor: pointer;
   padding: 5px 4px 0 0;
   background-color:rgba(0, 0, 0, 0.0);
+  outline: none;
 }
 .card-compose-card img{
   width: 12px;
   text-align: center;
+}
+.submitBtn{
+  background-image: url('./img/cancel.png');
+  background-image: 10px;
+  width: 30px;
+
 }

@@ -20,30 +20,6 @@ class App extends React.Component {
     }],
   }
 
-  handleModify = (data) => {
-    // this.setState({
-    //   data: this.props.data
-    // });
-    this.state.items.map((item)=> {
-      if(item === data){
-        this.data.map((datas, index) => {
-          //console.log(datas[index]);
-          //console.log('ok');
-        });
-      }
-    });
-    // console.log(this.data.indexof(data));
-    // const {newitem} = this.state;
-    // this.setState({
-    //   data: data.concat({newitem, ...data})
-    // });
-    // console.log(data);
-  }
-
-  handleRemove = () => {
-    console.log('ok');
-  }
-
   render(){
     const {items} = this.state;
     return (
@@ -53,7 +29,7 @@ class App extends React.Component {
           <div className="wrap">
             <Header />
             <div className="content">
-              {items.map((item) => <List key={item.id} item={item} title={item.title} data={item.data} onModify={this.handleModify} onRemove={this.handleRemove} />)}
+              {items.map((item) => <List key={item.id} item={item} title={item.title} data={item.data} />)}
             </div>
           </div>
         </div>

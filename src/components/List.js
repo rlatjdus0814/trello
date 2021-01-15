@@ -13,32 +13,50 @@ class List extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      selectedKey: -1,
-      id: props.id,
+      dataKey: -1,
       item: props.item,
       title: props.title,
       data: props.data,
       text: '',
-      style:{
+      style: {
         border: 'none',
         background: '#ebecf0'
       },
-    }
+    };
   }
 
-  handleClick(key){
+  handleTitleInput = (e) => {
     this.setState({
-      selectedKey: key
-    })
+      title: e.target.value
+    });
+  }
+
+  titleClick = () => {
+    this.setState({
+      style: {
+        border: 'none',
+        background: '#ebecf0',
+        outline: 'none'
+      }
+    });
+  }
+
+  handleTitleEdit = (e) => {
+    if(!(this.title == '')){
+      if(e.key == 'Enter'){
+        this.setState({
+          title: e.target.value
+        });
+      } 
+    }
   }
 
   setData = (data, index) => {
     const temp = [].concat(this.state.data);
     temp[index] = data;
-    console.log(temp);
     this.setState({
       data: temp
-    })
+    });
   }
 
   handleCardCreate = (e) => {
@@ -47,9 +65,9 @@ class List extends React.Component {
     });
   }
 
-  onAddCard = (e) =>{
-    if(!(this.state.text == '')){
-      if(e.key == 'Enter'){
+  handleAddCard = (e) =>{
+    if(!(this.state.text === '')){
+      if(e.key === 'Enter'){
         this.setState({
           data: this.state.data.concat(e.target.value),
           text: ''
@@ -58,41 +76,37 @@ class List extends React.Component {
     }
   }
 
-  handleRemove = (index) => {
-    const {data} = this.state;
+  RemoveData = (i) => {
     this.setState({
-      data: data.filter(item => item.index !== index)
-    })
-    console.log(data);
+      data: this.state.data.filter((dataitem, index, newData) => index !== i )
+    });
   }
 
   render() {
     const {title, data, style, text} = this.state;
-    const {handleModify, handleRemove} = this.props;
-    const mapComponents = data.map((i) => {
-      return (<Cards key={i} onClick={() => this.handleClick(i)} />);
+    const CardComponents = data.map((dataitem, i) => {
+      return (<Cards key={i} setData={(data) => this.setData(data, i)} data={dataitem} onRemove={() => this.RemoveData(i)} />);
     });
     
-    return(
-      <div className="list">
-        <div className="content-wrap">
-          <div className="content-wrap-card">
-            <div className="card-top">
-              <div className="card-top-title"><input value={title} style={style}></input></div>
-              <div className="card-top-menu"><img src={moredark} alt="menu" /></div>
-            </div>
-            <div className="card-compose">
-              { data.map((dataitem, index) => <Cards key={index} setData={(data) => this.setData(data, index)} data={dataitem} onModify={handleModify} onRemove={handleRemove} /> )}
-              <div className="card-compose-create">
-                <div className="create">
-                  <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.onAddCard} onChange={this.handleCardCreate}></input>
-                </div>
+  return(
+    <div className="list">
+      <div className="content-wrap">
+        <div className="content-wrap-card">
+          <div className="card-top">
+            <div className="card-top-title"><input value={title} style={style} onClick={this.titleClick} onChange={this.handleTitleInput} onKeyPress={this.handleTitleEdit}></input></div>
+          </div>
+          <div className="card-compose">
+            { CardComponents }
+            <div className="card-compose-create">
+              <div className="create">
+                <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.handleAddCard} onChange={this.handleCardCreate}></input>
               </div>
             </div>
           </div>
         </div>
-      </div>  
-      );
+      </div>
+    </div>  
+    );
   }
 }
 
