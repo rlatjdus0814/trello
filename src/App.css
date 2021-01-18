@@ -196,11 +196,12 @@ body{
   background-color:rgba(0, 0, 0, 0.0);
 }
 .create-input{
-  width: 200px;
+  width: 193px;
   height: 30px;
   border: none;
   margin: 5px 0;
   padding-left: 10px;
+  border-radius: 3px;
   
 }
 .create-input:hover{
@@ -210,13 +211,6 @@ body{
   display: flex;
   margin: 5px 7px;
   justify-content: space-between;
-}
-.create img{
-  width: 13px;
-}
-.create-btn{
-  display: flex;
-  margin-bottom: 7px;
 }
 .create-btn{
   background-color: #5aac44;
@@ -243,7 +237,7 @@ body{
   justify-content: space-between;
 }
 .card-compose-card:hover{
-  background-color: rgb(230, 230, 230);
+  background-color: rgb(238, 237, 237);
 }
 .card-card{
   display: flex;
@@ -266,5 +260,57 @@ body{
   background-image: url('./img/cancel.png');
   background-image: 10px;
   width: 30px;
-
+}
+.listTure{
+  display: flex;
+  float: left;
+  background-color: rgba(255,255,255,0.25);
+  width: 220px;
+  height: 40px;
+  border-radius: 3px;
+  margin: 0 3px;
+  color: #fff;
+  align-items: center;
+  cursor: pointer;
+}
+.listTure img{
+  width: 15px;
+  padding-top: 3px;
+  margin: 0 10px 0 12px;
+  justify-content: center;
+}
+.listTure:hover{
+  background-color: rgba(255, 255, 255, 0.35);
+  transition: background-color 85ms ease-in;
+}
+.listFalse{
+  float: left;
+  background-color: #ebecf0;
+  width: 220px;
+  border-radius: 3px;
+  margin: 0 3px;
+  color: #fff;
+  align-items: center;
+  cursor: pointer;
+}
+.listTitle input{
+  width: 193px;
+  height: 33px;
+  border: none;
+  margin: 10px 7px 5px 7px;
+  padding-left: 10px;
+  border-radius: 3px;
+}
+.listAddCan{
+  display: flex;
+}
+.addBtn{
+  background-color: #5aac44;
+  border-radius: 3px;
+  padding: 7px 7px 3px 7px;
+  margin: 5px 10px 10px 7px;
+}
+.canBtn img{
+  width: 15px;
+  margin-top: 12px;
 }

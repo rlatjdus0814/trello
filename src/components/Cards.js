@@ -1,6 +1,6 @@
 import React from 'react';
-import '../../App.css';
-import cancel from '../../img/cancel.png';
+import '../App.css';
+import cancel from '../img/cancel.png';
 
 class Cards extends React.Component {
   constructor(props){
@@ -78,7 +78,7 @@ class Cards extends React.Component {
           <form>
             <div className="card-card">
               <div>
-                <input className="card-input" style={style} value={data} name="cardIput" onClick={this.writeClick} onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} > 
+                <input className="card-input" style={style} value={data} name="cardInput" onClick={this.writeClick} onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} > 
                 </input>
               </div>
               <div className="cancel-btn" onClick={this.handleRemove}>
