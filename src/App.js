@@ -7,7 +7,15 @@ import plus from './img/plus.png';
 import cancel from './img/cancel.png';
 class App extends React.Component {
   state={
-    addListMode: false,
+    id: 3,
+    addListMode: true,
+    text: '',
+    styleT:{
+      display: 'block'
+    },
+    styleF:{
+      display: 'none'
+    },
     items: [
     //   {
     //   id: 0,
@@ -26,28 +34,44 @@ class App extends React.Component {
     }],
   }
 
-  addList = (e) => {
+  addList = () => {
     if(this.state.addListMode === true){
       this.setState({
-        
+        styleT: { display: 'none' },
+        styleF: { display: 'block' },
+        addListMode: false
       });
-      console.log('ok')
-  
-      
     } else {
       this.setState({
-        addListMode: true
+        styleT: { display: 'block' },
+        styleF: { display: 'none' },
+        addListMode : true
       });
     }
-    
-      
-    // this.setState({
+  }
 
-    // });
+  handleListInput = (e) => {
+    this.setState({
+      text: e.target.value
+    });
+  }
+
+  addBtn = () => {
+    if(!(this.state.text === '')){
+      this.setState({
+        items: this.state.items.concat({
+          id: this.id++,
+          title: this.state.text,
+          data: [],
+        }),
+        addListMode: true
+      });
+    } 
+    this.addList();
   }
 
   render(){
-    const {items} = this.state;
+    const {items, styleT, styleF, text} = this.state;
     return (
       <div className="root">
         <Top />
@@ -56,15 +80,19 @@ class App extends React.Component {
             <Header />
             <div className="content">
               {items.map((item) => <List key={item.id} item={item} title={item.title} data={item.data} />)}
-              <div className="listTure" onClick={this.addList}>
-                <div className="plus-btn"><img src={plus} alt="plus" /></div>
-                <span>Add another card</span>
+              <div className="listTrue" onClick={this.addList} style={styleT}>
+                <div className="listClickBefore">
+                  <div className="plus-btn"><img src={plus} alt="plus" /></div>
+                  <span>Add another card</span>
+                </div>
               </div>
-              <div className="listFalse">
-                <div className="listTitle"><input placeholder="Enter list title..."></input></div>
-                <div className="listAddCan">
-                  <div className="addBtn">Add List</div>
-                  <div className="canBtn"><img src={cancel} alt="cancel" /></div>
+              <div className="listFalse" style={styleF}>
+                <div className="listClickAfter">
+                  <div className="listTitle"><input value={text} placeholder="Enter list title..." onChange={this.handleListInput} onKeyPress={this.handleListEnter}></input></div>
+                  <div className="listAddCan">
+                    <div className="addBtn" onClick={this.addBtn}>Add List</div>
+                    <div className="canBtn" onClick={this.addList}><img src={cancel} alt="cancel" /></div>
+                  </div>
                 </div>
               </div>
             </div>

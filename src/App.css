@@ -261,7 +261,13 @@ body{
   background-image: 10px;
   width: 30px;
 }
-.listTure{
+/* .listTrue{
+  display: block;
+}
+.listFalse{
+  display: block;
+} */
+.listClickBefore{
   display: flex;
   float: left;
   background-color: rgba(255,255,255,0.25);
@@ -273,17 +279,17 @@ body{
   align-items: center;
   cursor: pointer;
 }
-.listTure img{
+.listClickBefore img{
   width: 15px;
   padding-top: 3px;
   margin: 0 10px 0 12px;
   justify-content: center;
 }
-.listTure:hover{
+.listClickBefore:hover{
   background-color: rgba(255, 255, 255, 0.35);
   transition: background-color 85ms ease-in;
 }
-.listFalse{
+.listClickAfter{
   float: left;
   background-color: #ebecf0;
   width: 220px;
