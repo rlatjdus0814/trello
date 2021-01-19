@@ -7,7 +7,7 @@ import plus from './img/plus.png';
 import cancel from './img/cancel.png';
 class App extends React.Component {
   state={
-    id: 3,
+    currentId: 3,
     addListMode: true,
     text: '',
     styleT:{
@@ -17,16 +17,16 @@ class App extends React.Component {
       display: 'none'
     },
     items: [
-    //   {
-    //   id: 0,
-    //   title: 'weekend',
-    //   data: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
-    // },
-    // {
-    //   id: 1,
-    //   title: 'subject',
-    //   data: ['Korean', 'Math', 'Engilsh']
-    // },
+      {
+      id: 0,
+      title: 'weekend',
+      data: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+    },
+    {
+      id: 1,
+      title: 'subject',
+      data: ['Korean', 'Math', 'Engilsh']
+    },
     {
       id: 2,
       title: 'genre',
@@ -60,14 +60,34 @@ class App extends React.Component {
     if(!(this.state.text === '')){
       this.setState({
         items: this.state.items.concat({
-          id: this.id++,
+          id: this.state.currentId++,
           title: this.state.text,
           data: [],
         }),
-        addListMode: true
+        addListMode: true,
+        text: ''
       });
+      console.log(this.state.currentId);
     } 
     this.addList();
+  }
+
+  handleListEnter = (e) => {
+    if(e.key === 'Enter'){
+      this.addBtn();
+    }
+  }
+
+  deleteList = (id) => {
+    this.setState({
+      items: this.state.items.filter(carditem => carditem.id !== id)
+    });
+  }
+
+  listUpdate = (id, data) => {
+    this.setState({
+      items: this.state.items.map((carditem) => id === carditem.id ? {...carditem, ...data} : carditem)
+    });
   }
 
   render(){
@@ -79,7 +99,7 @@ class App extends React.Component {
           <div className="wrap">
             <Header />
             <div className="content">
-              {items.map((item) => <List key={item.id} item={item} title={item.title} data={item.data} />)}
+              {items.map((item) => <List key={item.id} id={item.id} item={item} title={item.title} data={item.data} onRemove={this.deleteList} onUpdate={this.listUpdate} />)}
               <div className="listTrue" onClick={this.addList} style={styleT}>
                 <div className="listClickBefore">
                   <div className="plus-btn"><img src={plus} alt="plus" /></div>

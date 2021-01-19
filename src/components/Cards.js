@@ -1,17 +1,25 @@
 import React from 'react';
 import '../App.css';
 import cancel from '../img/cancel.png';
+import edit from '../img/draw.png';
 
 class Cards extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      key: props.key,
+      editMode: true,
+      key: props.id,
       item: props.item,
-      data: this.props.data,
+      data: props.data,
       style:{
         border: 'none',
         height: '20px'
+      },
+      styleItem: {
+        display: 'block'
+      },
+      styleEdit: {
+        display: 'none'
       }
     };
   };
@@ -30,26 +38,22 @@ class Cards extends React.Component {
       data: e.target.value
     });
     this.props.setData(e.target.value);
+    console.log(this.state.data);
   }
 
-  writeClick = () => {
-    if(this.state.style.height === '20px'){
+  handleEdit = () => {
+    if(this.state.editMode === true){
       this.setState({
-        style:{
-          height: '40px',
-          outline: 'none',
-          background: '#fff',
-          border: 'none',
-        }
+        styleItem: { display: 'none' },
+        styleEdit: { display: 'block' },
+        editMode: false
       });
-    } if(this.state.style.height === '40px'){
+    } else {
       this.setState({
-        style:{
-          height: '20px',
-          border: 'none',
-          outline: 'none',
-        }  
-      });   
+        styleItem: { display: 'block' },
+        styleEdit: { display: 'none' },
+        editMode: true
+      });
     }
   }
   
@@ -60,7 +64,7 @@ class Cards extends React.Component {
         this.setState({
           data: e.target.value
         });
-        this.writeClick();
+        this.handleEdit();
       }
     }
   }
@@ -71,18 +75,26 @@ class Cards extends React.Component {
   }
 
   render() {
-    const {data, style} = this.state;
+    const {data, styleItem, styleEdit} = this.state;
     return (
       <div>
         <div className="card-compose-card">
           <form>
             <div className="card-card">
-              <div>
-                <input className="card-input" style={style} value={data} name="cardInput" onClick={this.writeClick} onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} > 
+              <div className="card-item" style={styleItem}>
+                <p>{data}</p>
+              </div>
+              <div className="card-edit" style={styleEdit}>
+                <input className="card-input" value={data} name="cardInput" onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} > 
                 </input>
               </div>
-              <div className="cancel-btn" onClick={this.handleRemove}>
-                <img src={cancel} alt="cancel" />
+              <div className="card-btn">
+                <div className="edit-btn" onClick={this.handleEdit}>
+                  <img src={edit} alt="edit" />
+                </div>
+                <div className="cancel-btn" onClick={this.handleRemove}>
+                  <img src={cancel} alt="cancel" />
+                </div>
               </div>
               {/* <div className="cancel-btn">
                 <input className="submitBtn" type="submit" value='' onClick={this.props.onRemove} return false></input>

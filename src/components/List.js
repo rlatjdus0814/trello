@@ -1,15 +1,15 @@
 import React from 'react';
 import '../App.css';
 import Cards from './Cards.js';
-
+import cancel from '../img/cancel.png';
 class List extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      dataKey: -1,
-      item: props.item,
+      items: props.items,
       title: props.title,
       data: props.data,
+      id: props.id,
       text: '',
       style: {
         border: 'none',
@@ -35,8 +35,8 @@ class List extends React.Component {
   }
 
   handleTitleEdit = (e) => {
-    if(!(this.title == '')){
-      if(e.key == 'Enter'){
+    if(!(this.title === '')){
+      if(e.key === 'Enter'){
         this.setState({
           title: e.target.value
         });
@@ -61,6 +61,7 @@ class List extends React.Component {
   handleAddCard = (e) =>{
     if(!(this.state.text === '')){
       if(e.key === 'Enter'){
+        e.preventDefault();
         this.setState({
           data: this.state.data.concat(e.target.value),
           text: ''
@@ -75,10 +76,14 @@ class List extends React.Component {
     });
   }
 
+  delList = () => {
+    this.props.onRemove(this.state.id);
+  }
+
   render() {
     const {title, data, style, text} = this.state;
     const CardComponents = data.map((dataitem, i) => {
-      return (<Cards key={i} setData={(data) => this.setData(data, i)} data={dataitem} onRemove={() => this.RemoveData(i)} />);
+      return (<Cards key={i} id={i} setData={(data) => this.setData(data, i)} data={dataitem} onRemove={() => this.RemoveData(i)} />);
     });
     
   return(
@@ -87,13 +92,16 @@ class List extends React.Component {
         <div className="content-wrap-card">
           <div className="card-top">
             <div className="card-top-title"><input value={title} style={style} onClick={this.titleClick} onChange={this.handleTitleInput} onKeyPress={this.handleTitleEdit}></input></div>
+            <div className="card-delete-btn" onClick={this.delList}><img src={cancel} alt="delete" /></div>
           </div>
           <div className="card-compose">
             { CardComponents }
             <div className="card-compose-create">
-              <div className="create">
-                <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.handleAddCard} onChange={this.handleCardCreate}></input>
-              </div>
+              <form>
+                <div className="create">
+                  <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.handleAddCard} onChange={this.handleCardCreate}></input>
+                </div>
+              </form>
             </div>
           </div>
         </div>
