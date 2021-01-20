@@ -13,8 +13,13 @@ class List extends React.Component {
       text: '',
       style: {
         border: 'none',
-        background: '#ebecf0'
       },
+      createT: {
+        display: 'none'
+      },
+      createF: {
+        display: 'block'
+      }
     };
   }
 
@@ -28,7 +33,6 @@ class List extends React.Component {
     this.setState({
       style: {
         border: 'none',
-        background: '#ebecf0',
         outline: 'none'
       }
     });
@@ -80,8 +84,12 @@ class List extends React.Component {
     this.props.onRemove(this.state.id);
   }
 
+  createClick = () => {
+
+  }
+
   render() {
-    const {title, data, style, text} = this.state;
+    const {title, data, style, text, createT, createF} = this.state;
     const CardComponents = data.map((dataitem, i) => {
       return (<Cards key={i} id={i} setData={(data) => this.setData(data, i)} data={dataitem} onRemove={() => this.RemoveData(i)} />);
     });
@@ -98,7 +106,10 @@ class List extends React.Component {
             { CardComponents }
             <div className="card-compose-create">
               <form>
-                <div className="create">
+                <div className="create-false" style={createF} onClick={this.createClick}>
+                  <span>Add Card</span>
+                </div>
+                <div className="create-true" style={createT}>
                   <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.handleAddCard} onChange={this.handleCardCreate}></input>
                 </div>
               </form>

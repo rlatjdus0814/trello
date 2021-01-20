@@ -20,7 +20,8 @@ class Cards extends React.Component {
       },
       styleEdit: {
         display: 'none'
-      }
+      },
+      colors: []
     };
   };
 

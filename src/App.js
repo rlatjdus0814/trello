@@ -1,7 +1,6 @@
 import React from 'react';
 import './App.css';
 import Top from './components/Top.js';
-import Header from './components/Header.js';
 import List from './components/List.js';
 import plus from './img/plus.png';
 import cancel from './img/cancel.png';
@@ -95,15 +94,15 @@ class App extends React.Component {
     return (
       <div className="root">
         <Top />
+        <div className="top-hr"></div>
         <div className="container">
           <div className="wrap">
-            <Header />
             <div className="content">
               {items.map((item) => <List key={item.id} id={item.id} item={item} title={item.title} data={item.data} onRemove={this.deleteList} onUpdate={this.listUpdate} />)}
               <div className="listTrue" onClick={this.addList} style={styleT}>
                 <div className="listClickBefore">
                   <div className="plus-btn"><img src={plus} alt="plus" /></div>
-                  <span>Add another card</span>
+                  <span>Add another list</span>
                 </div>
               </div>
               <div className="listFalse" style={styleF}>
