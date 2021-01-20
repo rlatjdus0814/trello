@@ -7,6 +7,7 @@ class Cards extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      cnt: 1,
       editMode: true,
       key: props.id,
       item: props.item,
@@ -15,7 +16,10 @@ class Cards extends React.Component {
         border: 'none',
         height: '20px'
       },
-      colors: []
+      styleBG:{
+        background: '#ffffff'
+      },
+      color: ['#ffffff', '#fddfe3', '#fcfbed', ' #dcf5eb', '#e5edf8', '#eee5f8']
     };
   };
 
@@ -61,11 +65,26 @@ class Cards extends React.Component {
     this.props.onRemove(this.state.data);
   }
 
+  cardColorChange = () => {
+    const {color, cnt} = this.state;
+    this.setState({
+      styleBG: {
+        background: color[cnt]
+      },
+      cnt: cnt + 1
+    });
+    if(cnt >= 5){
+      this.setState({
+        cnt: 0
+      })
+    }
+  }
+
   render() {
-    const {data, styleItem, editMode} = this.state;
+    const {data, styleBG, styleItem, editMode} = this.state;
     return (
-      <div>
-        <div className="card-compose-card">
+      <div className="card-color" onClick={this.cardColorChange}>
+        <div className="card-compose-card" style={styleBG}>
           <form>
             <div className="card-card">
               <div className="card-item" style={styleItem}>

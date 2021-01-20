@@ -57,7 +57,7 @@ class App extends React.Component {
     if(!(this.state.text === '')){
       this.setState({
         items: this.state.items.concat({
-          id: this.state.currentId++,
+          id: this.state.currentId+1,
           title: this.state.text,
           data: [],
         }),

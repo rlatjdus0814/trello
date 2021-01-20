@@ -117,7 +117,7 @@ class List extends React.Component {
     });
     
   return(
-    <div className="list" onPress={this.clickAnywhere}>
+    <div className="list">
       <div className="content-wrap">
         <div className="content-wrap-card">
           <div className="card-top">
