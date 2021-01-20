@@ -68,7 +68,7 @@ p{
   background-color: #ffffff;
   width: 250px;
   border-radius: 3px;
-  margin: 0 10px;
+  margin: 0 10px 15px 10px;
   box-shadow: 2px 3px 2px #e1e3e9;
 }
 .card-top{
@@ -191,7 +191,7 @@ p{
   width: 250px;
   height: 40px;
   border-radius: 2px;
-  margin: 15px 10px;
+  margin-left: 10px;
   color: #ffffff;
   align-items: center;
   cursor: pointer;
