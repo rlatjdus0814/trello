@@ -34,19 +34,17 @@ class App extends React.Component {
   }
 
   addList = () => {
-    if(this.state.addListMode === true){
-      this.setState({
-        styleT: { display: 'none' },
-        styleF: { display: 'block' },
-        addListMode: false
-      });
-    } else {
-      this.setState({
-        styleT: { display: 'block' },
-        styleF: { display: 'none' },
-        addListMode : true
-      });
-    }
+    (this.state.addListMode) ? 
+    this.setState({
+      styleT: { display: 'none' },
+      styleF: { display: 'block' },
+      addListMode: false
+    }) : 
+    this.setState({
+      styleT: { display: 'block' },
+      styleF: { display: 'none' },
+      addListMode : true
+    });
   }
 
   handleListInput = (e) => {
@@ -66,13 +64,12 @@ class App extends React.Component {
         addListMode: true,
         text: ''
       });
-      console.log(this.state.currentId);
     } 
     this.addList();
   }
 
   handleListEnter = (e) => {
-    if(e.key === 'Enter'){
+    if(e.key === 'Enter' || e.onClick ){
       this.addBtn();
     }
   }

@@ -2,10 +2,12 @@ import React from 'react';
 import '../App.css';
 import Cards from './Cards.js';
 import cancel from '../img/cancel.png';
+import cancelC from '../img/cancel-circle.png';
 class List extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      addCardMode: false,
       items: props.items,
       title: props.title,
       data: props.data,
@@ -70,7 +72,9 @@ class List extends React.Component {
           data: this.state.data.concat(e.target.value),
           text: ''
         });
+        this.createClick();
       }
+      
     }
   }
 
@@ -85,7 +89,25 @@ class List extends React.Component {
   }
 
   createClick = () => {
+    (this.state.addCardMode) ? 
+    this.setState({
+      createT: { display: 'none' },
+      createF: { display: 'block' },
+      addCardMode: false
+    }) : 
+    this.setState({
+      createT: { display: 'block' },
+      createF: { display: 'none' },
+      addCardMode : true
+    });
+    
+  }
 
+  cancelClick = () => {
+    this.setState({
+      addCardMode: false
+    });
+    this.createClick();
   }
 
   render() {
@@ -95,7 +117,7 @@ class List extends React.Component {
     });
     
   return(
-    <div className="list">
+    <div className="list" onPress={this.clickAnywhere}>
       <div className="content-wrap">
         <div className="content-wrap-card">
           <div className="card-top">
@@ -106,11 +128,14 @@ class List extends React.Component {
             { CardComponents }
             <div className="card-compose-create">
               <form>
-                <div className="create-false" style={createF} onClick={this.createClick}>
+                <div className="create-false" style={createF} onClick={this.createClick} >
                   <span>Add Card</span>
                 </div>
                 <div className="create-true" style={createT}>
                   <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.handleAddCard} onChange={this.handleCardCreate}></input>
+                  <div className="create-cancelBtn" onClick={this.cancelClick}>
+                    <img src={cancelC} alt="cancel" />
+                  </div>
                 </div>
               </form>
             </div>

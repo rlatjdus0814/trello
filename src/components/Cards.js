@@ -15,12 +15,6 @@ class Cards extends React.Component {
         border: 'none',
         height: '20px'
       },
-      styleItem: {
-        display: 'block'
-      },
-      styleEdit: {
-        display: 'none'
-      },
       colors: []
     };
   };
@@ -43,25 +37,17 @@ class Cards extends React.Component {
   }
 
   handleEdit = () => {
-    if(this.state.editMode === true){
-      this.setState({
-        styleItem: { display: 'none' },
-        styleEdit: { display: 'block' },
-        editMode: false
-      });
-    } else {
-      this.setState({
-        styleItem: { display: 'block' },
-        styleEdit: { display: 'none' },
-        editMode: true
-      });
-    }
+    const {editMode} = this.state;
+    this.setState({
+      editMode: !editMode
+    });
   }
   
   handleCardEdit = (e) => {
     if(!(this.state.data === '')){
       if(e.key === 'Enter'){
         e.preventDefault();
+        e.focus();
         this.setState({
           data: e.target.value
         });
@@ -76,18 +62,17 @@ class Cards extends React.Component {
   }
 
   render() {
-    const {data, styleItem, styleEdit} = this.state;
+    const {data, styleItem, editMode} = this.state;
     return (
       <div>
         <div className="card-compose-card">
           <form>
             <div className="card-card">
               <div className="card-item" style={styleItem}>
-                <p>{data}</p>
-              </div>
-              <div className="card-edit" style={styleEdit}>
-                <input className="card-input" value={data} name="cardInput" onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} > 
-                </input>
+                {
+                  editMode ? <p>{data}</p> : 
+                  <input className="card-input" value={data} name="cardInput" onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} ></input>
+                }
               </div>
               <div className="card-btn">
                 <div className="edit-btn" onClick={this.handleEdit}>
