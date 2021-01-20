@@ -32,7 +32,7 @@ p{
 .top-left div, .top-right div{
   display: inline-block;
 }
-.top-left-home, .top-left-boards, .top-right-create, .top-right-info, .top-right-alarm{
+.top-left-home{
   background-color: #dfdfdf;
   width: 35px;
   height: 35px;
@@ -41,132 +41,22 @@ p{
   text-align: center;
   border-radius: 3px;
 }
-.top-left-search{
-  background-color: #dfdfdf;
-  width: 100px;
-  line-height: 20px;
-  margin: 0 2px;
-  padding-right: 5px;
-  text-align: right;
-  border-radius: 3px;
-}
 .top-center{
   color: #ffffff;
   font-size: 25px;
   margin: 0 auto;
 }
-.top-right{
-  display: inline-block;
-}
-.top-right-profile{
-  background-color: #e7e7e7;
-  width: 24px;
-  height: 24px;
-  line-height: 28px;
-  margin: 0 2px;
-  text-align: center;
-  border-radius: 55px;
-}
-.top-right-profile span{
-  font-size: 12px;
-  font-weight: 500;
-  vertical-align: top;
-}
 .top img{
   height: 18px;
   margin-top: 8px;
 }
-
-/*container-header*/
 .wrap{
   background:#eceef3;
   height: 745px;
 }
-.header{
-  height: 32px;
-  padding: 5px 0;
-  display: flex;
-  justify-content: space-between;
-  color: #ffffff;
-}
-.header-left{
-  margin-left: 5px;
-}
-.header-right{
-  margin-right: 5px;
-}
 .icon{
   color: #333;
   text-decoration: none;
-}
-.profile{
-  color: #000;
-  text-decoration: none;
-}
-.header img{
-  height: 13px;
-  margin-top: 7px;
-  vertical-align: bottom;
-}
-.downarrow-icon{
-  padding-left: 5px;
-}
-.header-left div, .header-right div{
-  display: inline-block;
-}
-.header-left-board, .header-left-star, .header-left-private, .header-right-butler, .header-right-menu{
-  background-color: #dfdfdf;
-  height: 25px;
-  margin: 0 2px;
-  text-align: center;
-  border-radius: 3px;
-  font-size: 13px;
-  padding: 0 8px;
-}
-.private-icon img, .butler-icon img, .menu-icon img{
-  padding-right: 5px;
-}
-.header-left-workspace, .header-left-invite{
-  background-color:#dfdfdf;
-  height: 25px;
-  margin: 0 2px;
-  text-align: center;
-  border-radius: 3px;
-  font-size: 13px;
-  padding: 0 8px;
-}
-.header-left-profile{
-  background-color: #f3f3f3;
-  width: 24px;
-  height: 24px;
-  line-height: 21px;
-  margin: 0 2px;
-  text-align: center;
-  border-radius: 55px;
-}
-.header-left-profile span{
-  font-size: 12px;
-  font-weight: 500;
-  vertical-align: top;
-}
-.icon-btn{
-  height: 25px;
-  line-height: 25px;
-}
-.icon-btn-test{
-  font-size: 13px;
-  font-weight: 700;
-  margin: 0 7px;
-}
-.bar{
-  padding-top: 5px;
-  font-size: 13px;
-}
-.icon-btn-free{
-  background-color: rgba(255, 255, 255, 0.3);
-  border-radius: 30px;
-  padding: 1px 7px;
-  margin-left: 5px;
 }
 
 /*container-content*/
