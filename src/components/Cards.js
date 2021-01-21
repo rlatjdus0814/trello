@@ -1,4 +1,5 @@
 import React from 'react';
+import { Draggable } from 'react-beautiful-dnd';
 import '../App.css';
 import cancel from '../img/cancel.png';
 import edit from '../img/draw.png';
@@ -9,7 +10,7 @@ class Cards extends React.Component {
     this.state = {
       cnt: 1,
       editMode: true,
-      key: props.id,
+      id: props.id,
       item: props.item,
       data: props.data,
       style:{
@@ -86,33 +87,43 @@ class Cards extends React.Component {
   }
 
   render() {
-    const {data, styleBG, styleItem, editMode} = this.state;
+    const {data, id, styleBG, styleItem, editMode} = this.state;
     return (
-      <div className="card-color">
-        <div className="card-compose-card" style={styleBG}>
-          <form>
-            <div className="card-card">
-              <div className="card-item" style={styleItem}  onClick={this.cardColorChange}>
-                {
-                  editMode ? <p>{data}</p> : 
-                  <input className="card-input" value={data} name="cardInput" onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} ></input>
-                }
+      <Draggable key={id} draggableId={String(id)} index={id}>
+        {
+          provided => (
+            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+              <div className="card-color">
+              <div className="card-compose-card" style={styleBG}>
+                <form>
+                  <div className="card-card">
+                    <div className="card-item" style={styleItem}  onClick={this.cardColorChange}>
+                      {
+                        editMode ? <p>{data}</p> : 
+                        <input className="card-input" value={data} name="cardInput" onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} ></input>
+                      }
+                    </div>
+                    <div className="card-btn">
+                      <div className="edit-btn" onClick={this.handleEdit}>
+                        <img src={edit} alt="edit" />
+                      </div>
+                      <div className="cancel-btn" onClick={this.handleRemove}>
+                        <img src={cancel} alt="cancel" />
+                      </div>
+                    </div>
+                    {/* <div className="cancel-btn">
+                      <input className="submitBtn" type="submit" value='' onClick={this.props.onRemove} return false></input>
+                    </div> */}
+                  </div>
+                </form>
               </div>
-              <div className="card-btn">
-                <div className="edit-btn" onClick={this.handleEdit}>
-                  <img src={edit} alt="edit" />
-                </div>
-                <div className="cancel-btn" onClick={this.handleRemove}>
-                  <img src={cancel} alt="cancel" />
-                </div>
-              </div>
-              {/* <div className="cancel-btn">
-                <input className="submitBtn" type="submit" value='' onClick={this.props.onRemove} return false></input>
-              </div> */}
             </div>
-          </form>
-        </div>
-      </div>
+            </div>
+          )
+        }
+        
+      </Draggable>
+      
     ); 
   }
 }

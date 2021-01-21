@@ -1,5 +1,5 @@
 import React from 'react';
-import { DragDropContext } from 'react-beautiful-dnd';
+import { Droppable } from 'react-beautiful-dnd';
 import '../App.css';
 import Cards from './Cards.js';
 import cancel from '../img/cancel.png';
@@ -112,39 +112,44 @@ class List extends React.Component {
   }
 
   render() {
-    const {title, data, style, text, createT, createF} = this.state;
-    const CardComponents = data.map((dataitem, i) => {
-      return (<Cards key={i} id={i} setData={(data) => this.setData(data, i)} data={dataitem} onRemove={() => this.RemoveData(i)} />);
-    });
+    const {title, data, id, style, text, createT, createF} = this.state;
+    // const CardComponents = data.map((dataitem, i) => {
+    //   return (<Cards key={i} id={i} {...provided.droppableProps} ref={provided.innerRef} setData={(data) => this.setData(data, i)} data={dataitem} onRemove={() => this.RemoveData(i)} />);
+    // });
     
   return(
     <div className="list">
-      <DragDropContext>
       <div className="content-wrap">
         <div className="content-wrap-card">
           <div className="card-top">
             <div className="card-top-title"><input value={title} style={style} onClick={this.titleClick} onChange={this.handleTitleInput} onKeyPress={this.handleTitleEdit}></input></div>
             <div className="card-delete-btn" onClick={this.delList}><img src={cancel} alt="delete" /></div>
           </div>
-          <div className="card-compose">
-            { CardComponents }
-            <div className="card-compose-create">
-              <form>
-                <div className="create-false" style={createF} onClick={this.createClick} >
-                  <span>Add Card</span>
+          <Droppable droppableId={String(id)}>
+            {provided => (
+              <div className="card-compose" {...provided.droppableProps} ref={provided.innerRef}>
+                { data.map((dataitem, i) => 
+                  <Cards key={i} id={i} index={i} setData={(data) => this.setData(data, i)} data={dataitem} onRemove={() => this.RemoveData(i)} />
+                )}
+                {provided.placeholder}
+              </div>
+            )}
+          </Droppable>
+          <div className="card-compose-create">
+            <form>
+              <div className="create-false" style={createF} onClick={this.createClick} >
+                <span>Add Card</span>
+              </div>
+              <div className="create-true" style={createT}>
+                <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.handleAddCard} onChange={this.handleCardCreate}></input>
+                <div className="create-cancelBtn" onClick={this.cancelClick}>
+                  <img src={cancelC} alt="cancel" />
                 </div>
-                <div className="create-true" style={createT}>
-                  <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.handleAddCard} onChange={this.handleCardCreate}></input>
-                  <div className="create-cancelBtn" onClick={this.cancelClick}>
-                    <img src={cancelC} alt="cancel" />
-                  </div>
-                </div>
-              </form>
-            </div>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-      </DragDropContext>
     </div>  
     );
   }
