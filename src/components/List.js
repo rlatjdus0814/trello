@@ -1,4 +1,5 @@
 import React from 'react';
+import { DragDropContext } from 'react-beautiful-dnd';
 import '../App.css';
 import Cards from './Cards.js';
 import cancel from '../img/cancel.png';
@@ -118,6 +119,7 @@ class List extends React.Component {
     
   return(
     <div className="list">
+      <DragDropContext>
       <div className="content-wrap">
         <div className="content-wrap-card">
           <div className="card-top">
@@ -142,6 +144,7 @@ class List extends React.Component {
           </div>
         </div>
       </div>
+      </DragDropContext>
     </div>  
     );
   }

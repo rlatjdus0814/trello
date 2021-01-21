@@ -63,6 +63,11 @@ class Cards extends React.Component {
   handleRemove = (e) => {
     e.preventDefault();
     this.props.onRemove(this.state.data);
+    this.setState({
+      styleBG: {
+        background: '#ffffff'
+      }
+    });
   }
 
   cardColorChange = () => {
@@ -83,11 +88,11 @@ class Cards extends React.Component {
   render() {
     const {data, styleBG, styleItem, editMode} = this.state;
     return (
-      <div className="card-color" onClick={this.cardColorChange}>
+      <div className="card-color">
         <div className="card-compose-card" style={styleBG}>
           <form>
             <div className="card-card">
-              <div className="card-item" style={styleItem}>
+              <div className="card-item" style={styleItem}  onClick={this.cardColorChange}>
                 {
                   editMode ? <p>{data}</p> : 
                   <input className="card-input" value={data} name="cardInput" onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} ></input>
