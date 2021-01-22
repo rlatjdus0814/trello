@@ -87,6 +87,10 @@ class App extends React.Component {
     });
   }
 
+  handleOnDragEnd = (result) => {
+    console.log(result);
+  }
+
   render(){
     const {items, styleT, styleF, text} = this.state;
     return (
@@ -94,7 +98,7 @@ class App extends React.Component {
         <Top />
         <div className="top-hr"></div>
         <div className="container">
-          <DragDropContext>
+          <DragDropContext onDragEnd={this.handleOnDragEnd}>
             <div className="wrap">
               <div className="content">
                 {items.map((item) => <List key={item.id} id={item.id} item={item} title={item.title} data={item.data} onRemove={this.deleteList} onUpdate={this.listUpdate} />)}

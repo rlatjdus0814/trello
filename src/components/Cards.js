@@ -22,6 +22,7 @@ class Cards extends React.Component {
       },
       color: ['#ffffff', '#fddfe3', '#fcfbed', ' #dcf5eb', '#e5edf8', '#eee5f8']
     };
+    this.textInput = React.createRef();
   };
 
   static getDerivedStateFromProps(props, state){
@@ -46,6 +47,7 @@ class Cards extends React.Component {
     this.setState({
       editMode: !editMode
     });
+    this.textInput.focus();
   }
   
   handleCardEdit = (e) => {
@@ -100,7 +102,7 @@ class Cards extends React.Component {
                     <div className="card-item" style={styleItem}  onClick={this.cardColorChange}>
                       {
                         editMode ? <p>{data}</p> : 
-                        <input className="card-input" value={data} name="cardInput" onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} ></input>
+                        <input className="card-input" value={data} name="cardInput" ref={(ref)=>{this.textInput=ref}} onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} ></input>
                       }
                     </div>
                     <div className="card-btn">
