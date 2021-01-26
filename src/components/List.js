@@ -1,5 +1,5 @@
 import React from 'react';
-import { Droppable } from 'react-beautiful-dnd';
+//import { Droppable } from 'react-beautiful-dnd';
 import '../App.css';
 import Cards from './Cards.js';
 import cancel from '../img/cancel.png';
@@ -13,6 +13,7 @@ class List extends React.Component {
       item: props.item,
       title: props.title,
       data: props.data,
+      cardText: props.cardText,
       id: props.id,
       text: '',
       style: {
@@ -79,9 +80,9 @@ class List extends React.Component {
     }
   }
 
-  RemoveData = (i) => {
+  RemoveData = (data) => {
     this.setState({
-      data: this.state.data.filter((dataitem, index, newData) => index !== i )
+      data: this.state.data.filter((carditem) => carditem.id !== data.id)
     });
   }
 
@@ -112,7 +113,6 @@ class List extends React.Component {
 
   render() {
     const {title, data, id, style, text, createT, createF} = this.state;
-    
   return(
     <div className="list">
       <div className="content-wrap">
@@ -121,16 +121,26 @@ class List extends React.Component {
             <div className="card-top-title"><input value={title} style={style} onClick={this.titleClick} onChange={this.handleTitleInput} onKeyPress={this.handleTitleEdit}></input></div>
             <div className="card-delete-btn" onClick={this.delList}><img src={cancel} alt="delete" /></div>
           </div>
-          <Droppable droppableId={String(id)} type={String(id)===this.state.id ? "active" : "done"}>
+           
+          <div className="card-compose">
+            { data.map((dataitem, i) => 
+              <Cards key={i} id={id} index={i} className="card" cardText={dataitem.cardText} setData={(data) => this.setData(data, i)} data={dataitem} onRemove={(data) => this.RemoveData(data)} />
+            )}
+            
+          </div>
+        
+          
+          {/* <Droppable droppableId={String(id)} type={String(id)===this.state.id ? "active" : "done"}>
             {provided => (
               <div className="card-compose" {...provided.droppableProps} ref={provided.innerRef}>
                 { data.map((dataitem, i) => 
                   <Cards key={i} id={id} index={i} className="card" setData={(data) => this.setData(data, i)} data={dataitem} onRemove={() => this.RemoveData(i)} />
                 )}
+                {String(id)}
                 {provided.placeholder}
               </div>
             )}
-          </Droppable>
+          </Droppable> */}
           <div className="card-compose-create">
             <form>
               <div className="create-false" style={createF} onClick={this.createClick} >
@@ -152,3 +162,4 @@ class List extends React.Component {
 }
 
 export default List;
+
