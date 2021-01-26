@@ -1,10 +1,20 @@
 import React from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
+import { resetServerContext } from 'react-beautiful-dnd';
 import './App.css';
 import Top from './components/Top.js';
 import List from './components/List.js';
 import plus from './img/plus.png';
 import cancel from './img/cancel.png';
+
+// const reorder = (list, startIndex, endIndex) => {
+//   const result = Array.from(list);
+//   const [removed] = result.splice(startIndex, 1);
+//   result.splice(endIndex, 0, removed);
+  
+//   return result;
+// };
+resetServerContext();
 class App extends React.Component {
   state={
     currentId: 3,
@@ -67,6 +77,7 @@ class App extends React.Component {
       });
     } 
     this.addList();
+    
   }
 
   handleListEnter = (e) => {
@@ -87,9 +98,30 @@ class App extends React.Component {
     });
   }
 
-  handleOnDragEnd = (result) => {
-    console.log(result);
-  }
+  // handleOnDragEnd = (result) => {
+  //   if(!result.destination) return;
+    
+  //   // const currentCards = [...this.state.item];
+  //   // const draggingItemIndex = result.source.index;
+  //   // const afterDragItemIndex = result.destination.index;
+  //   // const removeCard = currentCards.splice(draggingItemIndex, 1);
+
+  //   // currentCards.splice(afterDragItemIndex, 0, removeCard[0]);
+  //   // this.setState({
+  //   //   item: currentCards
+  //   // });
+
+  //   const item = this.state.items.map((item)=> item.id === result.source.index);
+   
+  //   const carditems = reorder(
+  //       this.state.items.map((item, i) => { return item.data }),
+  //       result.source.index,
+  //       result.destination.index
+  //     );
+  //   this.setState({
+  //     items: carditems
+  //   });
+  // }
 
   render(){
     const {items, styleT, styleF, text} = this.state;

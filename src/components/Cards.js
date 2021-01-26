@@ -22,7 +22,6 @@ class Cards extends React.Component {
       },
       color: ['#ffffff', '#fddfe3', '#fcfbed', ' #dcf5eb', '#e5edf8', '#eee5f8']
     };
-    this.textInput = React.createRef();
   };
 
   static getDerivedStateFromProps(props, state){
@@ -39,7 +38,6 @@ class Cards extends React.Component {
       data: e.target.value
     });
     this.props.setData(e.target.value);
-    console.log(this.state.data);
   }
 
   handleEdit = () => {
@@ -47,7 +45,6 @@ class Cards extends React.Component {
     this.setState({
       editMode: !editMode
     });
-    this.textInput.focus();
   }
   
   handleCardEdit = (e) => {
@@ -102,7 +99,7 @@ class Cards extends React.Component {
                     <div className="card-item" style={styleItem}  onClick={this.cardColorChange}>
                       {
                         editMode ? <p>{data}</p> : 
-                        <input className="card-input" value={data} name="cardInput" ref={(ref)=>{this.textInput=ref}} onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} ></input>
+                        <input className="card-input" value={data} name="cardInput" onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} ></input>
                       }
                     </div>
                     <div className="card-btn">
@@ -113,9 +110,6 @@ class Cards extends React.Component {
                         <img src={cancel} alt="cancel" />
                       </div>
                     </div>
-                    {/* <div className="cancel-btn">
-                      <input className="submitBtn" type="submit" value='' onClick={this.props.onRemove} return false></input>
-                    </div> */}
                   </div>
                 </form>
               </div>
@@ -123,9 +117,7 @@ class Cards extends React.Component {
             </div>
           )
         }
-        
       </Draggable>
-      
     ); 
   }
 }

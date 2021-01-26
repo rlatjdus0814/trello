@@ -71,6 +71,11 @@ p{
   margin: 0 10px 15px 10px;
   box-shadow: 2px 3px 2px #e1e3e9;
 }
+/* .card{
+  cursor: grab;
+      padding: 10px 15px;
+      transition: transform 200ms ease 0s;
+} */
 .card-top{
   display: flex;
   justify-content: space-between;

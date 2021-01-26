@@ -10,6 +10,7 @@ class List extends React.Component {
     this.state = {
       addCardMode: false,
       items: props.items,
+      item: props.item,
       title: props.title,
       data: props.data,
       id: props.id,
@@ -75,7 +76,6 @@ class List extends React.Component {
         });
         this.createClick();
       }
-      
     }
   }
 
@@ -101,7 +101,6 @@ class List extends React.Component {
       createF: { display: 'none' },
       addCardMode : true
     });
-    
   }
 
   cancelClick = () => {
@@ -113,9 +112,6 @@ class List extends React.Component {
 
   render() {
     const {title, data, id, style, text, createT, createF} = this.state;
-    // const CardComponents = data.map((dataitem, i) => {
-    //   return (<Cards key={i} id={i} {...provided.droppableProps} ref={provided.innerRef} setData={(data) => this.setData(data, i)} data={dataitem} onRemove={() => this.RemoveData(i)} />);
-    // });
     
   return(
     <div className="list">
@@ -125,11 +121,11 @@ class List extends React.Component {
             <div className="card-top-title"><input value={title} style={style} onClick={this.titleClick} onChange={this.handleTitleInput} onKeyPress={this.handleTitleEdit}></input></div>
             <div className="card-delete-btn" onClick={this.delList}><img src={cancel} alt="delete" /></div>
           </div>
-          <Droppable droppableId={String(id)}>
+          <Droppable droppableId={String(id)} type={String(id)===this.state.id ? "active" : "done"}>
             {provided => (
               <div className="card-compose" {...provided.droppableProps} ref={provided.innerRef}>
                 { data.map((dataitem, i) => 
-                  <Cards key={i} id={i} index={i} setData={(data) => this.setData(data, i)} data={dataitem} onRemove={() => this.RemoveData(i)} />
+                  <Cards key={i} id={id} index={i} className="card" setData={(data) => this.setData(data, i)} data={dataitem} onRemove={() => this.RemoveData(i)} />
                 )}
                 {provided.placeholder}
               </div>
