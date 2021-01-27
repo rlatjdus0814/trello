@@ -1,5 +1,5 @@
 import React from 'react';
-//import { Draggable } from 'react-beautiful-dnd';
+import { Draggable } from 'react-beautiful-dnd';
 import '../App.css';
 import cancel from '../img/cancel.png';
 import edit from '../img/draw.png';
@@ -10,13 +10,10 @@ class Cards extends React.Component {
     this.state = {
       cnt: 1,
       editMode: false,
-      items: props.items,
       id: props.id,
-      index: props.index,
       item: props.item,
       data: props.data,
-      cardId: props.cardId,
-      cardText: props.cardText,
+      index: props.index,
       style:{
         border: 'none',
         height: '20px'
@@ -28,18 +25,21 @@ class Cards extends React.Component {
     };
   };
 
-  
+  static getDerivedStateFromProps(props, state){
+    if(props.data !== state.data){
+      return {
+        data: props.data
+      };
+    }
+    return null;
+  }
   
   handleCardInput = (e) => {
-    
     this.setState({
-      cardText: e.target.value
-      //cardText: cardText.concat({})
-    //data: data.map((dataitem) => cardId === dataitem.id ? {cardText: e.target.value } : dataitem )
-     //data: this.state.data.map((dataitem) => id === dataitem.id ? {...dataitem, cardText: e.target.value } : dataitem)
+      data: e.target.value
     });
-
-    //this.props.setData(this.state.data);
+    this.props.setData(e.target.value);
+    console.log(this.state.data);
   }
 
   handleEdit = () => {
@@ -50,11 +50,12 @@ class Cards extends React.Component {
   }
   
   handleCardEdit = (e) => {
-    if(!(this.state.cardText === '')){
+    if(!(this.state.data === '')){
       if(e.key === 'Enter'){
         e.preventDefault();
+        e.focus();
         this.setState({
-          careText : e.target.value
+          data: e.target.value
         });
         this.handleEdit();
       }
@@ -63,14 +64,12 @@ class Cards extends React.Component {
 
   handleRemove = (e) => {
     e.preventDefault();
-    this.props.onRemove(this.state.data.id);
-    
+    this.props.onRemove(this.state.data);
     this.setState({
       styleBG: {
         background: '#ffffff'
       }
     });
-    
   }
 
   cardColorChange = () => {
@@ -89,31 +88,23 @@ class Cards extends React.Component {
       }
     }
   }
-  static getDerivedStateFromProps(props, state){
-    if(props.cardText !== state.cardText){
-      return {
-        cardText: props.cardText
-      };
-    }
-    return null;
-  }
+
   render() {
-    const {styleBG, styleItem, editMode, cardText} = this.state;
-    //console.log(this.state.data.id);
-    // console.log(this.state.cardText);
-    //console.log(this.state.cardText);
-    
+    const {data, id, styleBG, styleItem, editMode, index} = this.state;
     return (
-          <div>
-            <div className="card-color">
+      <Draggable key={id} draggableId={String(id)} index={index}>
+        {
+          provided => (
+            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+              <div className="card-color">
               <div className="card-compose-card" style={styleBG}>
                 <form>
                   <div className="card-card">
                     <div className="card-item" style={styleItem}  onClick={this.cardColorChange}>
                       {
                         editMode ? 
-                        <input className="card-input" value={cardText} name="cardText" onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} ></input>
-                        : <p>{cardText}</p>
+                        <input className="card-input" value={data} name="cardInput" onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} ></input>
+                        : <p>{data}</p> 
                       }
                     </div>
                     <div className="card-btn">
@@ -131,50 +122,12 @@ class Cards extends React.Component {
                 </form>
               </div>
             </div>
-          </div>
-        )}
-    
-
-
-      // <Draggable key={id} draggableId={String(id)} index={id}>
-      //   {
-      //     provided => (
-      //       <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-      //         <div className="card-color">
-      //         <div className="card-compose-card" style={styleBG}>
-      //           <form>
-      //             <div className="card-card">
-      //               <div className="card-item" style={styleItem}  onClick={this.cardColorChange}>
-      //                 {
-      //                   editMode ? <p>{data}</p> : 
-      //                   <input className="card-input" value={data} name="cardInput" onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} ></input>
-      //                 }
-      //               </div>
-      //               <div className="card-btn">
-      //                 <div className="edit-btn" onClick={this.handleEdit}>
-      //                   <img src={edit} alt="edit" />
-      //                 </div>
-      //                 <div className="cancel-btn" onClick={this.handleRemove}>
-      //                   <img src={cancel} alt="cancel" />
-      //                 </div>
-      //               </div>
-      //               {/* <div className="cancel-btn">
-      //                 <input className="submitBtn" type="submit" value='' onClick={this.props.onRemove} return false></input>
-      //               </div> */}
-      //             </div>
-      //           </form>
-      //         </div>
-      //       </div>
-      //       </div>
-      //     )
-      //   }
-        
-      //</Draggable>
-      
-    
-  
+            </div>
+          )
+        }
+      </Draggable>
+    ); 
   }
+}
 
 export default Cards;
-
-

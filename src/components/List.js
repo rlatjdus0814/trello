@@ -1,5 +1,5 @@
 import React from 'react';
-//import { Droppable } from 'react-beautiful-dnd';
+import { Droppable } from 'react-beautiful-dnd';
 import '../App.css';
 import Cards from './Cards.js';
 import cancel from '../img/cancel.png';
@@ -9,13 +9,10 @@ class List extends React.Component {
     super(props);
     this.state = {
       addCardMode: false,
-      cardID: 14,
       items: props.items,
       item: props.item,
       title: props.title,
       data: props.data,
-      cardId: props.cardId,
-      cardText: props.cardText,
       id: props.id,
       text: '',
       style: {
@@ -59,7 +56,7 @@ class List extends React.Component {
     const temp = [].concat(this.state.data);
     temp[index] = data;
     this.setState({
-      cardText: temp
+      data: temp
     });
   }
 
@@ -74,24 +71,18 @@ class List extends React.Component {
       if(e.key === 'Enter'){
         e.preventDefault();
         this.setState({
-          data: this.state.data.concat({
-            id: `card-${this.state.cardID}`,
-            cardText: e.target.value
-          }),
-          text: '',
-          cardID: this.state.cardID + 1
+          data: this.state.data.concat(e.target.value),
+          text: ''
         });
         this.createClick();
       }
     }
   }
 
-  RemoveData = (id) => {
+  RemoveData = (i) => {
     this.setState({
-      data: this.state.data.map((dataitem) => dataitem.filter((carditem) => carditem.id !== id))
-
+      data: this.state.data.filter((dataitem, index, newData) => index !== i )
     });
-   
   }
 
   delList = () => {
@@ -119,11 +110,13 @@ class List extends React.Component {
     this.createClick();
   }
 
+  // findCard = (id) => {
+  //   const card = cards.filter
+  // }
+
   render() {
-    const {title, items, item, data, id, style, text, createT, createF} = this.state;
-    console.log(this.state.data[0]);
-    //console.log(this.state.items.cardId);
-    //console.log(this.state.id);
+    const {title, data, id, style, text, createT, createF} = this.state;
+ 
   return(
     <div className="list">
       <div className="content-wrap">
@@ -132,26 +125,17 @@ class List extends React.Component {
             <div className="card-top-title"><input value={title} style={style} onClick={this.titleClick} onChange={this.handleTitleInput} onKeyPress={this.handleTitleEdit}></input></div>
             <div className="card-delete-btn" onClick={this.delList}><img src={cancel} alt="delete" /></div>
           </div>
-           
-          <div className="card-compose">
-            { data.map((dataitem, i) => 
-              <Cards key={i} id={id} index={i} items={items} item={item} className="card" cardId={dataitem.cardId} cardText={dataitem.cardText} setData={(data) => this.setData(data, i)} data={dataitem} onRemove={(data) => this.RemoveData(data)} />
-            )}
-            
-          </div>
-        
-          
-          {/* <Droppable droppableId={String(id)} type={String(id)===this.state.id ? "active" : "done"}>
+          <Droppable droppableId={String(id)} type={String(id)===this.state.id ? "active" : "done"}>
             {provided => (
               <div className="card-compose" {...provided.droppableProps} ref={provided.innerRef}>
                 { data.map((dataitem, i) => 
-                  <Cards key={i} id={id} index={i} className="card" setData={(data) => this.setData(data, i)} data={dataitem} onRemove={() => this.RemoveData(i)} />
+                  <Cards key={i} id={dataitem} index={i} className="card" setData={(data) => this.setData(data, i)} data={dataitem} onRemove={() => this.RemoveData(i)} moveCard={this.moveCard} findCard={this.findCard} />
                 )}
                 {String(id)}
                 {provided.placeholder}
               </div>
             )}
-          </Droppable> */}
+          </Droppable>
           <div className="card-compose-create">
             <form>
               <div className="create-false" style={createF} onClick={this.createClick} >
@@ -173,5 +157,3 @@ class List extends React.Component {
 }
 
 export default List;
-
-

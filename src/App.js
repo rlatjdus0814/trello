@@ -1,15 +1,23 @@
 import React from 'react';
-//import { DragDropContext } from 'react-beautiful-dnd';
-// import { resetServerContext } from 'react-beautiful-dnd';
+import { DragDropContext } from 'react-beautiful-dnd';
+import { resetServerContext } from 'react-beautiful-dnd';
 import './App.css';
 import Top from './components/Top.js';
 import List from './components/List.js';
 import plus from './img/plus.png';
 import cancel from './img/cancel.png';
 
+// const reorder = (list, startIndex, endIndex) => {
+//   const result = Array.from(list);
+//   const [removed] = result.splice(startIndex, 1);
+//   result.splice(endIndex, 0, removed);
+  
+//   return result;
+// };
+resetServerContext();
 class App extends React.Component {
   state={
-    listId: 3,
+    currentId: 3,
     addListMode: true,
     text: '',
     styleT:{
@@ -20,36 +28,19 @@ class App extends React.Component {
     },
     items: [
       {
-      id: `list-${0}`,
+      id: 0,
       title: 'weekend',
-      data: [
-        { id:`card-${0}`, cardText: 'Monday'},
-        { id:`card-${1}`, cardText: 'Tuesday'},
-        { id:`card-${2}`, cardText: 'Wednesday'},
-        { id:`card-${3}`, cardText: 'Thursday'},
-        { id:`card-${4}`, cardText: 'Friday'},
-        { id:`card-${5}`, cardText: 'Saturday'},
-        { id:`card-${6}`, cardText: 'Sunday'},
-      ]
+      data: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
     },
     {
-      id: `list-${1}`,
+      id: 1,
       title: 'subject',
-      data: [
-        { id:`card-${7}`, cardText: 'Korean'},
-        { id:`card-${8}`, cardText: 'Math'},
-        { id:`card-${9}`, cardText: 'English'},
-      ]
+      data: ['Korean', 'Math', 'Engilsh']
     },
     {
-      id: `list-${2}`,
+      id: 2,
       title: 'genre',
-      data: [
-        { id:`card-${10}`, cardText: 'comedy'},
-        { id:`card-${11}`, cardText: 'darama'},
-        { id:`card-${12}`, cardText: 'horror'},
-        { id:`card-${13}`, cardText: 'romance'},
-      ]
+      data: ['comedy', 'darama', 'horror', 'romance']
     }],
   }
 
@@ -77,17 +68,16 @@ class App extends React.Component {
     if(!(this.state.text === '')){
       this.setState({
         items: this.state.items.concat({
-          id: `list-${this.state.listId}`,
+          id: this.state.currentId+1,
           title: this.state.text,
           data: [],
         }),
         addListMode: true,
-        text: '',
-        listId: this.state.listId + 1
+        text: ''
       });
-      
     } 
     this.addList();
+    
   }
 
   handleListEnter = (e) => {
@@ -98,31 +88,53 @@ class App extends React.Component {
 
   deleteList = (id) => {
     this.setState({
-      items: this.state.items.filter((listitem) => listitem.id !== id)
+      items: this.state.items.filter(carditem => carditem.id !== id)
     });
   }
 
   listUpdate = (id, data) => {
     this.setState({
-      items: this.state.items.map((listitem) => id === listitem.id ? {...listitem, ...data} : listitem)
+      items: this.state.items.map((carditem) => id === carditem.id ? {...carditem, ...data} : carditem)
     });
   }
 
-  // handleDragEnd = () =>{
+  // handleOnDragEnd = (result) => {
+  //   if(!result.destination) return;
+    
+  //   // const currentCards = [...this.state.item];
+  //   // const draggingItemIndex = result.source.index;
+  //   // const afterDragItemIndex = result.destination.index;
+  //   // const removeCard = currentCards.splice(draggingItemIndex, 1);
 
+  //   // currentCards.splice(afterDragItemIndex, 0, removeCard[0]);
+  //   // this.setState({
+  //   //   item: currentCards
+  //   // });
+
+  //   const item = this.state.items.map((item)=> item.id === result.source.index);
+   
+  //   const carditems = reorder(
+  //       this.state.items.map((item, i) => { return item.data }),
+  //       result.source.index,
+  //       result.destination.index
+  //     );
+  //   this.setState({
+  //     items: carditems
+  //   });
   // }
 
   render(){
     const {items, styleT, styleF, text} = this.state;
+    console.log(this.state.items);
     return (
       <div className="root">
         <Top />
         <div className="top-hr"></div>
         <div className="container">
-          
+          <DragDropContext onDragEnd={this.handleOnDragEnd}>
             <div className="wrap">
               <div className="content">
-                {items.map((item) => <List key={item.id} id={item.id} items={items} item={item} title={item.title} data={item.data} cardId={item.data.id} cardText={item.data.cardText} onRemove={this.deleteList} onUpdate={this.listUpdate} />)}
+                {items.map((item, index) => <List key={item.id} id={item.id} item={item} title={item.title} data={item.data} onRemove={this.deleteList} onUpdate={this.listUpdate} />)}
                 <div className="listTrue" onClick={this.addList} style={styleT}>
                   <div className="listClickBefore">
                     <div className="plus-btn"><img src={plus} alt="plus" /></div>
@@ -140,6 +152,7 @@ class App extends React.Component {
                 </div>
               </div>
             </div>
+          </DragDropContext>
         </div>
       </div>
     );
@@ -147,6 +160,3 @@ class App extends React.Component {
 }
 
 export default App;
-
-
-
