@@ -9,11 +9,13 @@ class Cards extends React.Component {
     super(props);
     this.state = {
       cnt: 1,
-      editMode: true,
+      editMode: false,
+      items: props.items,
       id: props.id,
       index: props.index,
       item: props.item,
       data: props.data,
+      cardId: props.cardId,
       cardText: props.cardText,
       style:{
         border: 'none',
@@ -26,20 +28,18 @@ class Cards extends React.Component {
     };
   };
 
-  static getDerivedStateFromProps(props, state){
-    if(props.cardText !== state.cardText){
-      return {
-        cardText: props.cardText
-      };
-    }
-    return null;
-  }
+  
   
   handleCardInput = (e) => {
+    
     this.setState({
-      data: e.target.value
+      cardText: e.target.value
+      //cardText: cardText.concat({})
+    //data: data.map((dataitem) => cardId === dataitem.id ? {cardText: e.target.value } : dataitem )
+     //data: this.state.data.map((dataitem) => id === dataitem.id ? {...dataitem, cardText: e.target.value } : dataitem)
     });
-    this.props.setData(e.target.value);
+
+    //this.props.setData(this.state.data);
   }
 
   handleEdit = () => {
@@ -54,7 +54,7 @@ class Cards extends React.Component {
       if(e.key === 'Enter'){
         e.preventDefault();
         this.setState({
-          data: e.target.value
+          careText : e.target.value
         });
         this.handleEdit();
       }
@@ -63,32 +63,46 @@ class Cards extends React.Component {
 
   handleRemove = (e) => {
     e.preventDefault();
-    this.props.onRemove(this.state.data);
+    this.props.onRemove(this.state.data.id);
+    
     this.setState({
       styleBG: {
         background: '#ffffff'
       }
     });
+    
   }
 
   cardColorChange = () => {
     const {color, cnt} = this.state;
-    this.setState({
-      styleBG: {
-        background: color[cnt]
-      },
-      cnt: cnt + 1
-    });
-    if(cnt >= 5){
+    if(this.state.editMode === false){
       this.setState({
-        cnt: 0
-      })
+        styleBG: {
+          background: color[cnt]
+        },
+        cnt: cnt + 1
+      });
+      if(cnt >= 5){
+        this.setState({
+          cnt: 0
+        })
+      }
     }
   }
-
+  static getDerivedStateFromProps(props, state){
+    if(props.cardText !== state.cardText){
+      return {
+        cardText: props.cardText
+      };
+    }
+    return null;
+  }
   render() {
     const {styleBG, styleItem, editMode, cardText} = this.state;
-    console.log(this.state.cardText);
+    //console.log(this.state.data.id);
+    // console.log(this.state.cardText);
+    //console.log(this.state.cardText);
+    
     return (
           <div>
             <div className="card-color">
@@ -97,8 +111,9 @@ class Cards extends React.Component {
                   <div className="card-card">
                     <div className="card-item" style={styleItem}  onClick={this.cardColorChange}>
                       {
-                        editMode ? <p>{cardText}</p> : 
-                        <input className="card-input" value={cardText} name="cardInput" onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} ></input>
+                        editMode ? 
+                        <input className="card-input" value={cardText} name="cardText" onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} ></input>
+                        : <p>{cardText}</p>
                       }
                     </div>
                     <div className="card-btn">
@@ -161,4 +176,5 @@ class Cards extends React.Component {
   }
 
 export default Cards;
+
 

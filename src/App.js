@@ -9,8 +9,7 @@ import cancel from './img/cancel.png';
 
 class App extends React.Component {
   state={
-    currentId: 3,
-    listId: 14,
+    listId: 3,
     addListMode: true,
     text: '',
     styleT:{
@@ -83,9 +82,10 @@ class App extends React.Component {
           data: [],
         }),
         addListMode: true,
-        text: ''
+        text: '',
+        listId: this.state.listId + 1
       });
-      this.state.listId += 1;
+      
     } 
     this.addList();
   }
@@ -122,7 +122,7 @@ class App extends React.Component {
           
             <div className="wrap">
               <div className="content">
-                {items.map((item) => <List key={item.id} id={item.id} title={item.title} data={item.data} cardText={item.data.cardText} onRemove={this.deleteList} onUpdate={this.listUpdate} />)}
+                {items.map((item) => <List key={item.id} id={item.id} items={items} item={item} title={item.title} data={item.data} cardId={item.data.id} cardText={item.data.cardText} onRemove={this.deleteList} onUpdate={this.listUpdate} />)}
                 <div className="listTrue" onClick={this.addList} style={styleT}>
                   <div className="listClickBefore">
                     <div className="plus-btn"><img src={plus} alt="plus" /></div>
@@ -147,5 +147,6 @@ class App extends React.Component {
 }
 
 export default App;
+
 
 

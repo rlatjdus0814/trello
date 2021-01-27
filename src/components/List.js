@@ -9,10 +9,12 @@ class List extends React.Component {
     super(props);
     this.state = {
       addCardMode: false,
+      cardID: 14,
       items: props.items,
       item: props.item,
       title: props.title,
       data: props.data,
+      cardId: props.cardId,
       cardText: props.cardText,
       id: props.id,
       text: '',
@@ -57,7 +59,7 @@ class List extends React.Component {
     const temp = [].concat(this.state.data);
     temp[index] = data;
     this.setState({
-      data: temp
+      cardText: temp
     });
   }
 
@@ -72,18 +74,24 @@ class List extends React.Component {
       if(e.key === 'Enter'){
         e.preventDefault();
         this.setState({
-          data: this.state.data.concat(e.target.value),
-          text: ''
+          data: this.state.data.concat({
+            id: `card-${this.state.cardID}`,
+            cardText: e.target.value
+          }),
+          text: '',
+          cardID: this.state.cardID + 1
         });
         this.createClick();
       }
     }
   }
 
-  RemoveData = (data) => {
+  RemoveData = (id) => {
     this.setState({
-      data: this.state.data.filter((carditem) => carditem.id !== data.id)
+      data: this.state.data.map((dataitem) => dataitem.filter((carditem) => carditem.id !== id))
+
     });
+   
   }
 
   delList = () => {
@@ -112,7 +120,10 @@ class List extends React.Component {
   }
 
   render() {
-    const {title, data, id, style, text, createT, createF} = this.state;
+    const {title, items, item, data, id, style, text, createT, createF} = this.state;
+    console.log(this.state.data[0]);
+    //console.log(this.state.items.cardId);
+    //console.log(this.state.id);
   return(
     <div className="list">
       <div className="content-wrap">
@@ -124,7 +135,7 @@ class List extends React.Component {
            
           <div className="card-compose">
             { data.map((dataitem, i) => 
-              <Cards key={i} id={id} index={i} className="card" cardText={dataitem.cardText} setData={(data) => this.setData(data, i)} data={dataitem} onRemove={(data) => this.RemoveData(data)} />
+              <Cards key={i} id={id} index={i} items={items} item={item} className="card" cardId={dataitem.cardId} cardText={dataitem.cardText} setData={(data) => this.setData(data, i)} data={dataitem} onRemove={(data) => this.RemoveData(data)} />
             )}
             
           </div>
@@ -162,4 +173,5 @@ class List extends React.Component {
 }
 
 export default List;
+
 
