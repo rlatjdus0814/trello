@@ -14,6 +14,7 @@ import cancel from './img/cancel.png';
   
 //   return result;
 // };
+
 resetServerContext();
 class App extends React.Component {
   state={
@@ -50,7 +51,7 @@ class App extends React.Component {
       styleT: { display: 'none' },
       styleF: { display: 'block' },
       addListMode: false
-    }) : 
+    }) :  
     this.setState({
       styleT: { display: 'block' },
       styleF: { display: 'none' },
@@ -68,7 +69,7 @@ class App extends React.Component {
     if(!(this.state.text === '')){
       this.setState({
         items: this.state.items.concat({
-          id: this.state.currentId+1,
+          currentid: this.state.currentId+1,
           title: this.state.text,
           data: [],
         }),
@@ -77,7 +78,6 @@ class App extends React.Component {
       });
     } 
     this.addList();
-    
   }
 
   handleListEnter = (e) => {
@@ -98,34 +98,49 @@ class App extends React.Component {
     });
   }
 
-  // handleOnDragEnd = (result) => {
-  //   if(!result.destination) return;
+  handleOnDragEnd = (result) => {
+    //console.log(result);
+    //const itemdata = this.state.items.map((item, i) => ( item[i] ));
+    const itemdata = this.state.items.map((item) => ( item.data.map((items) => (items) ) ));
+    if(!result.destination) return;
     
-  //   // const currentCards = [...this.state.item];
-  //   // const draggingItemIndex = result.source.index;
-  //   // const afterDragItemIndex = result.destination.index;
-  //   // const removeCard = currentCards.splice(draggingItemIndex, 1);
+    const currentCards = itemdata;
+    const dragItemIndex = result.source.index;
+    const dropItemIndex = result.destination.index;
+    const removeCard = currentCards.splice(dragItemIndex, 1);
 
-  //   // currentCards.splice(afterDragItemIndex, 0, removeCard[0]);
-  //   // this.setState({
-  //   //   item: currentCards
-  //   // });
-
-  //   const item = this.state.items.map((item)=> item.id === result.source.index);
+    // console.log(dragItemIndex);
+    // console.log(dropItemIndex);
+    // console.log(this.state.itemdata);
+    currentCards.splice(dropItemIndex, 0, removeCard);
+    this.setState({
+      data: currentCards
+    });
    
-  //   const carditems = reorder(
-  //       this.state.items.map((item, i) => { return item.data }),
-  //       result.source.index,
-  //       result.destination.index
-  //     );
-  //   this.setState({
-  //     items: carditems
-  //   });
-  // }
+    // console.log(removeCard);
+    // console.log(currentCards);
+
+    // console.log(this.state.items);
+
+    //const items = this.state.items.map((item)=> item.id === result.source.index);
+   
+    // const items = reorder(
+    //   //this.state.items.map((item, i) => { return item = this.state.id}),
+    //   //this.state.items,
+    //   itemdata,
+    //   result.source.index,
+    //   result.destination.index
+    // );
+
+    // this.setState({
+    //   items
+    // });
+  }
 
   render(){
     const {items, styleT, styleF, text} = this.state;
-    console.log(this.state.items);
+    const itemdata = this.state.items.map((item) => ( item.data.map((items) => (items) ) ));
+    console.log(itemdata);
     return (
       <div className="root">
         <Top />
@@ -134,7 +149,7 @@ class App extends React.Component {
           <DragDropContext onDragEnd={this.handleOnDragEnd}>
             <div className="wrap">
               <div className="content">
-                {items.map((item, index) => <List key={item.id} id={item.id} item={item} title={item.title} data={item.data} onRemove={this.deleteList} onUpdate={this.listUpdate} />)}
+                {items.map((item, index) => <List key={index} id={index} item={item} title={item.title} data={item.data} onRemove={this.deleteList} onUpdate={this.listUpdate} />)}
                 <div className="listTrue" onClick={this.addList} style={styleT}>
                   <div className="listClickBefore">
                     <div className="plus-btn"><img src={plus} alt="plus" /></div>

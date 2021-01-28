@@ -21,7 +21,7 @@ class Cards extends React.Component {
       styleBG:{
         background: '#ffffff'
       },
-      color: ['#ffffff', '#fddfe3', '#fcfbed', ' #dcf5eb', '#e5edf8', '#eee5f8']
+      color: ['#ffffff', '#fddfe3', '#fcfbed', ' #dff3eb', '#e5edf8', '#eee5f8']
     };
   };
 
@@ -53,7 +53,6 @@ class Cards extends React.Component {
     if(!(this.state.data === '')){
       if(e.key === 'Enter'){
         e.preventDefault();
-        e.focus();
         this.setState({
           data: e.target.value
         });

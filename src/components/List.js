@@ -110,13 +110,8 @@ class List extends React.Component {
     this.createClick();
   }
 
-  // findCard = (id) => {
-  //   const card = cards.filter
-  // }
-
   render() {
     const {title, data, id, style, text, createT, createF} = this.state;
- 
   return(
     <div className="list">
       <div className="content-wrap">
@@ -125,13 +120,12 @@ class List extends React.Component {
             <div className="card-top-title"><input value={title} style={style} onClick={this.titleClick} onChange={this.handleTitleInput} onKeyPress={this.handleTitleEdit}></input></div>
             <div className="card-delete-btn" onClick={this.delList}><img src={cancel} alt="delete" /></div>
           </div>
-          <Droppable droppableId={String(id)} type={String(id)===this.state.id ? "active" : "done"}>
+          <Droppable droppableId={String(id)}>
             {provided => (
               <div className="card-compose" {...provided.droppableProps} ref={provided.innerRef}>
                 { data.map((dataitem, i) => 
-                  <Cards key={i} id={dataitem} index={i} className="card" setData={(data) => this.setData(data, i)} data={dataitem} onRemove={() => this.RemoveData(i)} moveCard={this.moveCard} findCard={this.findCard} />
+                  <Cards key={i} id={dataitem} index={i} className="card" setData={(data) => this.setData(data, i)} data={dataitem} onRemove={() => this.RemoveData(i)} />
                 )}
-                {String(id)}
                 {provided.placeholder}
               </div>
             )}
