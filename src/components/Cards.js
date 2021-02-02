@@ -39,7 +39,6 @@ class Cards extends React.Component {
       data: e.target.value
     });
     this.props.setData(e.target.value);
-    console.log(this.state.data);
   }
 
   handleEdit = () => {

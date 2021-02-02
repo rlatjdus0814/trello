@@ -83,6 +83,7 @@ class List extends React.Component {
     this.setState({
       data: this.state.data.filter((dataitem, index, newData) => index !== i )
     });
+    
   }
 
   delList = () => {
