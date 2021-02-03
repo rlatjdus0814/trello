@@ -7,7 +7,6 @@ import List from './components/List.js';
 import plus from './img/plus.png';
 import cancel from './img/cancel.png';
 
-
 resetServerContext();
 class App extends React.Component {
   state={
@@ -36,6 +35,15 @@ class App extends React.Component {
       title: 'genre',
       data: ['comedy', 'darama', 'horror', 'romance']
     }],
+  }
+
+  static getDerivedStateFromProps(props, state){
+    if(props.state !== state.state){
+      return {
+        state: props.state
+      };
+    }
+    return null;
   }
 
   addList = () => {
@@ -97,18 +105,21 @@ class App extends React.Component {
   const result = Array.from(list);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
-  console.log(result);
 
   return result;
 };
 
   handleOnDragEnd = (result) => {
     console.log(result);
-   
     const { destination, source } = result;
     if(!destination) return;
+    if(destination.droppableId === source.droppableId && destination.index === source.index) return;
+    
     if(destination.droppableId === source.droppableId){
       const itemData = this.state.items.map((item) => (item.data));
+      //const start = source.droppableId;
+      //const finish = this.state.itemData[destination.droppableId];
+
       console.log(itemData);
       const moveItem = this.reorder(
         itemData[source.droppableId],
@@ -117,30 +128,36 @@ class App extends React.Component {
       );
       console.log(moveItem);
 
-      this.setState({
-        data: moveItem,
-        items: {
-          ...this.state.items,
+      const updateData = {
+        ...itemData,
+        [source.droppableId]: moveItem
+      };
+      console.log(updateData);
 
-        }
-        
+      const newState = {
+        ...this.state,
+        items:
+          this.state.items.map((newItems, i) => ({
+            ...newItems,
+            data: updateData[i],
+          }))
+
+          // ...this.state.items,
+          // [source.droppableId]: {
+          //   ...this.state.data,
+          //   data: updateData[0]
+          // }
+      };
+      this.setState({
+        state: newState
       });
-      console.log(itemData);
       console.log(this.state.items);
-        
-      }
+      console.log(newState);
+    }
   }
 
   render(){
     const {items, styleT, styleF, text} = this.state;
-    // const itemtitle = this.state.items.map((itemT) => itemT.title);
-    // console.log(itemtitle[0]);
-    // const itemdata = this.state.items.map((item) => ( item.data.map((dataitem) => dataitem)));
-    // console.log(itemdata);
-    // const test1 = this.state.items.map(item )
-    // const itemdata = this.state.items.map((item) => ( item.data));
-    // console.log(this.state.items.data);
-    // console.log(itemdata);
     return (
       <div className="root">
         <Top />
