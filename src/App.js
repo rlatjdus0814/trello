@@ -36,15 +36,12 @@ class App extends React.Component {
       data: ['comedy', 'darama', 'horror', 'romance']
     }],
   }
-
-  static getDerivedStateFromProps(props, state){
-    if(props.state !== state.state){
-      return {
-        state: props.state
-      };
-    }
-    return null;
-  }
+ 
+  // componentDidUpdate(prevProps, prevState) {
+  //   if(prevProps.state !== prevState.state){
+  //     this.fetchData(prevState.state);
+  //   }
+  // }
 
   addList = () => {
     (this.state.addListMode) ? 
@@ -101,13 +98,13 @@ class App extends React.Component {
     });
   }
 
- reorder = (list, startIndex, endIndex) => {
-  const result = Array.from(list);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
+  reorder = (list, startIndex, endIndex) => {
+    const result = Array.from(list);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
 
-  return result;
-};
+    return result;
+  };
 
   handleOnDragEnd = (result) => {
     console.log(result);
@@ -117,10 +114,8 @@ class App extends React.Component {
     
     if(destination.droppableId === source.droppableId){
       const itemData = this.state.items.map((item) => (item.data));
-      //const start = source.droppableId;
-      //const finish = this.state.itemData[destination.droppableId];
-
       console.log(itemData);
+
       const moveItem = this.reorder(
         itemData[source.droppableId],
         source.index,
@@ -136,28 +131,20 @@ class App extends React.Component {
 
       const newState = {
         ...this.state,
-        items:
-          this.state.items.map((newItems, i) => ({
-            ...newItems,
-            data: updateData[i],
-          }))
-
-          // ...this.state.items,
-          // [source.droppableId]: {
-          //   ...this.state.data,
-          //   data: updateData[0]
-          // }
+        items: this.state.items.map((newItems, i) => ({
+                  ...newItems,
+                  data: updateData[i],
+                }))
       };
-      this.setState({
-        state: newState
-      });
+      this.setState(newState);
       console.log(this.state.items);
-      console.log(newState);
-    }
+    };
   }
-
+  
   render(){
     const {items, styleT, styleF, text} = this.state;
+    console.log(this.state);
+    console.log(this.state.items);
     return (
       <div className="root">
         <Top />
