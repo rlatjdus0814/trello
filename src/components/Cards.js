@@ -11,9 +11,9 @@ class Cards extends React.Component {
       cnt: 1,
       editMode: false,
       id: props.id,
-      item: props.item,
-      data: props.data,
+      items: props.items,
       index: props.index,
+      data: props.data,
       style:{
         border: 'none',
         height: '20px'
@@ -89,11 +89,12 @@ class Cards extends React.Component {
 
   render() {
     const {data, id, styleBG, styleItem, editMode, index} = this.state;
-    //console.log(id);
+    console.log(data);
+    console.log(index);
     return (
-      <Draggable key={id} draggableId={String(id)} index={index}>
+      <Draggable key={index} draggableId={`${id}`} index={index}>
         {(provided) => (
-            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+            <div key={index} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
               <div className="card-color">
               <div className="card-compose-card" style={styleBG}>
                 <form>

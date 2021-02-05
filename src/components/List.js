@@ -115,7 +115,7 @@ class List extends React.Component {
   render() {
     const {title, data, id, style, text, createT, createF} = this.state;
     // console.log(data.map((dataitem, i) => data[i]));
-    // console.log();
+    console.log(data);
   return(
     <div className="list">
       <div className="content-wrap">
@@ -126,9 +126,9 @@ class List extends React.Component {
           </div>
           <Droppable droppableId={String(id)}>
             { provided => (
-              <div className="card-compose" {...provided.droppableProps} ref={provided.innerRef}>
+              <div className="lists" {...provided.droppableProps} ref={provided.innerRef}>
                 { data.map((dataitem, i) => 
-                  <Cards key={i} id={dataitem} index={i} className="card" setData={(data) => this.setData(data, i)} data={dataitem} onRemove={() => this.RemoveData(i)} />
+                  <Cards key={i} id={dataitem} index={i} setData={(data) => this.setData(data, i)} data={dataitem} onRemove={() => this.RemoveData(i)} />
                 )}
                 {provided.placeholder}
               </div>

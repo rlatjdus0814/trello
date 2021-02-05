@@ -134,9 +134,7 @@ class App extends React.Component {
                   data: updateData[i],
                 }))
       };
-      this.setState({
-        state: newState
-      });
+      this.setState(newState);
       console.log(newState);
     };
   }
@@ -153,7 +151,7 @@ class App extends React.Component {
           <DragDropContext onDragEnd={this.handleOnDragEnd}>
             <div className="wrap">
               <div className="content">
-                {items.map((item, index) => <List key={index} id={index} item={item} title={item.title} data={item.data} onRemove={this.deleteList} onUpdate={this.listUpdate} />)} 
+                {items.map((item, index) => <List key={index} id={index} item={item} title={item.title} data={item.data} className="list" onRemove={this.deleteList} onUpdate={this.listUpdate} />)} 
                 <div className="listTrue" onClick={this.addList} style={styleT}>
                   <div className="listClickBefore">
                     <div className="plus-btn"><img src={plus} alt="plus" /></div>
