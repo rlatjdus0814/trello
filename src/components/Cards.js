@@ -89,18 +89,17 @@ class Cards extends React.Component {
 
   render() {
     const {data, id, styleBG, styleItem, editMode, index} = this.state;
+    //console.log(id);
     return (
       <Draggable key={id} draggableId={String(id)} index={index}>
-        {
-          provided => (
+        {(provided) => (
             <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
               <div className="card-color">
               <div className="card-compose-card" style={styleBG}>
                 <form>
                   <div className="card-card">
                     <div className="card-item" style={styleItem}  onClick={this.cardColorChange}>
-                      {
-                        editMode ? 
+                      {editMode ? 
                         <input className="card-input" value={data} name="cardInput" onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} ></input>
                         : <p>{data}</p> 
                       }

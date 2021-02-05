@@ -114,14 +114,12 @@ class App extends React.Component {
     
     if(destination.droppableId === source.droppableId){
       const itemData = this.state.items.map((item) => (item.data));
-      console.log(itemData);
 
       const moveItem = this.reorder(
         itemData[source.droppableId],
         source.index,
         destination.index
       );
-      console.log(moveItem);
 
       const updateData = {
         ...itemData,
@@ -136,8 +134,10 @@ class App extends React.Component {
                   data: updateData[i],
                 }))
       };
-      this.setState(newState);
-      console.log(this.state.items);
+      this.setState({
+        state: newState
+      });
+      console.log(newState);
     };
   }
   

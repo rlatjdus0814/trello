@@ -106,13 +106,16 @@ class List extends React.Component {
 
   cancelClick = () => {
     this.setState({
-      addCardMode: false
+      addCardMode: false,
+      text: ''
     });
     this.createClick();
   }
 
   render() {
     const {title, data, id, style, text, createT, createF} = this.state;
+    // console.log(data.map((dataitem, i) => data[i]));
+    // console.log();
   return(
     <div className="list">
       <div className="content-wrap">
@@ -122,7 +125,7 @@ class List extends React.Component {
             <div className="card-delete-btn" onClick={this.delList}><img src={cancel} alt="delete" /></div>
           </div>
           <Droppable droppableId={String(id)}>
-            {provided => (
+            { provided => (
               <div className="card-compose" {...provided.droppableProps} ref={provided.innerRef}>
                 { data.map((dataitem, i) => 
                   <Cards key={i} id={dataitem} index={i} className="card" setData={(data) => this.setData(data, i)} data={dataitem} onRemove={() => this.RemoveData(i)} />
