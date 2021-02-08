@@ -14,6 +14,7 @@ class Cards extends React.Component {
       items: props.items,
       index: props.index,
       data: props.data,
+      dataitem: props.dataitem,
       style:{
         border: 'none',
         height: '20px'
@@ -88,21 +89,22 @@ class Cards extends React.Component {
   }
 
   render() {
-    const {data, id, styleBG, styleItem, editMode, index} = this.state;
-    console.log(data);
-    console.log(index);
+    const {dataitem, styleBG, styleItem, editMode, index} = this.state;
+    // console.log(data);
+    // console.log(index);
+    // console.log(dataitem);
     return (
-      <Draggable key={index} draggableId={`${id}`} index={index}>
+      <Draggable key={index} draggableId={String(dataitem)} index={index}>
         {(provided) => (
-            <div key={index} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
               <div className="card-color">
               <div className="card-compose-card" style={styleBG}>
                 <form>
                   <div className="card-card">
                     <div className="card-item" style={styleItem}  onClick={this.cardColorChange}>
                       {editMode ? 
-                        <input className="card-input" value={data} name="cardInput" onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} ></input>
-                        : <p>{data}</p> 
+                        <input className="card-input" value={dataitem} name="cardInput" onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} ></input>
+                        : <p>{dataitem}</p> 
                       }
                     </div>
                     <div className="card-btn">

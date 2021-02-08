@@ -135,14 +135,15 @@ class App extends React.Component {
                 }))
       };
       this.setState(newState);
-      console.log(newState);
+      return;
+      //console.log(newState);
     };
   }
   
   render(){
     const {items, styleT, styleF, text} = this.state;
-    console.log(this.state);
-    console.log(this.state.items);
+    // console.log(this.state);
+    // console.log(this.state.items);
     return (
       <div className="root">
         <Top />
@@ -151,7 +152,7 @@ class App extends React.Component {
           <DragDropContext onDragEnd={this.handleOnDragEnd}>
             <div className="wrap">
               <div className="content">
-                {items.map((item, index) => <List key={index} id={index} item={item} title={item.title} data={item.data} className="list" onRemove={this.deleteList} onUpdate={this.listUpdate} />)} 
+                {items.map((item, index) => <List key={index} id={index} item={item} title={item.title} data={items[index].data} className="list" onRemove={this.deleteList} onUpdate={this.listUpdate} />)} 
                 <div className="listTrue" onClick={this.addList} style={styleT}>
                   <div className="listClickBefore">
                     <div className="plus-btn"><img src={plus} alt="plus" /></div>

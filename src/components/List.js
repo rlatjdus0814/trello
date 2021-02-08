@@ -115,7 +115,8 @@ class List extends React.Component {
   render() {
     const {title, data, id, style, text, createT, createF} = this.state;
     // console.log(data.map((dataitem, i) => data[i]));
-    console.log(data);
+    // console.log(data);
+    // console.log(id);
   return(
     <div className="list">
       <div className="content-wrap">
@@ -124,11 +125,11 @@ class List extends React.Component {
             <div className="card-top-title"><input value={title} style={style} onClick={this.titleClick} onChange={this.handleTitleInput} onKeyPress={this.handleTitleEdit}></input></div>
             <div className="card-delete-btn" onClick={this.delList}><img src={cancel} alt="delete" /></div>
           </div>
-          <Droppable droppableId={String(id)}>
-            { provided => (
-              <div className="lists" {...provided.droppableProps} ref={provided.innerRef}>
+          <Droppable droppableId={`${id}`}>
+            {(provided) => (
+              <div className="cards" {...provided.droppableProps} ref={provided.innerRef}>
                 { data.map((dataitem, i) => 
-                  <Cards key={i} id={dataitem} index={i} setData={(data) => this.setData(data, i)} data={dataitem} onRemove={() => this.RemoveData(i)} />
+                  <Cards key={i} id={dataitem} index={i} dataitem={dataitem} setData={(data) => this.setData(data, i)} data={data} onRemove={() => this.RemoveData(i)} />
                 )}
                 {provided.placeholder}
               </div>
