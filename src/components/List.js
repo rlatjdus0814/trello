@@ -9,11 +9,11 @@ class List extends React.Component {
     super(props);
     this.state = {
       addCardMode: false,
-      items: props.items,
-      item: props.item,
-      title: props.title,
-      data: props.data,
       id: props.id,
+      list: props.list,
+      card: props.card,
+      title: props.title,
+      todoData: props.todoData,
       text: '',
       style: {
         border: 'none',
@@ -52,11 +52,11 @@ class List extends React.Component {
     }
   }
 
-  setData = (data, index) => {
-    const temp = [].concat(this.state.data);
-    temp[index] = data;
+  setData = (content, index) => {
+    const temp = [].concat(this.state.content);
+    temp[index] = content;
     this.setState({
-      data: temp
+      content: temp
     });
   }
 
@@ -79,9 +79,9 @@ class List extends React.Component {
     }
   }
 
-  RemoveData = (i) => {
+  RemoveData = (cardId) => {
     this.setState({
-      data: this.state.data.filter((dataitem, index, newData) => index !== i )
+      card: this.state.card.filter((dataitem, item, newData) => item !== cardId )
     });
     
   }
@@ -113,9 +113,19 @@ class List extends React.Component {
   }
 
   render() {
-    const {title, data, id, style, text, createT, createF} = this.state;
+    const {id, list, card, title, data, todoData, style, text, createT, createF} = this.state;
     // console.log(data.map((dataitem, i) => data[i]));
-    // console.log(data);
+    const cards = card.map((dataid) => dataid.id);
+     console.log(cards);
+    // console.log(card);
+    // console.log(list);
+    // console.log(list.cardIds);
+    // console.log(card.filter((cardIds) => cardIds.id ));
+
+    console.log(this.state.card.filter((item) => item.id !== cards));
+    //console.log(this.state.card.filter((item) => item.id !== cardId));
+    //console.log(list.cardIds.filter((id) => return id !==  ));
+    //console.log(this.state.list.cardIds.filter((id) => id !== cardId ))
     // console.log(id);
   return(
     <div className="list">
@@ -128,8 +138,8 @@ class List extends React.Component {
           <Droppable droppableId={`${id}`}>
             {(provided) => (
               <div className="cards" {...provided.droppableProps} ref={provided.innerRef}>
-                { data.map((dataitem, i) => 
-                  <Cards key={i} id={dataitem} index={i} dataitem={dataitem} setData={(data) => this.setData(data, i)} data={data} onRemove={() => this.RemoveData(i)} />
+                { card.map((card, i) => 
+                  <Cards key={card.id} id={card.id} index={i} card={card} content={card.content} setData={(card) => this.setData(card, i)} onRemove={() => this.RemoveData(i)} />
                 )}
                 {provided.placeholder}
               </div>
