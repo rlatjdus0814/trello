@@ -1,4 +1,14 @@
 const todoData = {
+  cardId: 13,
+  listId: 2,
+  addListMode: true,
+  text: '',
+  styleT: {
+    display: 'block'
+  },
+  styleF: {
+    display: 'none'
+  },
   cards: {
     'card-0': {id: 'card-0', content: 'Monday'},
     'card-1': {id: 'card-1', content: 'Tuesday'},

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Draggable } from 'react-beautiful-dnd';
 import '../App.css';
 import cancel from '../img/cancel.png';
@@ -24,6 +25,11 @@ class Cards extends React.Component {
       color: ['#ffffff', '#fddfe3', '#fcfbed', ' #dff3eb', '#e5edf8', '#eee5f8']
     };
   };
+
+  static propTypes = {
+    lists: PropTypes.object,
+    cards: PropTypes.array,
+  }
 
   static getDerivedStateFromProps(props, state){
     if(props.card !== state.card){
@@ -88,7 +94,7 @@ class Cards extends React.Component {
   }
 
   render() {
-    const {content,card, styleBG, styleItem, editMode, index} = this.state;
+    const {content, styleBG, styleItem, editMode, index} = this.state;
     // console.log(data);
     // console.log(index);
     // console.log(content);

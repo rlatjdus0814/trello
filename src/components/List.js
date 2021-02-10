@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Droppable } from 'react-beautiful-dnd';
 import '../App.css';
 import Cards from './Cards.js';
@@ -13,7 +14,7 @@ class List extends React.Component {
       list: props.list,
       card: props.card,
       title: props.title,
-      todoData: props.todoData,
+      TodoData: props.TodoData,
       text: '',
       style: {
         border: 'none',
@@ -25,6 +26,11 @@ class List extends React.Component {
         display: 'block'
       }
     };
+  }
+
+  static propTypes = {
+    lists: PropTypes.object,
+    cards: PropTypes.array,
   }
 
   handleTitleInput = (e) => {
@@ -113,20 +119,10 @@ class List extends React.Component {
   }
 
   render() {
-    const {id, list, card, title, data, todoData, style, text, createT, createF} = this.state;
-    // console.log(data.map((dataitem, i) => data[i]));
-    const cards = card.map((dataid) => dataid.id);
-     console.log(cards);
-    // console.log(card);
+    const {id, card, title, style, text, createT, createF} = this.state;
+    // console.log(TodoData);
     // console.log(list);
-    // console.log(list.cardIds);
-    // console.log(card.filter((cardIds) => cardIds.id ));
-
-    console.log(this.state.card.filter((item) => item.id !== cards));
-    //console.log(this.state.card.filter((item) => item.id !== cardId));
-    //console.log(list.cardIds.filter((id) => return id !==  ));
-    //console.log(this.state.list.cardIds.filter((id) => id !== cardId ))
-    // console.log(id);
+     //console.log(card);
   return(
     <div className="list">
       <div className="content-wrap">
