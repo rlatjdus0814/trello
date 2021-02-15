@@ -29,7 +29,7 @@ class List extends React.Component {
       }
     };
   }
-  
+
   handleTitleInput = (e) => {
     this.setState({
       title: e.target.value
@@ -68,6 +68,13 @@ class List extends React.Component {
       text: e.target.value
     });
   }
+ 
+
+//  componentDidUpdate(prevProps) {
+//    if(this.state.cardId <= prevProps.cardId){
+//     this.fetchData({cardtId: prevProps.cardId+1});
+//    }
+// }
 
   handleAddCard = (e) =>{
     if(!(this.state.text === '')){
@@ -85,8 +92,10 @@ class List extends React.Component {
           }),
           text: '',
           cardId: this.state.cardId+1
+         
         });
         this.createClick();
+        this.componentDidUpdate();
       }
     }
   }

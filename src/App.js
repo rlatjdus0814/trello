@@ -78,12 +78,9 @@ class App extends React.Component {
       text: e.target.value
     });
   }
-
+  
   addBtn = () => {
     if(!(this.state.text === '')){
-      // const order = this.state.listOrder.map((todo) => {
-      //   lists[todo];
-      // })
       this.setState({
         lists : [...this.state.lists, 
           {
@@ -92,30 +89,11 @@ class App extends React.Component {
             cardIds: [],
           }
         ],
-        // `list-${this.state.listId+1}`: {
-        //   id: `list-${this.state.listId+1}`,
-        //   title: this.state.text,
-        //   cardIds: [],
-        //},
-        
-
-        //const card = list.cardIds.map((data) => cards[data]);
-        // lists: Object.assign({
-        //   `list-${this.state.listId+1}`: {
-        //     id: `list-${this.state.listId+1}`,
-        //     title: this.state.text,
-        //     cardIds: [],
-        //   }
-        // }),
-        
-        // lists: Object.assign(...lists, {
-        //       id: `list-${this.state.listId+1}`,
-        //       title: this.state.text,
-        //       cardIds: [],
-        //     }),
         addListMode: true,
-        text: ''
+        text: '',
+        listId: this.state.listId+1
       });
+
     } 
     this.addList();
   }
@@ -144,43 +122,42 @@ class App extends React.Component {
     const result = Array.from(list);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
-
     return result;
   };
 
-  // handleOnDragEnd = (result) => {
-  //   console.log(result);
-  //   const { destination, source } = result;
-  //   //if(!destination) return;
-  //   if(destination.droppableId === source.droppableId && destination.index === source.index) return;
+  handleOnDragEnd = (result) => {
+    console.log(result);
+    const { destination, source } = result;
+    //if(!destination) return;
+    if(destination.droppableId === source.droppableId && destination.index === source.index) return;
     
-  //   if(destination.droppableId === source.droppableId){
-  //     const itemData = this.state.lists.map((item) => (item.data));
+    if(destination.droppableId === source.droppableId){
+      const itemData = this.state.lists.map((item) => (item.data));
 
-  //     const moveItem = this.reorder(
-  //       itemData[source.droppableId],
-  //       source.index,
-  //       destination.index
-  //     );
+      const moveItem = this.reorder(
+        itemData[source.droppableId],
+        source.index,
+        destination.index
+      );
 
-  //     const updateData = {
-  //       ...itemData,
-  //       [source.droppableId]: moveItem
-  //     };
-  //     console.log(updateData);
+      const updateData = {
+        ...itemData,
+        [source.droppableId]: moveItem
+      };
+      console.log(updateData);
 
-  //     const newState = {
-  //       ...this.state,
-  //       lists: this.state.lists.map((newlists, i) => ({
-  //                 ...newlists,
-  //                 data: updateData[i],
-  //               }))
-  //     };
-  //     this.setState(newState);
-  //     return;
-  //     //console.log(newState);
-  //   };
-  //}
+      const newState = {
+        ...this.state,
+        lists: this.state.lists.map((newlists, i) => ({
+                  ...newlists,
+                  data: updateData[i],
+                }))
+      };
+      this.setState(newState);
+      return;
+      //console.log(newState);
+    };
+  }
   
   render(){
     const {lists, cards, cardId, listId, styleT, styleF, text} = this.state;
