@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { Droppable } from 'react-beautiful-dnd';
 import '../App.css';
 import Cards from './Cards.js';
@@ -11,10 +10,13 @@ class List extends React.Component {
     this.state = {
       addCardMode: false,
       id: props.id,
+      lists: props.lists,
       list: props.list,
       card: props.card,
       title: props.title,
-      TodoData: props.TodoData,
+      cardId: props.cardId,
+      listId: props.listId,
+      cardIds: props.cardIds,
       text: '',
       style: {
         border: 'none',
@@ -27,12 +29,7 @@ class List extends React.Component {
       }
     };
   }
-
-  static propTypes = {
-    lists: PropTypes.object,
-    cards: PropTypes.array,
-  }
-
+  
   handleTitleInput = (e) => {
     this.setState({
       title: e.target.value
@@ -77,8 +74,17 @@ class List extends React.Component {
       if(e.key === 'Enter'){
         e.preventDefault();
         this.setState({
-          data: this.state.data.concat(e.target.value),
-          text: ''
+          list: {
+            ...this.state.list,
+            cardIds: this.state.cardIds.concat(`${this.state.cardId+1}`),
+          },
+          cardIds: this.state.cardIds.concat(`${this.state.cardId+1}`),
+          card: this.state.card.concat({
+            id: this.state.cardId+1,
+            content: e.target.value,
+          }),
+          text: '',
+          cardId: this.state.cardId+1
         });
         this.createClick();
       }
@@ -87,6 +93,11 @@ class List extends React.Component {
 
   RemoveData = (cardId) => {
     this.setState({
+      list: {
+        ...this.state.list,
+        cardIds: this.state.cardIds.filter((dataitem, item, newData) => item !== cardId ),
+      },
+      cardIds: this.state.cardIds.filter((dataitem, item, newData) => item !== cardId ),
       card: this.state.card.filter((dataitem, item, newData) => item !== cardId )
     });
     
@@ -119,10 +130,10 @@ class List extends React.Component {
   }
 
   render() {
-    const {id, card, title, style, text, createT, createF} = this.state;
-    // console.log(TodoData);
-    // console.log(list);
-     //console.log(card);
+    const {id, card, list, cardIds, title, style, text, createT, createF} = this.state;
+     console.log(card);
+     console.log(cardIds);
+     console.log(list);
   return(
     <div className="list">
       <div className="content-wrap">

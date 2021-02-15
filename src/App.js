@@ -1,28 +1,63 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import { DragDropContext } from 'react-beautiful-dnd';
 import { resetServerContext } from 'react-beautiful-dnd';
 import './App.css';
 import Top from './components/Top.js';
 import List from './components/List.js';
-import TodoData from './components/TodoData.js';
 import plus from './img/plus.png';
 import cancel from './img/cancel.png';
 
 resetServerContext();
 class App extends React.Component {
-  state = TodoData;
+  state = {
+    cardId: 13,
+    listId: 2,
+    addListMode: true,
+    text: '',
+    styleT: {
+      display: 'block'
+    },
+    styleF: {
+      display: 'none'
+    },
+    cards: {
+      '0': {id: 0, content: 'Monday'},
+      '1': {id: 1, content: 'Tuesday'},
+      '2': {id: 2, content: 'Wednesday'},
+      '3': {id: 3, content: 'Thursday'},
+      '4': {id: 4, content: 'Friday'},
+      '5': {id: 5, content: 'Saturday'},
+      '6': {id: 6, content: 'Sunday'},
+      '7': {id: 7, content: 'Korean'},
+      '8': {id: 8, content: 'Math'},
+      '9': {id: 9, content: 'English'},
+      '10': {id: 10, content: 'Comedy'},
+      '11': {id: 11, content: 'Darama'},
+      '12': {id: 12, content: 'Horror'},
+      '13': {id: 13, content: 'Romace'},
+    },
+    lists: [
+      {
+        id: 0,
+        title: 'weekend',
+        cardIds: ['0', '1', '2', '3', '4', '5', '6']
+      },{
+        id: 1,
+        title: 'subject',
+        cardIds: ['7', '8', '9']
+      },{
+        id: 2,
+        title: 'genre',
+        cardIds: ['10', '11', '12', '13']
+      },
+
+    ]}
  
   // componentDidUpdate(prevProps, prevState) {
   //   if(prevProps.state !== prevState.state){
   //     this.fetchData(prevState.state);
   //   }
   // }
-
-  static propTypes = {
-    lists: PropTypes.object,
-    cards: PropTypes.array,
-  }
 
   addList = () => {
     (this.state.addListMode) ? 
@@ -50,16 +85,18 @@ class App extends React.Component {
       //   lists[todo];
       // })
       this.setState({
-        // lists : {...order, 
-        //   {`list-${this.state.listId+1}`:{id: `list-${this.state.listId+1}`,
-        //   title: this.state.text,
-        //   cardIds: [],
-        // }}},
+        lists : [...this.state.lists, 
+          {
+            id: this.state.listId+1,
+            title: this.state.text,
+            cardIds: [],
+          }
+        ],
         // `list-${this.state.listId+1}`: {
         //   id: `list-${this.state.listId+1}`,
         //   title: this.state.text,
         //   cardIds: [],
-        // },
+        //},
         
 
         //const card = list.cardIds.map((data) => cards[data]);
@@ -76,7 +113,6 @@ class App extends React.Component {
         //       title: this.state.text,
         //       cardIds: [],
         //     }),
-        listOrder: this.state.listOrder.concat(`list-${this.state.listId+1}`),
         addListMode: true,
         text: ''
       });
@@ -94,13 +130,13 @@ class App extends React.Component {
     //this.setState((prevState, prevProps)=>)
     //his.setState({lists: this.state.lists.filter(carditem => carditem.id !== id)}
     this.setState({
-      listOrder: this.state.listOrder.filter((carditem) => carditem !== id)
+      lists: this.state.lists.filter((carditem) => carditem.id !== id)
     });
   }
 
   listUpdate = (id, data) => {
     this.setState({
-      listOrder: this.state.listOrder.map((carditem) => carditem.id === id ? {...carditem, ...data} : carditem)
+      lists: this.state.lists.map((carditem) => carditem.id === id ? {...carditem, ...data} : carditem)
     });
   }
 
@@ -147,11 +183,11 @@ class App extends React.Component {
   //}
   
   render(){
-    const {lists, cards, listOrder, styleT, styleF, text} = this.state;
-    console.log(TodoData);
-    console.log(this.state);
-    console.log(this.state.listOrder);
-    console.log(this.state.lists);
+    const {lists, cards, cardId, listId, styleT, styleF, text} = this.state;
+    //console.log(TodoData);
+   // console.log(this.state);
+    //console.log(this.state.listOrder);
+    //console.log(this.state.lists);
     
     // // console.log(TodoData.lists);
     // const Data = TodoData.listOrder;
@@ -175,11 +211,12 @@ class App extends React.Component {
           <DragDropContext>
             <div className="wrap">
               <div className="content">
-                {listOrder.map((todo) => {
-                  const list = lists[todo];
-                  console.log(list);
+                {lists.map((todo) => {
+                  const list = todo;
                   const card = list.cardIds.map((data) => cards[data]);
-                  return <List key={list.id} id={list.id} list={list} card={card} title={list.title} TodoData={TodoData} onRemove={this.deleteList} onUpdate={this.listUpdate} />;
+                  //console.log(card);
+                  //console.log(list.cardIds);
+                  return <List key={list.id} id={list.id} lists={lists} list={list} card={card} cardIds={list.cardIds} title={list.title} cardId={cardId} listId={listId} onRemove={this.deleteList} onUpdate={this.listUpdate} />;
                 })}
                 <div className="listTrue" onClick={this.addList} style={styleT}>
                   <div className="listClickBefore">
