@@ -68,13 +68,6 @@ class List extends React.Component {
       text: e.target.value
     });
   }
- 
-
-//  componentDidUpdate(prevProps) {
-//    if(this.state.cardId <= prevProps.cardId){
-//     this.fetchData({cardtId: prevProps.cardId+1});
-//    }
-// }
 
   handleAddCard = (e) =>{
     if(!(this.state.text === '')){
@@ -92,10 +85,8 @@ class List extends React.Component {
           }),
           text: '',
           cardId: this.state.cardId+1
-         
         });
         this.createClick();
-        this.componentDidUpdate();
       }
     }
   }
@@ -139,10 +130,10 @@ class List extends React.Component {
   }
 
   render() {
-    const {id, card, list, cardIds, title, style, text, createT, createF} = this.state;
-     console.log(card);
-     console.log(cardIds);
-     console.log(list);
+    const {card, list, title, style, text, createT, createF} = this.state;
+    //  console.log(card);
+    //  console.log(cardIds);
+    //  console.log(list);
   return(
     <div className="list">
       <div className="content-wrap">
@@ -151,7 +142,7 @@ class List extends React.Component {
             <div className="card-top-title"><input value={title} style={style} onClick={this.titleClick} onChange={this.handleTitleInput} onKeyPress={this.handleTitleEdit}></input></div>
             <div className="card-delete-btn" onClick={this.delList}><img src={cancel} alt="delete" /></div>
           </div>
-          <Droppable droppableId={`${id}`}>
+          <Droppable droppableId={String(list.id)}>
             {(provided) => (
               <div className="cards" {...provided.droppableProps} ref={provided.innerRef}>
                 { card.map((card, i) => 

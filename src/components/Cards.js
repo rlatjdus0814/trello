@@ -88,9 +88,9 @@ class Cards extends React.Component {
   }
 
   render() {
-    const {content, styleBG, styleItem, editMode, index} = this.state;
+    const {content, styleBG, styleItem, card, editMode, index} = this.state;
     return (
-      <Draggable key={index} draggableId={`${content}`} index={index}>
+      <Draggable key={index} draggableId={String(card.id)} index={index}>
         {(provided) => (
             <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
               <div className="card-color">
@@ -111,16 +111,12 @@ class Cards extends React.Component {
                         <img src={cancel} alt="cancel" />
                       </div>
                     </div>
-                    {/* <div className="cancel-btn">
-                      <input className="submitBtn" type="submit" value='' onClick={this.props.onRemove} return false></input>
-                    </div> */}
                   </div>
                 </form>
               </div>
             </div>
             </div>
-          )
-        }
+          )}
       </Draggable>
     ); 
   }
