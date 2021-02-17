@@ -1,13 +1,13 @@
 import React from 'react';
 import { DragDropContext } from 'react-beautiful-dnd';
-import { resetServerContext } from 'react-beautiful-dnd';
+//import { resetServerContext } from 'react-beautiful-dnd';
 import './App.css';
 import Top from './components/Top.js';
 import List from './components/List.js';
 import plus from './img/plus.png';
 import cancel from './img/cancel.png';
 
-resetServerContext();
+//resetServerContext();
 class App extends React.Component {
   state = {
     cardId: 13,
@@ -118,8 +118,10 @@ class App extends React.Component {
     });
   }
 
-  reorder = (cardList, startIndex, endIndex) => {
-    const result = Array.from(cardList);
+  reorder = (cardList, startIndex, endIndex, droppableId) => {
+    const result = Array.from(cardList[droppableId]);
+    console.log(cardList);
+    console.log(result);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
     return result;
@@ -130,67 +132,18 @@ class App extends React.Component {
     const { destination, source } = result;
     //if(!destination) return;
     if(!destination) return;
-    if(destination.droppableId === source.droppableId && destination.index === source.index) return;
-
-    // const start = this.state.lists[source.droppableId];
-    // const finish = this.state.lists[destination.droppableId];
-
-    // if(start === finish) {
-    //   const newCardIds = Array.from(start.cardIds);
-    //   newCardIds.splice(source.index, 1);
-    //   newCardIds.splice(destination.index, 0, draggableId);
-
-    //   const updateList = {
-    //     ...start,
-    //     cardIds: newCardIds
-    //   };
-
-    //   const newState = {
-    //     ...this.state,
-    //     lists: {
-    //       ...this.state.lists,
-    //       [updateList.id]: updateList
-    //     }
-    //   };
-    //   this.setState(newState);
-    //   return;
-    // }
-
-    // const startCardIds = Array.from(start.cardIds);
-    // startCardIds.splice(source.index, 1);
-    // const newStart = {
-    //   ...start,
-    //   cardIds: startCardIds
-    // };
-
-    // const finishCardIds = Array.from(finish.cardIds);
-    // finishCardIds.splice(destination.index, 0, draggableId);
-    // const newFinish = {
-    //   ...finish,
-    //   cardIds: finishCardIds
-    // };
-
-    // const newState = {
-    //   ...this.state,
-    //   lists: {
-    //     ...this.state.lists,
-    //     [newStart.id]: newStart,
-    //     [newFinish.id]: newFinish
-    //   }
-    // };
-    // this.setState(newState);
-
-    
-    
-    //console.log(lists.map((list) => (list.cardIds)));
+    if(destination.index === source.index) return;
 
     if(destination.droppableId === source.droppableId){
       const cardData = this.state.lists.map((listItem) => (listItem.cardIds));
-      console.log(cardData);
+      console.log(cardData[source.droppableId]);
+      console.log(cardData[source.droppableId]);
       const moveItem = this.reorder(
-        cardData[source.droppableId],
+        cardData,
         source.index,
-        destination.index
+        destination.index,
+        source.droppableId
+
       );
       console.log(moveItem);
 
@@ -200,15 +153,21 @@ class App extends React.Component {
       };
       console.log(updateData);
 
-      const state = {
+      this.setState({
         ...this.state,
         lists: this.state.lists.map((newlists, i) => ({
                   ...newlists,
                   cardIds: updateData[i],
                 }))
-      };
-      this.setState(state);
-      console.log(this.state.lists);
+      });
+      // const state = {
+      //   ...this.state,
+      //   lists: this.state.lists.map((newlists, i) => ({
+      //             ...newlists,
+      //             cardIds: updateData[i],
+      //           }))
+      // };
+      // this.setState(state);
       return;
     };
   }

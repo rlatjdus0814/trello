@@ -13,6 +13,7 @@ class Cards extends React.Component {
       id: props.id,
       index: props.index,
       card: props.card,
+      lists: props.lists,
       content: props.content,
       style:{
         border: 'none',
@@ -30,6 +31,11 @@ class Cards extends React.Component {
       return {
         card: props.card
       };
+    }
+    if(props.lists !== state.lists){
+      return {
+        lists: props.lists
+      }
     }
     return null;
   }
@@ -88,7 +94,9 @@ class Cards extends React.Component {
   }
 
   render() {
-    const {content, styleBG, styleItem, card, editMode, index} = this.state;
+    const {content, lists, styleBG, styleItem, card, editMode, index} = this.state;
+    //console.log(card.id);
+    //console.log(lists);
     return (
       <Draggable key={index} draggableId={String(card.id)} index={index}>
         {(provided) => (

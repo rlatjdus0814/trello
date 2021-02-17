@@ -30,6 +30,21 @@ class List extends React.Component {
     };
   }
 
+  static getDerivedStateFromProps(props, state){
+    if(props.lists !== state.lists){
+      return {
+        lists: props.lists
+      };
+    }
+    if(props.cardIds !== state.cardIds){
+      return{
+        cardIds: props.cardIds
+      }
+    }
+    console.log('ok');
+    return null;
+  }
+
   handleTitleInput = (e) => {
     this.setState({
       title: e.target.value
@@ -130,10 +145,11 @@ class List extends React.Component {
   }
 
   render() {
-    const {card, list, title, style, text, createT, createF} = this.state;
-    //  console.log(card);
-    //  console.log(cardIds);
-    //  console.log(list);
+    const {card, list, lists, title, cardIds, style, text, createT, createF} = this.state;
+     //console.log(card);
+      console.log(cardIds);
+     console.log(list);
+     console.log(lists);
   return(
     <div className="list">
       <div className="content-wrap">
@@ -146,7 +162,7 @@ class List extends React.Component {
             {(provided) => (
               <div className="cards" {...provided.droppableProps} ref={provided.innerRef}>
                 { card.map((card, i) => 
-                  <Cards key={card.id} id={card.id} index={i} card={card} content={card.content} setData={(card) => this.setData(card, i)} onRemove={() => this.RemoveData(i)} />
+                  <Cards key={card.id} id={card.id} index={i} card={card} lists={lists} content={card.content} setData={(card) => this.setData(card, i)} onRemove={() => this.RemoveData(i)} />
                 )}
                 {provided.placeholder}
               </div>
