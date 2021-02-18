@@ -27,15 +27,11 @@ class Cards extends React.Component {
   };
 
   static getDerivedStateFromProps(props, state){
-    if(props.card !== state.card){
+    if(props.card !== state.card || props.lists !== state.lists){
       return {
-        card: props.card
-      };
-    }
-    if(props.lists !== state.lists){
-      return {
+        card: props.card,
         lists: props.lists
-      }
+      };
     }
     return null;
   }
@@ -94,7 +90,7 @@ class Cards extends React.Component {
   }
 
   render() {
-    const {content, lists, styleBG, styleItem, card, editMode, index} = this.state;
+    const {content, styleBG, styleItem, card, editMode, index} = this.state;
     //console.log(card.id);
     //console.log(lists);
     return (

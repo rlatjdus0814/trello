@@ -10,7 +10,6 @@ import cancel from './img/cancel.png';
 //resetServerContext();
 class App extends React.Component {
   state = {
-    cardId: 13,
     listId: 2,
     addListMode: true,
     text: '',
@@ -52,7 +51,6 @@ class App extends React.Component {
       }
     ]}
  
-    
   // componentDidUpdate(prevProps, prevState) {
   //   if(prevProps.state !== prevState.state){
   //     this.fetchData(prevState.state);
@@ -105,8 +103,6 @@ class App extends React.Component {
   }
 
   deleteList = (id) => {
-    //this.setState((prevState, prevProps)=>)
-    //his.setState({lists: this.state.lists.filter(carditem => carditem.id !== id)}
     this.setState({
       lists: this.state.lists.filter((carditem) => carditem.id !== id)
     });
@@ -117,6 +113,12 @@ class App extends React.Component {
       lists: this.state.lists.map((carditem) => carditem.id === id ? {...carditem, ...data} : carditem)
     });
   }
+
+  // handleCardCnt = () => {
+  //   this.setState({
+  //     cardId: this.state.cardId+1
+  //   })
+  // }
 
   reorder = (cardList, startIndex, endIndex, droppableId) => {
     const result = Array.from(cardList[droppableId]);
@@ -130,20 +132,17 @@ class App extends React.Component {
   handleOnDragEnd = (result) => {
     console.log(result);
     const { destination, source } = result;
-    //if(!destination) return;
     if(!destination) return;
     if(destination.index === source.index) return;
 
     if(destination.droppableId === source.droppableId){
       const cardData = this.state.lists.map((listItem) => (listItem.cardIds));
       console.log(cardData[source.droppableId]);
-      console.log(cardData[source.droppableId]);
       const moveItem = this.reorder(
         cardData,
         source.index,
         destination.index,
         source.droppableId
-
       );
       console.log(moveItem);
 
@@ -171,27 +170,17 @@ class App extends React.Component {
       return;
     };
   }
-
   
   render(){
-    const {lists, cards, cardId, listId, styleT, styleF, text} = this.state;
-    // // console.log(TodoData.lists);
-    // const Data = TodoData.listOrder;
-    // const list = Data.map((todo) => 
-    //   TodoData.lists[todo].cardIds.map((data) => TodoData.cards[data])
-    //   //const card = 
-    //    //return list.data.map((data) => data);
-    //   //return <List key={todoId} id={index} item={todo} title={todo.title} data={lists[index].data} className="list" onRemove={this.deleteList} onUpdate={this.listUpdate} />;
-    // );
-    // // console.log(Data);
-    // console.log(list);
-    // console.log(list[0]);
-    //console.log(list.cardIds.map((data) => TodoData.cards[data]));
-    //console.log(list.datas.map((data) => data));
-    //console.log(list.data.map((data)=> (data)));
-    //console.log(lists.map((list) => (list.cardIds)));
+    const {lists, cards, listId, styleT, styleF, text} = this.state;
+   
     console.log(this.state.lists);
-    console.log(this.state);
+    lists.map(list => {
+      console.log(list);
+    })
+    console.log(this.state.list);
+    // console.log(this.state);
+    //console.log(this.state.cards);
 
     return (
       <div className="root">
@@ -204,9 +193,9 @@ class App extends React.Component {
                 {lists.map((todo) => {
                   const list = todo;
                   const card = list.cardIds.map((data) => cards[data]);
-                  //console.log(card);
-                console.log(list);
-                  return <List key={list.id} id={list.id} lists={lists} list={list} card={card} cardIds={list.cardIds} title={list.title} cardId={cardId} listId={listId} onRemove={this.deleteList} onUpdate={this.listUpdate} />;
+                  // console.log(card);
+                   console.log(list.title);
+                  return <List key={list.id} id={list.id} lists={lists} list={list} card={card} cardIds={list.cardIds} title={list.title} onRemove={this.deleteList} onUpdate={this.listUpdate} />;
                 })}
                 <div className="listTrue" onClick={this.addList} style={styleT}>
                   <div className="listClickBefore">

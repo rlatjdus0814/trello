@@ -8,15 +8,14 @@ class List extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      cardId: 14,
       addCardMode: false,
       id: props.id,
       lists: props.lists,
       list: props.list,
       card: props.card,
-      title: props.title,
-      cardId: props.cardId,
-      listId: props.listId,
       cardIds: props.cardIds,
+      title: props.title,
       text: '',
       style: {
         border: 'none',
@@ -31,17 +30,12 @@ class List extends React.Component {
   }
 
   static getDerivedStateFromProps(props, state){
-    if(props.lists !== state.lists){
+    if(props.lists !== state.lists || props.cardIds !== state.cardIds){
       return {
-        lists: props.lists
+        lists: props.lists,
+        
       };
     }
-    if(props.cardIds !== state.cardIds){
-      return{
-        cardIds: props.cardIds
-      }
-    }
-    console.log('ok');
     return null;
   }
 
@@ -88,22 +82,51 @@ class List extends React.Component {
     if(!(this.state.text === '')){
       if(e.key === 'Enter'){
         e.preventDefault();
+        // const newCardIds = [
+        //   ...this.state.cardIds.concat(`${this.state.cardId}`)
+        // ];
+        // console.log(newCardIds);
+
+        // this.setState({
+        //   list: {
+        //     ...this.state.list,
+        //     cardIds: newCardIds
+        //   },
+        //   cardIds: newCardIds,
+        //   card: this.state.card.concat({
+        //         id: this.state.cardId,
+        //         content: e.target.value,
+        //         }),
+        //   text: '',
+        // })
+        
+        const newCardIds = this.state.cardIds.concat(`${this.state.cardId}`);
+        // const newCardIds = [
+        //   ...this.state.cardIds, (`${this.state.cardId}`)
+        // ];
+        console.log('enter', newCardIds);
+        
         this.setState({
-          list: {
-            ...this.state.list,
-            cardIds: this.state.cardIds.concat(`${this.state.cardId+1}`),
-          },
-          cardIds: this.state.cardIds.concat(`${this.state.cardId+1}`),
+          list: Object.assign(this.state.list, {
+            cardIds: newCardIds
+          }),
+          cardIds: newCardIds,
           card: this.state.card.concat({
-            id: this.state.cardId+1,
+            id: this.state.cardId,
             content: e.target.value,
           }),
           text: '',
-          cardId: this.state.cardId+1
         });
+        this.onCardCnt();
         this.createClick();
       }
     }
+  }
+
+  onCardCnt = () => {
+    this.setState({
+      cardId: this.state.cardId+1
+    })
   }
 
   RemoveData = (cardId) => {
@@ -115,7 +138,6 @@ class List extends React.Component {
       cardIds: this.state.cardIds.filter((dataitem, item, newData) => item !== cardId ),
       card: this.state.card.filter((dataitem, item, newData) => item !== cardId )
     });
-    
   }
 
   delList = () => {
@@ -146,10 +168,13 @@ class List extends React.Component {
 
   render() {
     const {card, list, lists, title, cardIds, style, text, createT, createF} = this.state;
-     //console.log(card);
+      console.log(card.content);
       console.log(cardIds);
-     console.log(list);
-     console.log(lists);
+      console.log(lists);
+      card.map((ca, i) =>{
+        console.log(ca.id);
+        console.log(i);
+      })
   return(
     <div className="list">
       <div className="content-wrap">
@@ -174,7 +199,7 @@ class List extends React.Component {
                 <span>Add Card</span>
               </div>
               <div className="create-true" style={createT}>
-                <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.handleAddCard} onChange={this.handleCardCreate}></input>
+                <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.handleAddCard.bind(this)} onChange={this.handleCardCreate}></input>
                 <div className="create-cancelBtn" onClick={this.cancelClick}>
                   <img src={cancelC} alt="cancel" />
                 </div>
