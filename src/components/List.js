@@ -1,5 +1,4 @@
 import React from 'react';
-import { Droppable } from 'react-beautiful-dnd';
 import '../App.css';
 import Cards from './Cards.js';
 import cancel from '../img/cancel.png';
@@ -168,13 +167,6 @@ class List extends React.Component {
 
   render() {
     const {card, list, lists, title, cardIds, style, text, createT, createF} = this.state;
-      console.log(card.content);
-      console.log(cardIds);
-      console.log(lists);
-      card.map((ca, i) =>{
-        console.log(ca.id);
-        console.log(i);
-      })
   return(
     <div className="list">
       <div className="content-wrap">
@@ -183,16 +175,11 @@ class List extends React.Component {
             <div className="card-top-title"><input value={title} style={style} onClick={this.titleClick} onChange={this.handleTitleInput} onKeyPress={this.handleTitleEdit}></input></div>
             <div className="card-delete-btn" onClick={this.delList}><img src={cancel} alt="delete" /></div>
           </div>
-          <Droppable droppableId={String(list.id)}>
-            {(provided) => (
-              <div className="cards" {...provided.droppableProps} ref={provided.innerRef}>
-                { card.map((card, i) => 
-                  <Cards key={card.id} id={card.id} index={i} card={card} lists={lists} content={card.content} setData={(card) => this.setData(card, i)} onRemove={() => this.RemoveData(i)} />
-                )}
-                {provided.placeholder}
-              </div>
-            )}
-          </Droppable>
+            <div className="cards">
+              { card.map((card, i) => 
+                <Cards key={card.id} id={card.id} index={i} card={card} lists={lists} content={card.content} setData={(card) => this.setData(card, i)} onRemove={() => this.RemoveData(i)} />
+              )}
+            </div>
           <div className="card-compose-create">
             <form>
               <div className="create-false" style={createF} onClick={this.createClick} >

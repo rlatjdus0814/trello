@@ -1,13 +1,10 @@
 import React from 'react';
-import { DragDropContext } from 'react-beautiful-dnd';
-//import { resetServerContext } from 'react-beautiful-dnd';
 import './App.css';
 import Top from './components/Top.js';
 import List from './components/List.js';
 import plus from './img/plus.png';
 import cancel from './img/cancel.png';
 
-//resetServerContext();
 class App extends React.Component {
   state = {
     listId: 2,
@@ -173,48 +170,35 @@ class App extends React.Component {
   
   render(){
     const {lists, cards, listId, styleT, styleF, text} = this.state;
-   
-    console.log(this.state.lists);
-    lists.map(list => {
-      console.log(list);
-    })
-    console.log(this.state.list);
-    // console.log(this.state);
-    //console.log(this.state.cards);
-
     return (
       <div className="root">
         <Top />
         <div className="top-hr"></div>
         <div className="container">
-          <DragDropContext onDragEnd={this.handleOnDragEnd}>
-            <div className="wrap">
-              <div className="content">
-                {lists.map((todo) => {
-                  const list = todo;
-                  const card = list.cardIds.map((data) => cards[data]);
-                  // console.log(card);
-                   console.log(list.title);
-                  return <List key={list.id} id={list.id} lists={lists} list={list} card={card} cardIds={list.cardIds} title={list.title} onRemove={this.deleteList} onUpdate={this.listUpdate} />;
-                })}
-                <div className="listTrue" onClick={this.addList} style={styleT}>
-                  <div className="listClickBefore">
-                    <div className="plus-btn"><img src={plus} alt="plus" /></div>
-                    <span>Add another list</span>
-                  </div>
+          <div className="wrap">
+            <div className="content">
+              {lists.map((todo) => {
+                const list = todo;
+                const card = list.cardIds.map((data) => cards[data]);
+                return <List key={list.id} id={list.id} lists={lists} list={list} card={card} cardIds={list.cardIds} title={list.title} onRemove={this.deleteList} onUpdate={this.listUpdate} />;
+              })}
+              <div className="listTrue" onClick={this.addList} style={styleT}>
+                <div className="listClickBefore">
+                  <div className="plus-btn"><img src={plus} alt="plus" /></div>
+                  <span>Add another list</span>
                 </div>
-                <div className="listFalse" style={styleF}>
-                  <div className="listClickAfter">
-                    <div className="listTitle"><input value={text} placeholder="Enter list title..." onChange={this.handleListInput} onKeyPress={this.handleListEnter}></input></div>
-                    <div className="listAddCan">
-                      <div className="addBtn" onClick={this.addBtn}>Add List</div>
-                      <div className="canBtn" onClick={this.addList}><img src={cancel} alt="cancel" /></div>
-                    </div>
+              </div>
+              <div className="listFalse" style={styleF}>
+                <div className="listClickAfter">
+                  <div className="listTitle"><input value={text} placeholder="Enter list title..." onChange={this.handleListInput} onKeyPress={this.handleListEnter}></input></div>
+                  <div className="listAddCan">
+                    <div className="addBtn" onClick={this.addBtn}>Add List</div>
+                    <div className="canBtn" onClick={this.addList}><img src={cancel} alt="cancel" /></div>
                   </div>
                 </div>
               </div>
             </div>
-          </DragDropContext>
+          </div>
         </div>
       </div>
     );
