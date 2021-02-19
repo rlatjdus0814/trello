@@ -90,6 +90,8 @@ class Cards extends React.Component {
 
   render() {
     const {content, styleBG, styleItem, card, editMode, index} = this.state;
+    //console.log(card.id);
+    //console.log(lists);
     return (
         <div>
           <div className="card-color">

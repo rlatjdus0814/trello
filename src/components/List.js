@@ -9,12 +9,9 @@ class List extends React.Component {
     this.state = {
       cardId: 14,
       addCardMode: false,
-      id: props.id,
-      lists: props.lists,
-      list: props.list,
-      card: props.card,
-      cardIds: props.cardIds,
-      title: props.title,
+      id: props.list.id,
+      title: props.list.title,
+      cards: props.list.cards,
       text: '',
       style: {
         border: 'none',
@@ -28,15 +25,14 @@ class List extends React.Component {
     };
   }
 
-  static getDerivedStateFromProps(props, state){
-    if(props.lists !== state.lists || props.cardIds !== state.cardIds){
-      return {
-        lists: props.lists,
-        
-      };
-    }
-    return null;
-  }
+  // static getDerivedStateFromProps(props, state){
+  //   if(props.lists !== state.lists || props.cardIds !== state.cardIds){
+  //     return {
+  //       lists: props.lists,
+  //     };
+  //   }
+  //   return null;
+  // }
 
   handleTitleInput = (e) => {
     this.setState({
@@ -63,13 +59,13 @@ class List extends React.Component {
     }
   }
 
-  setData = (content, index) => {
-    const temp = [].concat(this.state.content);
-    temp[index] = content;
-    this.setState({
-      content: temp
-    });
-  }
+  // setData = (content, index) => {
+  //   const temp = [].concat(this.state.content);
+  //   temp[index] = content;
+  //   this.setState({
+  //     content: temp
+  //   });
+  // }
 
   handleCardCreate = (e) => {
     this.setState({
@@ -99,33 +95,27 @@ class List extends React.Component {
         //   text: '',
         // })
         
-        const newCardIds = this.state.cardIds.concat(`${this.state.cardId}`);
-        // const newCardIds = [
-        //   ...this.state.cardIds, (`${this.state.cardId}`)
-        // ];
-        console.log('enter', newCardIds);
+        // const newCardIds = this.state.cardIds.concat(`${this.state.cardId}`);
+        // // const newCardIds = [
+        // //   ...this.state.cardIds, (`${this.state.cardId}`)
+        // // ];
+        // console.log('enter', newCardIds);
         
-        this.setState({
-          list: Object.assign(this.state.list, {
-            cardIds: newCardIds
-          }),
-          cardIds: newCardIds,
-          card: this.state.card.concat({
-            id: this.state.cardId,
-            content: e.target.value,
-          }),
-          text: '',
-        });
-        this.onCardCnt();
-        this.createClick();
+        // this.setState({
+        //   list: Object.assign(this.state.list, {
+        //     cardIds: newCardIds
+        //   }),
+        //   cardIds: newCardIds,
+        //   card: this.state.card.concat({
+        //     id: this.state.cardId,
+        //     content: e.target.value,
+        //   }),
+        //   text: '',
+        // });
+        // this.onCardCnt();
+        // this.createClick();
       }
     }
-  }
-
-  onCardCnt = () => {
-    this.setState({
-      cardId: this.state.cardId+1
-    })
   }
 
   RemoveData = (cardId) => {
@@ -166,7 +156,7 @@ class List extends React.Component {
   }
 
   render() {
-    const {card, list, lists, title, cardIds, style, text, createT, createF} = this.state;
+    const {cards, title, style, text, createT, createF} = this.state;
   return(
     <div className="list">
       <div className="content-wrap">
@@ -176,8 +166,8 @@ class List extends React.Component {
             <div className="card-delete-btn" onClick={this.delList}><img src={cancel} alt="delete" /></div>
           </div>
             <div className="cards">
-              { card.map((card, i) => 
-                <Cards key={card.id} id={card.id} index={i} card={card} lists={lists} content={card.content} setData={(card) => this.setData(card, i)} onRemove={() => this.RemoveData(i)} />
+              { cards.map((card, index) => 
+                <Cards key={card.id} id={card.id} index={index} card={card} setData={(card) => this.setData(card, index)} onRemove={() => this.RemoveData(index)} />
               )}
             </div>
           <div className="card-compose-create">
