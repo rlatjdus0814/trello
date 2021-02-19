@@ -59,13 +59,13 @@ class List extends React.Component {
     }
   }
 
-  // setData = (content, index) => {
-  //   const temp = [].concat(this.state.content);
-  //   temp[index] = content;
-  //   this.setState({
-  //     content: temp
-  //   });
-  // }
+  setData = (content, index) => {
+    const temp = [].concat(this.state.content);
+    temp[index] = content;
+    this.setState({
+      content: temp
+    });
+  }
 
   handleCardCreate = (e) => {
     this.setState({
@@ -77,6 +77,7 @@ class List extends React.Component {
     if(!(this.state.text === '')){
       if(e.key === 'Enter'){
         e.preventDefault();
+
         // const newCardIds = [
         //   ...this.state.cardIds.concat(`${this.state.cardId}`)
         // ];
@@ -118,15 +119,12 @@ class List extends React.Component {
     }
   }
 
-  RemoveData = (cardId) => {
+  RemoveData = (cardItemId) => {
+    const id = this.state.id;
     this.setState({
-      list: {
-        ...this.state.list,
-        cardIds: this.state.cardIds.filter((dataitem, item, newData) => item !== cardId ),
-      },
-      cardIds: this.state.cardIds.filter((dataitem, item, newData) => item !== cardId ),
-      card: this.state.card.filter((dataitem, item, newData) => item !== cardId )
+      cards: this.state.cards.filter((dataitem, item, newData) => cardItemId !== item),
     });
+    this.props.onRemoveCard(cardItemId, id);
   }
 
   delList = () => {
@@ -156,8 +154,9 @@ class List extends React.Component {
   }
 
   render() {
-    const {cards, title, style, text, createT, createF} = this.state;
-  return(
+    const {id, cards, title, style, text, createT, createF} = this.state;
+    console.log(this.props);
+    return(
     <div className="list">
       <div className="content-wrap">
         <div className="content-wrap-card">
@@ -167,7 +166,7 @@ class List extends React.Component {
           </div>
             <div className="cards">
               { cards.map((card, index) => 
-                <Cards key={card.id} id={card.id} index={index} card={card} setData={(card) => this.setData(card, index)} onRemove={() => this.RemoveData(index)} />
+                <Cards key={card.id} id={card.id} index={index} card={card} setData={(card) => this.setData(card, index)} onRemove={() => this.RemoveData(index, id)} />
               )}
             </div>
           <div className="card-compose-create">

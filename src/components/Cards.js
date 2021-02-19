@@ -11,9 +11,7 @@ class Cards extends React.Component {
       editMode: false,
       id: props.id,
       index: props.index,
-      card: props.card,
-      lists: props.lists,
-      content: props.content,
+      content: props.card.content,
       style:{
         border: 'none',
         height: '20px'
@@ -25,15 +23,14 @@ class Cards extends React.Component {
     };
   };
 
-  static getDerivedStateFromProps(props, state){
-    if(props.card !== state.card || props.lists !== state.lists){
-      return {
-        card: props.card,
-        lists: props.lists
-      };
-    }
-    return null;
-  }
+  // static getDerivedStateFromProps(props, state){
+  //   if(props.card !== state.card || props.lists !== state.lists){
+  //     return {
+  //       props
+  //     };
+  //   }
+  //   return null;
+  // }
   
   handleCardInput = (e) => {
     this.setState({
@@ -63,7 +60,7 @@ class Cards extends React.Component {
 
   handleRemove = (e) => {
     e.preventDefault();
-    this.props.onRemove(this.state.card.id);
+    this.props.onRemove(this.state.id);
     this.setState({
       styleBG: {
         background: '#ffffff'
@@ -89,9 +86,7 @@ class Cards extends React.Component {
   }
 
   render() {
-    const {content, styleBG, styleItem, card, editMode, index} = this.state;
-    //console.log(card.id);
-    //console.log(lists);
+    const {content, styleBG, styleItem, editMode} = this.state;
     return (
         <div>
           <div className="card-color">

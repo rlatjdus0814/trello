@@ -112,6 +112,17 @@ class App extends React.Component {
     });
   }
 
+  handleRemoveCard = (cardItem, id) => {
+    const cards = this.state.lists.map((list) => (list.cards));
+    const newCardList = cards[id].filter((dataitem, item, newData) => cardItem !== item);
+    this.setState({
+      lists: this.state.lists.map((newlists, i) => ({
+        ...newlists,
+        cards: newCardList
+      }))
+    });
+  }
+
   // handleCardCnt = () => {
   //   this.setState({
   //     cardId: this.state.cardId+1
@@ -179,7 +190,7 @@ class App extends React.Component {
           <div className="wrap">
             <div className="content">
               {lists.map((list) => {
-                return <List key={list.id} list={list} onRemove={this.deleteList} onUpdate={this.listUpdate} />;
+                return <List key={list.id} list={list} onRemove={this.deleteList} onUpdate={this.listUpdate} onRemoveCard={this.handleRemoveCard} />;
               })}
               <div className="listTrue" onClick={this.addList} style={styleT}>
                 <div className="listClickBefore">
