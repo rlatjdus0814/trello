@@ -16,35 +16,36 @@ class App extends React.Component {
     styleF: {
       display: 'none'
     },
-    cards: {
-      '0': {id: 0, content: 'Monday'},
-      '1': {id: 1, content: 'Tuesday'},
-      '2': {id: 2, content: 'Wednesday'},
-      '3': {id: 3, content: 'Thursday'},
-      '4': {id: 4, content: 'Friday'},
-      '5': {id: 5, content: 'Saturday'},
-      '6': {id: 6, content: 'Sunday'},
-      '7': {id: 7, content: 'Korean'},
-      '8': {id: 8, content: 'Math'},
-      '9': {id: 9, content: 'English'},
-      '10': {id: 10, content: 'Comedy'},
-      '11': {id: 11, content: 'Darama'},
-      '12': {id: 12, content: 'Horror'},
-      '13': {id: 13, content: 'Romace'},
-    },
     lists: [
       {
         id: 0,
         title: 'weekend',
-        cardIds: ['0', '1', '2', '3', '4', '5', '6']
+        cards: [
+          {id: 0, content: 'Monday'},
+          {id: 1, content: 'Tuesday'},
+          {id: 2, content: 'Wednesday'},
+          {id: 3, content: 'Thursday'},
+          {id: 4, content: 'Friday'},
+          {id: 5, content: 'Saturday'},
+          {id: 6, content: 'Sunday'},
+        ]
       },{
         id: 1,
         title: 'subject',
-        cardIds: ['7', '8', '9']
+        cards: [
+          {id: 7, content: 'Korean'},
+          {id: 8, content: 'Math'},
+          {id: 9, content: 'English'},
+        ]
       },{
         id: 2,
         title: 'genre',
-        cardIds: ['10', '11', '12', '13']
+        cards: [
+          {id: 10, content: 'Comedy'},
+          {id: 11, content: 'Darama'},
+          {id: 12, content: 'Horror'},
+          {id: 13, content: 'Romace'},
+        ]
       }
     ]}
  
@@ -81,14 +82,13 @@ class App extends React.Component {
           {
             id: this.state.listId+1,
             title: this.state.text,
-            cardIds: [],
+            cards: [],
           }
         ],
         addListMode: true,
         text: '',
         listId: this.state.listId+1
       });
-
     } 
     this.addList();
   }
@@ -101,13 +101,14 @@ class App extends React.Component {
 
   deleteList = (id) => {
     this.setState({
-      lists: this.state.lists.filter((carditem) => carditem.id !== id)
+      lists: this.state.lists.filter((listItem) => listItem.id !== id)
     });
+    console.log(id);
   }
 
   listUpdate = (id, data) => {
     this.setState({
-      lists: this.state.lists.map((carditem) => carditem.id === id ? {...carditem, ...data} : carditem)
+      lists: this.state.lists.map((listItem) => listItem.id === id ? {...listItem, ...data} : listItem)
     });
   }
 
@@ -117,59 +118,59 @@ class App extends React.Component {
   //   })
   // }
 
-  reorder = (cardList, startIndex, endIndex, droppableId) => {
-    const result = Array.from(cardList[droppableId]);
-    console.log(cardList);
-    console.log(result);
-    const [removed] = result.splice(startIndex, 1);
-    result.splice(endIndex, 0, removed);
-    return result;
-  };
+  // reorder = (cardList, startIndex, endIndex, droppableId) => {
+  //   const result = Array.from(cardList[droppableId]);
+  //   console.log(cardList);
+  //   console.log(result);
+  //   const [removed] = result.splice(startIndex, 1);
+  //   result.splice(endIndex, 0, removed);
+  //   return result;
+  // };
 
-  handleOnDragEnd = (result) => {
-    console.log(result);
-    const { destination, source } = result;
-    if(!destination) return;
-    if(destination.index === source.index) return;
+  // handleOnDragEnd = (result) => {
+  //   console.log(result);
+  //   const { destination, source } = result;
+  //   if(!destination) return;
+  //   if(destination.index === source.index) return;
 
-    if(destination.droppableId === source.droppableId){
-      const cardData = this.state.lists.map((listItem) => (listItem.cardIds));
-      console.log(cardData[source.droppableId]);
-      const moveItem = this.reorder(
-        cardData,
-        source.index,
-        destination.index,
-        source.droppableId
-      );
-      console.log(moveItem);
+  //   if(destination.droppableId === source.droppableId){
+  //     const cardData = this.state.lists.map((listItem) => (listItem.cards));
+  //     console.log(cardData[source.droppableId]);
+  //     const moveItem = this.reorder(
+  //       cardData,
+  //       source.index,
+  //       destination.index,
+  //       source.droppableId
+  //     );
+  //     console.log(moveItem);
 
-      const updateData = {
-        ...cardData,
-        [source.droppableId]: moveItem
-      };
-      console.log(updateData);
+  //     const updateData = {
+  //       ...cardData,
+  //       [source.droppableId]: moveItem
+  //     };
+  //     console.log(updateData);
 
-      this.setState({
-        ...this.state,
-        lists: this.state.lists.map((newlists, i) => ({
-                  ...newlists,
-                  cardIds: updateData[i],
-                }))
-      });
-      // const state = {
-      //   ...this.state,
-      //   lists: this.state.lists.map((newlists, i) => ({
-      //             ...newlists,
-      //             cardIds: updateData[i],
-      //           }))
-      // };
-      // this.setState(state);
-      return;
-    };
-  }
+  //     this.setState({
+  //       ...this.state,
+  //       lists: this.state.lists.map((newlists, i) => ({
+  //                 ...newlists,
+  //                 cards: updateData[i],
+  //               }))
+  //     });
+  //     // const state = {
+  //     //   ...this.state,
+  //     //   lists: this.state.lists.map((newlists, i) => ({
+  //     //             ...newlists,
+  //     //             cards: updateData[i],
+  //     //           }))
+  //     // };
+  //     // this.setState(state);
+  //     return;
+  //   };
+  // }
   
   render(){
-    const {lists, cards, listId, styleT, styleF, text} = this.state;
+    const {lists, text, styleT, styleF} = this.state;
     return (
       <div className="root">
         <Top />
@@ -177,10 +178,8 @@ class App extends React.Component {
         <div className="container">
           <div className="wrap">
             <div className="content">
-              {lists.map((todo) => {
-                const list = todo;
-                const card = list.cardIds.map((data) => cards[data]);
-                return <List key={list.id} id={list.id} lists={lists} list={list} card={card} cardIds={list.cardIds} title={list.title} onRemove={this.deleteList} onUpdate={this.listUpdate} />;
+              {lists.map((list) => {
+                return <List key={list.id} list={list} onRemove={this.deleteList} onUpdate={this.listUpdate} />;
               })}
               <div className="listTrue" onClick={this.addList} style={styleT}>
                 <div className="listClickBefore">
