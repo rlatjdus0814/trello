@@ -36,7 +36,6 @@ class Cards extends React.Component {
     this.setState({
       content: e.target.value
     });
-    this.props.setData(e.target.value);
   }
 
   handleEdit = () => {
@@ -53,6 +52,7 @@ class Cards extends React.Component {
         this.setState({
           content: e.target.value
         });
+        this.props.setData(e.target.value);
         this.handleEdit();
       }
     }
@@ -87,6 +87,7 @@ class Cards extends React.Component {
 
   render() {
     const {content, styleBG, styleItem, editMode} = this.state;
+    console.log(this.props);
     return (
         <div>
           <div className="card-color">

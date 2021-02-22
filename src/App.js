@@ -8,6 +8,7 @@ import cancel from './img/cancel.png';
 class App extends React.Component {
   state = {
     listId: 2,
+    cardId: 14,
     addListMode: true,
     text: '',
     styleT: {
@@ -103,7 +104,6 @@ class App extends React.Component {
     this.setState({
       lists: this.state.lists.filter((listItem) => listItem.id !== id)
     });
-    console.log(id);
   }
 
   listUpdate = (id, data) => {
@@ -116,18 +116,44 @@ class App extends React.Component {
     const cards = this.state.lists.map((list) => (list.cards));
     const newCardList = cards[id].filter((dataitem, item, newData) => cardItem !== item);
     this.setState({
-      lists: this.state.lists.map((newlists, i) => ({
+      lists: this.state.lists.map((newlists) => ({
         ...newlists,
         cards: newCardList
       }))
     });
   }
 
-  // handleCardCnt = () => {
-  //   this.setState({
-  //     cardId: this.state.cardId+1
-  //   })
-  // }
+  handleCardCnt = (e, listid) => {
+    //const cards = this.state.lists.map((list) => (list.cards));
+    //console.log(cards);
+    //console.log(listid);
+    //const cardsId = cards[listid];
+    //console.log(cardsId);
+    console.log(this.state.lists.map((list) => ( list)));
+    this.setState({
+      lists: this.state.lists.map((newlists) => ({
+        ...newlists,
+        cards:
+          {
+            id: this.state.cardId+1,
+            content: e
+          }
+      })),
+      cardId: this.state.cardId+1
+    })
+  }
+
+  handleLTitleEdit = (Ltitle, id, index) => {
+    const temp = [].concat(Ltitle);
+    temp[index] = Ltitle;
+
+    this.setState({
+      lists: this.state.lists.map((newlists) => ({
+        ...newlists,
+        title: Ltitle
+      }))
+    })
+  }
 
   // reorder = (cardList, startIndex, endIndex, droppableId) => {
   //   const result = Array.from(cardList[droppableId]);
@@ -181,7 +207,8 @@ class App extends React.Component {
   // }
   
   render(){
-    const {lists, text, styleT, styleF} = this.state;
+    const {lists, cardId, text, styleT, styleF} = this.state;
+    console.log(this.state);
     return (
       <div className="root">
         <Top />
@@ -190,7 +217,7 @@ class App extends React.Component {
           <div className="wrap">
             <div className="content">
               {lists.map((list) => {
-                return <List key={list.id} list={list} onRemove={this.deleteList} onUpdate={this.listUpdate} onRemoveCard={this.handleRemoveCard} />;
+                return <List key={list.id} list={list} cardId={cardId} onRemove={this.deleteList} onUpdate={this.listUpdate} onRemoveCard={this.handleRemoveCard} onCardCnt={this.handleCardCnt} onLTitleEdit={this.handleLTitleEdit} />;
               })}
               <div className="listTrue" onClick={this.addList} style={styleT}>
                 <div className="listClickBefore">

@@ -7,9 +7,9 @@ class List extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      cardId: 14,
       addCardMode: false,
       id: props.list.id,
+      cardId: props.cardId,
       title: props.list.title,
       cards: props.list.cards,
       text: '',
@@ -55,16 +55,45 @@ class List extends React.Component {
         this.setState({
           title: e.target.value
         });
+        this.props.onLTitleEdit(e.target.value, this.state.id);
       } 
     }
   }
 
   setData = (content, index) => {
-    const temp = [].concat(this.state.content);
+    // console.log(this.state.cards.content);
+console.log(index);
+    const temp = [].concat(content);
+    console.log(temp);
+    // const cardCon = this.state.cards.map((cardContent) => cardContent.content);
+    // console.log(cardCon[index]);
+    const cardCon = this.state.cards.map((cardContent) => (cardContent));
+    const cardIdx = cardCon[index].id;
     temp[index] = content;
+    console.log(temp[index]);
+    console.log(cardIdx); 
+
     this.setState({
-      content: temp
-    });
+      cards: [
+        {
+          id: cardIdx,
+          content: temp
+         }
+      ]
+    })
+    
+    // this.setState({
+    //   cards: this.state.cards.map((cardContent) => ({
+    //     ...cardContent,
+    //     content: temp[index]
+    //   }))
+    // })
+    
+    // const temp = [].concat(this.state.content);
+    // temp[index] = content;
+    // this.setState({
+    //   content: temp
+    // });
   }
 
   handleCardCreate = (e) => {
@@ -77,7 +106,17 @@ class List extends React.Component {
     if(!(this.state.text === '')){
       if(e.key === 'Enter'){
         e.preventDefault();
-
+        console.log(this.state.cardId);
+        this.props.onCardCnt(e.target.value, this.state.id);
+        this.setState({
+          // cards: [...this.state.cards,
+          // {
+          //   id: this.state.cardId,
+          //   content: e.target.value
+          // }],
+          text: '',
+          
+        })
         // const newCardIds = [
         //   ...this.state.cardIds.concat(`${this.state.cardId}`)
         // ];
@@ -102,19 +141,8 @@ class List extends React.Component {
         // // ];
         // console.log('enter', newCardIds);
         
-        // this.setState({
-        //   list: Object.assign(this.state.list, {
-        //     cardIds: newCardIds
-        //   }),
-        //   cardIds: newCardIds,
-        //   card: this.state.card.concat({
-        //     id: this.state.cardId,
-        //     content: e.target.value,
-        //   }),
-        //   text: '',
-        // });
-        // this.onCardCnt();
-        // this.createClick();
+        
+        this.createClick();
       }
     }
   }
@@ -156,6 +184,9 @@ class List extends React.Component {
   render() {
     const {id, cards, title, style, text, createT, createF} = this.state;
     console.log(this.props);
+    console.log(this.state.cards);
+    //console.log(this.state.cardId);
+    //console.log(this.state.cards.map((card) => (card.content)));
     return(
     <div className="list">
       <div className="content-wrap">
@@ -166,7 +197,7 @@ class List extends React.Component {
           </div>
             <div className="cards">
               { cards.map((card, index) => 
-                <Cards key={card.id} id={card.id} index={index} card={card} setData={(card) => this.setData(card, index)} onRemove={() => this.RemoveData(index, id)} />
+                <Cards key={card.id} id={card.id} index={index} card={card} setData={(value) => this.setData(value, index)} onRemove={() => this.RemoveData(index, id)} />
               )}
             </div>
           <div className="card-compose-create">
