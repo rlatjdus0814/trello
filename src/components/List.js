@@ -60,40 +60,17 @@ class List extends React.Component {
     }
   }
 
-  setData = (content, index) => {
-    // console.log(this.state.cards.content);
-console.log(index);
-    const temp = [].concat(content);
-    console.log(temp);
-    // const cardCon = this.state.cards.map((cardContent) => cardContent.content);
-    // console.log(cardCon[index]);
-    const cardCon = this.state.cards.map((cardContent) => (cardContent));
-    const cardIdx = cardCon[index].id;
-    temp[index] = content;
-    console.log(temp[index]);
-    console.log(cardIdx); 
-
+  setData = (cardCon, index) => {
+    const listId = this.state.id;
+    const newCard = [...this.state.cards];
+    newCard[index] = {
+      ...this.state.cards[index],
+      content: cardCon
+    }
     this.setState({
-      cards: [
-        {
-          id: cardIdx,
-          content: temp
-         }
-      ]
+      cards: newCard
     })
-    
-    // this.setState({
-    //   cards: this.state.cards.map((cardContent) => ({
-    //     ...cardContent,
-    //     content: temp[index]
-    //   }))
-    // })
-    
-    // const temp = [].concat(this.state.content);
-    // temp[index] = content;
-    // this.setState({
-    //   content: temp
-    // });
+    this.props.onSetCard(cardCon, index, listId);
   }
 
   handleCardCreate = (e) => {

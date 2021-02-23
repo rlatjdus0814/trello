@@ -143,14 +143,30 @@ class App extends React.Component {
     })
   }
 
-  handleLTitleEdit = (Ltitle, id, index) => {
-    const temp = [].concat(Ltitle);
-    temp[index] = Ltitle;
-
+  handleLTitleEdit = (lTitle, id) => {
+    const newTitle = [...this.state.lists];
+    newTitle[id] = {
+      ...this.state.lists[id],
+      title: lTitle
+    }
+    console.log(newTitle);
     this.setState({
-      lists: this.state.lists.map((newlists) => ({
-        ...newlists,
-        title: Ltitle
+      lists: newTitle
+    })
+  } 
+
+  handleSetCard = (cContent, index, listId) => {
+    const newList = this.state.lists.map((list) => (list.cards));
+    const listIdx = newList[listId];
+    listIdx[index] = {
+      ...listIdx[index],
+      content: cContent
+    }
+    newList[listId] = listIdx;
+    this.setState({
+      lists: this.state.lists.map((list, i) => ({
+        ...list,
+        cards: newList[i]
       }))
     })
   }
@@ -209,6 +225,7 @@ class App extends React.Component {
   render(){
     const {lists, cardId, text, styleT, styleF} = this.state;
     console.log(this.state);
+    console.log(this.state.lists);
     return (
       <div className="root">
         <Top />
@@ -217,7 +234,7 @@ class App extends React.Component {
           <div className="wrap">
             <div className="content">
               {lists.map((list) => {
-                return <List key={list.id} list={list} cardId={cardId} onRemove={this.deleteList} onUpdate={this.listUpdate} onRemoveCard={this.handleRemoveCard} onCardCnt={this.handleCardCnt} onLTitleEdit={this.handleLTitleEdit} />;
+                return <List key={list.id} list={list} cardId={cardId} onRemove={this.deleteList} onUpdate={this.listUpdate} onRemoveCard={this.handleRemoveCard} onCardCnt={this.handleCardCnt} onLTitleEdit={this.handleLTitleEdit} onSetCard={this.handleSetCard} />;
               })}
               <div className="listTrue" onClick={this.addList} style={styleT}>
                 <div className="listClickBefore">
