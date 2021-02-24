@@ -7,11 +7,13 @@ class List extends React.Component {
   constructor(props){
     super(props);
     this.state = {
+      //cardID: 14,
       addCardMode: false,
       id: props.list.id,
-      cardId: props.cardId,
+      index: props.index,
       title: props.list.title,
       cards: props.list.cards,
+      cardID: props.cardID,
       text: '',
       style: {
         border: 'none',
@@ -71,6 +73,7 @@ class List extends React.Component {
       cards: newCard
     })
     this.props.onSetCard(cardCon, index, listId);
+
   }
 
   handleCardCreate = (e) => {
@@ -83,42 +86,18 @@ class List extends React.Component {
     if(!(this.state.text === '')){
       if(e.key === 'Enter'){
         e.preventDefault();
-        console.log(this.state.cardId);
-        this.props.onCardCnt(e.target.value, this.state.id);
+        const index = this.state.cards.map((card, index)=> (index));
+        const indexLeg = index.length;
+        this.props.onCardCnt(e.target.value, this.state.id, indexLeg);
         this.setState({
-          // cards: [...this.state.cards,
-          // {
-          //   id: this.state.cardId,
-          //   content: e.target.value
-          // }],
+          cards: [...this.state.cards,
+          {
+            id: this.state.title+`${index.length}`,
+            content: e.target.value
+          }],
           text: '',
-          
+          cardID: this.state.cardID+1
         })
-        // const newCardIds = [
-        //   ...this.state.cardIds.concat(`${this.state.cardId}`)
-        // ];
-        // console.log(newCardIds);
-
-        // this.setState({
-        //   list: {
-        //     ...this.state.list,
-        //     cardIds: newCardIds
-        //   },
-        //   cardIds: newCardIds,
-        //   card: this.state.card.concat({
-        //         id: this.state.cardId,
-        //         content: e.target.value,
-        //         }),
-        //   text: '',
-        // })
-        
-        // const newCardIds = this.state.cardIds.concat(`${this.state.cardId}`);
-        // // const newCardIds = [
-        // //   ...this.state.cardIds, (`${this.state.cardId}`)
-        // // ];
-        // console.log('enter', newCardIds);
-        
-        
         this.createClick();
       }
     }
@@ -161,9 +140,6 @@ class List extends React.Component {
   render() {
     const {id, cards, title, style, text, createT, createF} = this.state;
     console.log(this.props);
-    console.log(this.state.cards);
-    //console.log(this.state.cardId);
-    //console.log(this.state.cards.map((card) => (card.content)));
     return(
     <div className="list">
       <div className="content-wrap">

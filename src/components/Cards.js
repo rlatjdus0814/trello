@@ -8,6 +8,7 @@ class Cards extends React.Component {
     super(props);
     this.state = {
       cnt: 1,
+      cardCnt: 0,
       editMode: false,
       id: props.id,
       index: props.index,
@@ -30,6 +31,10 @@ class Cards extends React.Component {
   //     };
   //   }
   //   return null;
+  // }
+  // handleCardC = (index) => {
+  //   console.log(index);
+  //   this.props.on
   // }
   
   handleCardInput = (e) => {
@@ -88,6 +93,7 @@ class Cards extends React.Component {
   render() {
     const {content, styleBG, styleItem, editMode} = this.state;
     console.log(this.props);
+    //console.log(this.state.index);
     return (
         <div>
           <div className="card-color">

@@ -8,7 +8,7 @@ import cancel from './img/cancel.png';
 class App extends React.Component {
   state = {
     listId: 2,
-    cardId: 14,
+    cardId: 13,
     addListMode: true,
     text: '',
     styleT: {
@@ -22,33 +22,34 @@ class App extends React.Component {
         id: 0,
         title: 'weekend',
         cards: [
-          {id: 0, content: 'Monday'},
-          {id: 1, content: 'Tuesday'},
-          {id: 2, content: 'Wednesday'},
-          {id: 3, content: 'Thursday'},
-          {id: 4, content: 'Friday'},
-          {id: 5, content: 'Saturday'},
-          {id: 6, content: 'Sunday'},
+          {id: 'weekend0', content: 'Monday'},
+          {id: 'weekend1', content: 'Tuesday'},
+          {id: 'weekend2', content: 'Wednesday'},
+          {id: 'weekend3', content: 'Thursday'},
+          {id: 'weekend4', content: 'Friday'},
+          {id: 'weekend5', content: 'Saturday'},
+          {id: 'weekend6', content: 'Sunday'},
         ]
       },{
         id: 1,
         title: 'subject',
         cards: [
-          {id: 7, content: 'Korean'},
-          {id: 8, content: 'Math'},
-          {id: 9, content: 'English'},
+          {id: 'subject0', content: 'Korean'},
+          {id: 'subject1', content: 'Math'},
+          {id: 'subject2', content: 'English'},
         ]
       },{
         id: 2,
         title: 'genre',
         cards: [
-          {id: 10, content: 'Comedy'},
-          {id: 11, content: 'Darama'},
-          {id: 12, content: 'Horror'},
-          {id: 13, content: 'Romace'},
+          {id: 'genre0', content: 'Comedy'},
+          {id: 'genre1', content: 'Darama'},
+          {id: 'genre2', content: 'Horror'},
+          {id: 'genre3', content: 'Romace'},
         ]
       }
-    ]}
+    ]
+}
  
   // componentDidUpdate(prevProps, prevState) {
   //   if(prevProps.state !== prevState.state){
@@ -123,24 +124,23 @@ class App extends React.Component {
     });
   }
 
-  handleCardCnt = (e, listid) => {
-    //const cards = this.state.lists.map((list) => (list.cards));
-    //console.log(cards);
-    //console.log(listid);
-    //const cardsId = cards[listid];
-    //console.log(cardsId);
-    console.log(this.state.lists.map((list) => ( list)));
+  handleCardCnt = (e, listId, index) => {
+    const titleId = this.state.lists.map((list) => (list.title));
+    const newList = this.state.lists.map((list) => (list.cards));
+    newList[listId] = [
+      ...newList[listId],
+      {
+        id: titleId[listId]+`${index}`,
+        content: e
+      }
+    ];
     this.setState({
-      lists: this.state.lists.map((newlists) => ({
-        ...newlists,
-        cards:
-          {
-            id: this.state.cardId+1,
-            content: e
-          }
+      lists: this.state.lists.map((list, i) => ({
+        ...list,
+        cards: newList[i]
       })),
       cardId: this.state.cardId+1
-    })
+    });
   }
 
   handleLTitleEdit = (lTitle, id) => {
@@ -223,9 +223,8 @@ class App extends React.Component {
   // }
   
   render(){
-    const {lists, cardId, text, styleT, styleF} = this.state;
-    console.log(this.state);
-    console.log(this.state.lists);
+    const {lists, text, styleT, styleF} = this.state;
+    //console.log(this.state);
     return (
       <div className="root">
         <Top />
@@ -233,8 +232,8 @@ class App extends React.Component {
         <div className="container">
           <div className="wrap">
             <div className="content">
-              {lists.map((list) => {
-                return <List key={list.id} list={list} cardId={cardId} onRemove={this.deleteList} onUpdate={this.listUpdate} onRemoveCard={this.handleRemoveCard} onCardCnt={this.handleCardCnt} onLTitleEdit={this.handleLTitleEdit} onSetCard={this.handleSetCard} />;
+              {lists.map((list, index) => {
+                return <List key={list.id} index={index} list={list} onRemove={this.deleteList} onUpdate={this.listUpdate} onRemoveCard={this.handleRemoveCard} onCardCnt={this.handleCardCnt} onLTitleEdit={this.handleLTitleEdit} onSetCard={this.handleSetCard} />;
               })}
               <div className="listTrue" onClick={this.addList} style={styleT}>
                 <div className="listClickBefore">
