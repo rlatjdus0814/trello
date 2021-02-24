@@ -24,18 +24,14 @@ class Cards extends React.Component {
     };
   };
 
-  // static getDerivedStateFromProps(props, state){
-  //   if(props.card !== state.card || props.lists !== state.lists){
-  //     return {
-  //       props
-  //     };
-  //   }
-  //   return null;
-  // }
-  // handleCardC = (index) => {
-  //   console.log(index);
-  //   this.props.on
-  // }
+  static getDerivedStateFromProps(props, state){
+    if(props.card !== state.card ){
+      return {
+        props
+      };
+    }
+    return null;
+  }
   
   handleCardInput = (e) => {
     this.setState({
@@ -92,33 +88,28 @@ class Cards extends React.Component {
 
   render() {
     const {content, styleBG, styleItem, editMode} = this.state;
-    console.log(this.props);
-    //console.log(this.state.index);
+    //console.log(this.props);
     return (
-        <div>
-          <div className="card-color">
-          <div className="card-compose-card" style={styleBG}>
-            <form>
-              <div className="card-card">
-                <div className="card-item" style={styleItem}  onClick={this.cardColorChange}>
-                  {editMode ? 
-                    <input className="card-input" value={content} name="cardInput" onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} ></input>
-                    : <p>{content}</p> 
-                  }
-                </div>
-                <div className="card-btn">
-                  <div className="edit-btn" onClick={this.handleEdit}>
-                    <img src={edit} alt="edit" />
-                  </div>
-                  <div className="cancel-btn" onClick={this.handleRemove}>
-                    <img src={cancel} alt="cancel" />
-                  </div>
-                </div>
-              </div>
-            </form>
+      <div className="card-compose-card" style={styleBG}>
+      <form>
+        <div className="card-card">
+          <div className="card-item" style={styleItem}  onClick={this.cardColorChange}>
+            {editMode ? 
+              <input className="card-input" value={content} name="cardInput" onChange={this.handleCardInput} onKeyPress={this.handleCardEdit} ></input>
+              : <p>{content}</p> 
+            }
+          </div>
+          <div className="card-btn">
+            <div className="edit-btn" onClick={this.handleEdit}>
+              <img src={edit} alt="edit" />
+            </div>
+            <div className="cancel-btn" onClick={this.handleRemove}>
+              <img src={cancel} alt="cancel" />
+            </div>
           </div>
         </div>
-        </div>
+      </form>
+    </div>
     ); 
   }
 }

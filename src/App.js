@@ -8,7 +8,6 @@ import cancel from './img/cancel.png';
 class App extends React.Component {
   state = {
     listId: 2,
-    cardId: 13,
     addListMode: true,
     text: '',
     styleT: {
@@ -49,13 +48,7 @@ class App extends React.Component {
         ]
       }
     ]
-}
- 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if(prevProps.state !== prevState.state){
-  //     this.fetchData(prevState.state);
-  //   }
-  // }
+  }
 
   addList = () => {
     (this.state.addListMode) ? 
@@ -124,7 +117,7 @@ class App extends React.Component {
     });
   }
 
-  handleCardCnt = (e, listId, index) => {
+  handleAddCard = (e, listId, index) => {
     const titleId = this.state.lists.map((list) => (list.title));
     const newList = this.state.lists.map((list) => (list.cards));
     newList[listId] = [
@@ -138,8 +131,7 @@ class App extends React.Component {
       lists: this.state.lists.map((list, i) => ({
         ...list,
         cards: newList[i]
-      })),
-      cardId: this.state.cardId+1
+      }))
     });
   }
 
@@ -171,86 +163,56 @@ class App extends React.Component {
     })
   }
 
-  // reorder = (cardList, startIndex, endIndex, droppableId) => {
-  //   const result = Array.from(cardList[droppableId]);
-  //   console.log(cardList);
-  //   console.log(result);
-  //   const [removed] = result.splice(startIndex, 1);
-  //   result.splice(endIndex, 0, removed);
-  //   return result;
-  // };
+  handleDragEnd = (result, listId) => {
+    const { destination, source } = result;
+    if(!destination) return;
 
-  // handleOnDragEnd = (result) => {
-  //   console.log(result);
-  //   const { destination, source } = result;
-  //   if(!destination) return;
-  //   if(destination.index === source.index) return;
+    const newCards = this.state.lists.map((list) => (list.cards));
 
-  //   if(destination.droppableId === source.droppableId){
-  //     const cardData = this.state.lists.map((listItem) => (listItem.cards));
-  //     console.log(cardData[source.droppableId]);
-  //     const moveItem = this.reorder(
-  //       cardData,
-  //       source.index,
-  //       destination.index,
-  //       source.droppableId
-  //     );
-  //     console.log(moveItem);
+    const currentCards = [...newCards[listId]];
+    const draggingCardIndex = source.index;
+    const afterDragCardIndex = destination.index;
+    const removeCard = currentCards.splice(draggingCardIndex, 1);
+    currentCards.splice(afterDragCardIndex, 0, removeCard[0]);
 
-  //     const updateData = {
-  //       ...cardData,
-  //       [source.droppableId]: moveItem
-  //     };
-  //     console.log(updateData);
-
-  //     this.setState({
-  //       ...this.state,
-  //       lists: this.state.lists.map((newlists, i) => ({
-  //                 ...newlists,
-  //                 cards: updateData[i],
-  //               }))
-  //     });
-  //     // const state = {
-  //     //   ...this.state,
-  //     //   lists: this.state.lists.map((newlists, i) => ({
-  //     //             ...newlists,
-  //     //             cards: updateData[i],
-  //     //           }))
-  //     // };
-  //     // this.setState(state);
-  //     return;
-  //   };
-  // }
+    const repageLists = this.state.lists.map((list) => (list));
+    repageLists[listId] = {
+      ...this.state.lists[listId],
+      cards: currentCards
+    }
+    this.setState({
+      lists: repageLists
+    })
+  }
   
   render(){
     const {lists, text, styleT, styleF} = this.state;
-    //console.log(this.state);
     return (
       <div className="root">
         <Top />
         <div className="top-hr"></div>
         <div className="container">
           <div className="wrap">
-            <div className="content">
-              {lists.map((list, index) => {
-                return <List key={list.id} index={index} list={list} onRemove={this.deleteList} onUpdate={this.listUpdate} onRemoveCard={this.handleRemoveCard} onCardCnt={this.handleCardCnt} onLTitleEdit={this.handleLTitleEdit} onSetCard={this.handleSetCard} />;
-              })}
-              <div className="listTrue" onClick={this.addList} style={styleT}>
-                <div className="listClickBefore">
-                  <div className="plus-btn"><img src={plus} alt="plus" /></div>
-                  <span>Add another list</span>
+              <div className="content">
+                {lists.map((list, index) => {
+                  return <List key={list.id} index={index} list={list} onRemove={this.deleteList} onUpdate={this.listUpdate} onRemoveCard={this.handleRemoveCard} onAddCard={this.handleAddCard} onLTitleEdit={this.handleLTitleEdit} onSetCard={this.handleSetCard} dragEnd={this.handleDragEnd} />;
+                })}
+                <div className="listTrue" onClick={this.addList} style={styleT}>
+                  <div className="listClickBefore">
+                    <div className="plus-btn"><img src={plus} alt="plus" /></div>
+                    <span>Add another list</span>
+                  </div>
                 </div>
-              </div>
-              <div className="listFalse" style={styleF}>
-                <div className="listClickAfter">
-                  <div className="listTitle"><input value={text} placeholder="Enter list title..." onChange={this.handleListInput} onKeyPress={this.handleListEnter}></input></div>
-                  <div className="listAddCan">
-                    <div className="addBtn" onClick={this.addBtn}>Add List</div>
-                    <div className="canBtn" onClick={this.addList}><img src={cancel} alt="cancel" /></div>
+                <div className="listFalse" style={styleF}>
+                  <div className="listClickAfter">
+                    <div className="listTitle"><input value={text} placeholder="Enter list title..." onChange={this.handleListInput} onKeyPress={this.handleListEnter}></input></div>
+                    <div className="listAddCan">
+                      <div className="addBtn" onClick={this.addBtn}>Add List</div>
+                      <div className="canBtn" onClick={this.addList}><img src={cancel} alt="cancel" /></div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
           </div>
         </div>
       </div>

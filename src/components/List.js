@@ -1,5 +1,6 @@
 import React from 'react';
 import '../App.css';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Cards from './Cards.js';
 import cancel from '../img/cancel.png';
 import cancelC from '../img/cancel-circle.png';
@@ -7,13 +8,11 @@ class List extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      //cardID: 14,
       addCardMode: false,
       id: props.list.id,
       index: props.index,
       title: props.list.title,
       cards: props.list.cards,
-      cardID: props.cardID,
       text: '',
       style: {
         border: 'none',
@@ -26,15 +25,6 @@ class List extends React.Component {
       }
     };
   }
-
-  // static getDerivedStateFromProps(props, state){
-  //   if(props.lists !== state.lists || props.cardIds !== state.cardIds){
-  //     return {
-  //       lists: props.lists,
-  //     };
-  //   }
-  //   return null;
-  // }
 
   handleTitleInput = (e) => {
     this.setState({
@@ -88,15 +78,14 @@ class List extends React.Component {
         e.preventDefault();
         const index = this.state.cards.map((card, index)=> (index));
         const indexLeg = index.length;
-        this.props.onCardCnt(e.target.value, this.state.id, indexLeg);
+        this.props.onAddCard(e.target.value, this.state.id, indexLeg);
         this.setState({
           cards: [...this.state.cards,
           {
             id: this.state.title+`${index.length}`,
             content: e.target.value
           }],
-          text: '',
-          cardID: this.state.cardID+1
+          text: ''
         })
         this.createClick();
       }
@@ -137,40 +126,71 @@ class List extends React.Component {
     this.createClick();
   }
 
+  handleOnDragEnd = (result) => {
+    const { destination, source } = result;
+    if(!destination) return;
+
+    const currentCards = [...this.state.cards];
+    const draggingCardIndex = source.index;
+    const afterDragCardIndex = destination.index;
+    const removeCard = currentCards.splice(draggingCardIndex, 1);
+    currentCards.splice(afterDragCardIndex, 0, removeCard[0]);
+
+    this.setState({
+      cards: currentCards
+    });
+    this.props.dragEnd(result, this.state.id);
+  }
+
   render() {
     const {id, cards, title, style, text, createT, createF} = this.state;
     console.log(this.props);
+    console.log(this.state.cards);
     return(
-    <div className="list">
-      <div className="content-wrap">
-        <div className="content-wrap-card">
-          <div className="card-top">
-            <div className="card-top-title"><input value={title} style={style} onClick={this.titleClick} onChange={this.handleTitleInput} onKeyPress={this.handleTitleEdit}></input></div>
-            <div className="card-delete-btn" onClick={this.delList}><img src={cancel} alt="delete" /></div>
-          </div>
-            <div className="cards">
-              { cards.map((card, index) => 
-                <Cards key={card.id} id={card.id} index={index} card={card} setData={(value) => this.setData(value, index)} onRemove={() => this.RemoveData(index, id)} />
-              )}
+
+      <div className="list">
+        <div className="content-wrap">
+          <div className="content-wrap-card">
+            <div className="card-top">
+              <div className="card-top-title"><input value={title} style={style} onClick={this.titleClick} onChange={this.handleTitleInput} onKeyPress={this.handleTitleEdit}></input></div>
+              <div className="card-delete-btn" onClick={this.delList}><img src={cancel} alt="delete" /></div>
             </div>
-          <div className="card-compose-create">
-            <form>
-              <div className="create-false" style={createF} onClick={this.createClick} >
-                <span>Add Card</span>
-              </div>
-              <div className="create-true" style={createT}>
-                <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.handleAddCard.bind(this)} onChange={this.handleCardCreate}></input>
-                <div className="create-cancelBtn" onClick={this.cancelClick}>
-                  <img src={cancelC} alt="cancel" />
+            <DragDropContext onDragEnd={this.handleOnDragEnd}>
+              <Droppable droppableId={String(id)}>
+                {provided => (
+                  <div className="cards" {...provided.droppableProps} ref={provided.innerRef}>
+                  { cards.map((card, index) => 
+                    <Draggable key={card.id} draggableId={card.id} index={index}>
+                      {provided => (
+                        <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                          <Cards key={card.id} id={card.id} index={index} card={card} setData={(value) => this.setData(value, index)} onRemove={() => this.RemoveData(index, id)} />
+                        </div>
+                      )}
+                    </Draggable>
+                  )}
+                  {provided.placeholder}
                 </div>
-              </div>
-            </form>
+                )}
+              </Droppable>
+            </DragDropContext>
+            <div className="card-compose-create">
+              <form>
+                <div className="create-false" style={createF} onClick={this.createClick} >
+                  <span>Add Card</span>
+                </div>
+                <div className="create-true" style={createT}>
+                  <input className="create-input" placeholder="Add another card" value={text} onKeyPress={this.handleAddCard.bind(this)} onChange={this.handleCardCreate}></input>
+                  <div className="create-cancelBtn" onClick={this.cancelClick}>
+                    <img src={cancelC} alt="cancel" />
+                  </div>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
-      </div>
-    </div>  
-    );
+      </div>  
+      );
+    }
   }
-}
 
 export default List;
