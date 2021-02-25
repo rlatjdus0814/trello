@@ -32,6 +32,10 @@ class Cards extends React.Component {
     }
     return null;
   }
+
+  shouldComponentUpdate(prevProps, prevState){
+    return this.props.index !== prevProps.index;
+  }
   
   handleCardInput = (e) => {
     this.setState({
@@ -88,7 +92,6 @@ class Cards extends React.Component {
 
   render() {
     const {content, styleBG, styleItem, editMode} = this.state;
-    //console.log(this.props);
     return (
       <div className="card-compose-card" style={styleBG}>
       <form>

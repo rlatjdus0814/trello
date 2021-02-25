@@ -141,7 +141,6 @@ class App extends React.Component {
       ...this.state.lists[id],
       title: lTitle
     }
-    console.log(newTitle);
     this.setState({
       lists: newTitle
     })
@@ -168,7 +167,6 @@ class App extends React.Component {
     if(!destination) return;
 
     const newCards = this.state.lists.map((list) => (list.cards));
-
     const currentCards = [...newCards[listId]];
     const draggingCardIndex = source.index;
     const afterDragCardIndex = destination.index;

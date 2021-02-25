@@ -63,7 +63,6 @@ class List extends React.Component {
       cards: newCard
     })
     this.props.onSetCard(cardCon, index, listId);
-
   }
 
   handleCardCreate = (e) => {
@@ -144,10 +143,7 @@ class List extends React.Component {
 
   render() {
     const {id, cards, title, style, text, createT, createF} = this.state;
-    console.log(this.props);
-    console.log(this.state.cards);
     return(
-
       <div className="list">
         <div className="content-wrap">
           <div className="content-wrap-card">
