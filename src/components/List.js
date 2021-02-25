@@ -61,7 +61,7 @@ class List extends React.Component {
     }
     this.setState({
       cards: newCard
-    })
+    });
     this.props.onSetCard(cardCon, index, listId);
   }
 
@@ -85,7 +85,7 @@ class List extends React.Component {
             content: e.target.value
           }],
           text: ''
-        })
+        });
         this.createClick();
       }
     }

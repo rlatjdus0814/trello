@@ -1,9 +1,25 @@
 import React from 'react';
 import './App.css';
+import firebase from 'firebase';
+import "firebase/firestore";
 import Top from './components/Top.js';
 import List from './components/List.js';
 import plus from './img/plus.png';
 import cancel from './img/cancel.png';
+
+var firebaseConfig = {
+  apiKey: "AIzaSyDsJuSI0Ahz6Th1fiy1e-Oy6rhEzmbCRWk",
+  authDomain: "todolist-4b0dc.firebaseapp.com",
+  projectId: "todolist-4b0dc",
+  storageBucket: "todolist-4b0dc.appspot.com",
+  messagingSenderId: "952405086276",
+  appId: "1:952405086276:web:1417f21f7991d6e6a42c11",
+  measurementId: "G-3TW4DL3F3V"
+};
+
+firebase.initializeApp(firebaseConfig); //firebase 초기화
+var db = firebase.firestore();
+
 
 class App extends React.Component {
   state = {
@@ -86,6 +102,11 @@ class App extends React.Component {
       });
     } 
     this.addList();
+    db.collection("lists").doc(`list${this.state.listId+1}`).set({
+      id: this.state.listId+1,
+      title: this.state.text
+    });
+    db.collection("lists").doc(`list${this.state.listId+1}`).collection("cards");
   }
 
   handleListEnter = (e) => {
@@ -98,6 +119,7 @@ class App extends React.Component {
     this.setState({
       lists: this.state.lists.filter((listItem) => listItem.id !== id)
     });
+    db.collection("lists").doc(`list${id}`).delete();
   }
 
   listUpdate = (id, data) => {
@@ -115,6 +137,7 @@ class App extends React.Component {
         cards: newCardList
       }))
     });
+    db.collection("lists").doc(`list${id}`).collection("cards").doc(`card${cardItem}`).delete();
   }
 
   handleAddCard = (e, listId, index) => {
@@ -133,6 +156,10 @@ class App extends React.Component {
         cards: newList[i]
       }))
     });
+    db.collection("lists").doc(`list${listId}`).collection("cards").doc(`card${index}`).set({
+      id: titleId[listId]+`${index}`,
+      content: e
+    });
   }
 
   handleLTitleEdit = (lTitle, id) => {
@@ -143,7 +170,10 @@ class App extends React.Component {
     }
     this.setState({
       lists: newTitle
-    })
+    });
+    db.collection("lists").doc(`list${id}`).update({
+      title: lTitle
+    });
   } 
 
   handleSetCard = (cContent, index, listId) => {
@@ -159,7 +189,10 @@ class App extends React.Component {
         ...list,
         cards: newList[i]
       }))
-    })
+    });
+    db.collection("lists").doc(`list${listId}`).collection("cards").doc(`card${index}`).update({
+      content: cContent
+    });
   }
 
   handleDragEnd = (result, listId) => {

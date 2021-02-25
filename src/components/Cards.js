@@ -33,9 +33,9 @@ class Cards extends React.Component {
     return null;
   }
 
-  shouldComponentUpdate(prevProps, prevState){
-    return this.props.index !== prevProps.index;
-  }
+  // shouldComponentUpdate(prevProps, prevState){
+  //   return this.props.index !== prevProps.index;
+  // }
   
   handleCardInput = (e) => {
     this.setState({
@@ -85,7 +85,7 @@ class Cards extends React.Component {
       if(cnt >= 5){
         this.setState({
           cnt: 0
-        })
+        });
       }
     }
   }
