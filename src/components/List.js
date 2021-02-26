@@ -156,7 +156,6 @@ class List extends React.Component {
                   <input value={title} style={style} onChange={this.handleTitleInput} onKeyPress={this.handleTitleEdit}></input>
                   : <h4 onClick={this.titleClick}>{title}</h4>
                 }
-                
               </div>
               <div className="card-delete-btn" onClick={this.delList}><img src={cancel} alt="delete" /></div>
             </div>

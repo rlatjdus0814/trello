@@ -20,6 +20,7 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig); //firebase 초기화
 var db = firebase.firestore();
 
+
 class App extends React.Component {
   state = {
     listId: 2,
@@ -65,6 +66,13 @@ class App extends React.Component {
     ]
   }
 
+  // componentDidUpdate(){
+  //   firebase.firestore().collection("lists").doc("list0").onSnapshot((snapshot) => {
+  //     snapshot.data();
+  //   })
+  // }
+  
+
   addList = () => {
     (this.state.addListMode) ? 
     this.setState({
@@ -101,11 +109,14 @@ class App extends React.Component {
       });
     } 
     this.addList();
+    db.collection("lists").doc(`list${this.state.listId+1}`).onSnapshot();
     db.collection("lists").doc(`list${this.state.listId+1}`).set({
       id: this.state.listId+1,
       title: this.state.text
     });
-    db.collection("lists").doc(`list${this.state.listId+1}`).collection("cards");
+    db.collection("lists").doc(`list${this.state.listId+1}`).collection("cards").doc("card").set({
+      cards: []
+    });
   }
 
   handleListEnter = (e) => {
@@ -127,17 +138,22 @@ class App extends React.Component {
     });
   }
 
-  handleRemoveCard = (cardItem, id) => {
+  handleRemoveCard = (cardItem, listId) => {
+    console.log(cardItem);
+    console.log(listId);
     const cards = this.state.lists.map((list) => (list.cards));
-    const newCardList = cards[id].filter((dataitem, item, newData) => cardItem !== item);
+    const newCardList = cards[listId].filter((dataitem, item, newData) => cardItem !== item);
     this.setState({
       lists: this.state.lists.map((newlists) => ({
         ...newlists,
         cards: newCardList
       }))
     });
-    db.collection("lists").doc(`list${id}`).collection("cards").doc(`card${cardItem}`).delete();
-  }
+    var cardRef = db.collection("lists").doc(`list${listId}`).collection("cards").doc("card");
+    cardRef.update({
+      cards: newCardList
+    });
+   }
 
   handleAddCard = (e, listId, index) => {
     const titleId = this.state.lists.map((list) => (list.title));
@@ -155,13 +171,18 @@ class App extends React.Component {
         cards: newList[i]
       }))
     });
-    db.collection("lists").doc(`list${listId}`).collection("cards").doc(`card${index}`).set({
+    const cardValue = {
       id: titleId[listId]+`${index}`,
       content: e
+    }
+    var cardRef = db.collection("lists").doc(`list${listId}`).collection("cards").doc("card");
+    cardRef.update({
+      cards: firebase.firestore.FieldValue.arrayUnion(cardValue)
     });
   }
 
   handleLTitleEdit = (lTitle, id) => {
+    console.log(id);
     const newTitle = [...this.state.lists];
     newTitle[id] = {
       ...this.state.lists[id],
@@ -189,8 +210,9 @@ class App extends React.Component {
         cards: newList[i]
       }))
     });
-    db.collection("lists").doc(`list${listId}`).collection("cards").doc(`card${index}`).update({
-      content: cContent
+    var cardRef = db.collection("lists").doc(`list${listId}`).collection("cards").doc("card");
+    cardRef.update({
+      cards: listIdx
     });
   }
 
@@ -213,6 +235,9 @@ class App extends React.Component {
     this.setState({
       lists: repageLists
     });
+    db.collection("lists").doc(`list${listId}`).collection("cards").doc("card").update({
+      cards: currentCards
+    })
   }
   
   render(){
