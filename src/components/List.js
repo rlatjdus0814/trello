@@ -9,6 +9,7 @@ class List extends React.Component {
     super(props);
     this.state = {
       addCardMode: false,
+      titleEditMode: false,
       id: props.list.id,
       index: props.index,
       title: props.list.title,
@@ -37,7 +38,8 @@ class List extends React.Component {
       style: {
         border: 'none',
         outline: 'none'
-      }
+      },
+      titleEditMode : true
     });
   }
 
@@ -45,7 +47,8 @@ class List extends React.Component {
     if(!(this.title === '')){
       if(e.key === 'Enter'){
         this.setState({
-          title: e.target.value
+          title: e.target.value,
+          titleEditMode: false
         });
         this.props.onLTitleEdit(e.target.value, this.state.id);
       } 
@@ -142,13 +145,19 @@ class List extends React.Component {
   }
 
   render() {
-    const {id, cards, title, style, text, createT, createF} = this.state;
+    const {id, cards, title, style, text, titleEditMode, createT, createF} = this.state;
     return(
       <div className="list">
         <div className="content-wrap">
           <div className="content-wrap-card">
             <div className="card-top">
-              <div className="card-top-title"><input value={title} style={style} onClick={this.titleClick} onChange={this.handleTitleInput} onKeyPress={this.handleTitleEdit}></input></div>
+              <div className="card-top-title">
+                {titleEditMode ?
+                  <input value={title} style={style} onChange={this.handleTitleInput} onKeyPress={this.handleTitleEdit}></input>
+                  : <h4 onClick={this.titleClick}>{title}</h4>
+                }
+                
+              </div>
               <div className="card-delete-btn" onClick={this.delList}><img src={cancel} alt="delete" /></div>
             </div>
             <DragDropContext onDragEnd={this.handleOnDragEnd}>

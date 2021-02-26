@@ -20,7 +20,6 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig); //firebase 초기화
 var db = firebase.firestore();
 
-
 class App extends React.Component {
   state = {
     listId: 2,
@@ -213,7 +212,7 @@ class App extends React.Component {
     }
     this.setState({
       lists: repageLists
-    })
+    });
   }
   
   render(){
