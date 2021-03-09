@@ -128,6 +128,10 @@ class List extends React.Component {
     this.createClick();
   }
 
+  handleColorChange = (id) => {
+    this.props.onColor(id);
+  }
+
   handleOnDragEnd = (result) => {
     const { destination, source } = result;
     if(!destination) return;
@@ -167,7 +171,7 @@ class List extends React.Component {
                     <Draggable key={card.id} draggableId={card.id} index={index}>
                       {provided => (
                         <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                          <Cards key={card.id} id={card.id} index={index} card={card} setData={(value) => this.setData(value, index)} onRemove={() => this.RemoveData(index, id)} />
+                          <Cards key={card.id} id={card.id} index={index} card={card} setData={(value) => this.setData(value, index)} onRemove={() => this.RemoveData(index, id)} onColorChange={this.handleColorChange} />
                         </div>
                       )}
                     </Draggable>
