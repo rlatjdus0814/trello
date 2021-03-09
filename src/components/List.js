@@ -4,6 +4,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Cards from './Cards.js';
 import cancel from '../img/cancel.png';
 import cancelC from '../img/cancel-circle.png';
+
 class List extends React.Component {
   constructor(props){
     super(props);

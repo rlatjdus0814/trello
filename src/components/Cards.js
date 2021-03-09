@@ -8,6 +8,7 @@ class Cards extends React.Component {
     super(props);
     this.state = {
       cnt: 1,
+      cardCnt: 0,
       editMode: false,
       id: props.id,
       index: props.index,
@@ -31,7 +32,7 @@ class Cards extends React.Component {
     }
     return null;
   }
-
+  
   handleCardInput = (e) => {
     this.setState({
       content: e.target.value

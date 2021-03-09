@@ -20,24 +20,6 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig); //firebase 초기화
 var db = firebase.firestore();
 
-/*
-db.collection("calendar")
-  .onSnapshot((snapshot) => {
-    setUsers(
-      snapshot.docs.map((doc) => (
-        {
-          id: doc.id, 
-          title: doc.data().title, 
-          comment: doc.data().comment, 
-          day: doc.data().day,
-        }
-      ))
-    );
-  });
-  */
-
-
-
 class App extends React.Component {
   state = {
     listId: 2,
@@ -64,12 +46,6 @@ class App extends React.Component {
         lists: newList
       });
     });
-  }
-
-  shouldComponentUpdate(nextProps, nextState){
-    console.log(nextState.lists);
-    console.log(this.state.lists);
-    if(this.state.lists !== nextState.lists) return true;
   }
 
   addList = () => {
@@ -136,8 +112,6 @@ class App extends React.Component {
   }
 
   handleRemoveCard = (cardItem, listId) => {
-    console.log(cardItem);
-    console.log(listId);
     const cards = this.state.lists.map((list) => (list.cards));
     const newCardList = cards[listId].filter((dataitem, item, newData) => cardItem !== item);
     this.setState({
@@ -172,7 +146,6 @@ class App extends React.Component {
       id: titleId[listId] + `${index}`,
       content: e
     }
-    //var cardRef = db.collection("lists").doc(`list${listId}`).collection("cards").doc("card");
     var cardRef = db.collection("lists").doc(`list${listId}`);
     cardRef.update({
       cards: firebase.firestore.FieldValue.arrayUnion(cardValue)
